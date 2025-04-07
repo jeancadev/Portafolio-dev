@@ -1,11 +1,9 @@
 
 import React, { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import LanguageToggle from './LanguageToggle';
 
 const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState<'es' | 'en'>('es');
 
@@ -37,78 +35,36 @@ const Navbar = () => {
   };
 
   return (
-    <header className={`fixed top-0 z-50 w-full transition-all duration-300 ${scrolled ? 'bg-dark/90 shadow-lg backdrop-blur-sm' : 'bg-transparent'}`}>
-      <nav className="container mx-auto flex items-center justify-between px-6 py-4">
-        <div className="flex items-center">
-          <a href="#home" className="text-xl font-bold text-blue">Portfolio<span className="text-light">.</span></a>
-        </div>
+    <header className={`fixed top-0 z-50 w-full transition-all duration-300 ${scrolled ? 'py-3' : 'py-5'}`}>
+      <nav className="container mx-auto px-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <a href="#home" className="text-xl font-bold text-blue">Portfolio<span className="text-light">.</span></a>
+          </div>
 
-        {/* Desktop Navigation */}
-        <ul className="hidden space-x-8 md:flex">
-          {navLinks.map((link) => (
-            <li key={link.name}>
-              <a href={link.href} className="nav-link">
-                {link.name}
-              </a>
-            </li>
-          ))}
-        </ul>
+          <div className="glass-nav flex items-center rounded-full">
+            <ul className="flex">
+              {navLinks.map((link) => (
+                <li key={link.name} className="px-1">
+                  <a 
+                    href={link.href} 
+                    className="nav-link-glass block px-4 py-2 text-light hover:text-blue transition-colors"
+                  >
+                    {link.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
 
-        <div className="hidden md:flex items-center gap-4">
-          <LanguageToggle currentLanguage={currentLanguage} onChange={handleLanguageChange} />
-          <Button variant="outline" className="border-blue text-blue hover:bg-blue hover:text-white">
-            <a href="#contact">{currentLanguage === 'es' ? 'Contáctame' : 'Contact Me'}</a>
-          </Button>
-        </div>
-
-        {/* Mobile Menu Button */}
-        <div className="flex items-center gap-2 md:hidden">
-          <button
-            className="text-light"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-      </nav>
-
-      {/* Mobile Navigation */}
-      {isMenuOpen && (
-        <div className="fixed inset-0 z-50 flex h-screen w-full flex-col items-center justify-center bg-dark">
-          <button
-            className="absolute right-6 top-6 text-light"
-            onClick={() => setIsMenuOpen(false)}
-            aria-label="Close menu"
-          >
-            <X size={24} />
-          </button>
-
-          <ul className="flex flex-col items-center space-y-6">
-            {navLinks.map((link) => (
-              <li key={link.name}>
-                <a
-                  href={link.href}
-                  className="text-2xl font-medium text-light transition-colors hover:text-blue"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {link.name}
-                </a>
-              </li>
-            ))}
-          </ul>
-
-          <div className="mt-6 flex flex-col items-center space-y-4">
-            <LanguageToggle currentLanguage={currentLanguage} onChange={handleLanguageChange} />
-            
-            <Button variant="outline" className="border-blue text-blue hover:bg-blue hover:text-white">
-              <a href="#contact" onClick={() => setIsMenuOpen(false)}>
-                {currentLanguage === 'es' ? 'Contáctame' : 'Contact Me'}
-              </a>
-            </Button>
+            <div className="flex items-center gap-4 px-4">
+              <LanguageToggle currentLanguage={currentLanguage} onChange={handleLanguageChange} />
+              <Button variant="outline" className="border-blue text-blue hover:bg-blue hover:text-white rounded-full">
+                <a href="#contact">{currentLanguage === 'es' ? 'Contáctame' : 'Contact Me'}</a>
+              </Button>
+            </div>
           </div>
         </div>
-      )}
+      </nav>
     </header>
   );
 };
