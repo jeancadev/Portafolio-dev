@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import ThemeToggle from './ThemeToggle';
 import LanguageToggle from './LanguageToggle';
 
 const Navbar = () => {
@@ -57,7 +56,6 @@ const Navbar = () => {
 
         <div className="hidden md:flex items-center gap-4">
           <LanguageToggle currentLanguage={currentLanguage} onChange={handleLanguageChange} />
-          <ThemeToggle />
           <Button variant="outline" className="border-blue text-blue hover:bg-blue hover:text-white">
             <a href="#contact">{currentLanguage === 'es' ? 'Contáctame' : 'Contact Me'}</a>
           </Button>
@@ -65,7 +63,6 @@ const Navbar = () => {
 
         {/* Mobile Menu Button */}
         <div className="flex items-center gap-2 md:hidden">
-          <ThemeToggle />
           <button
             className="text-light"
             onClick={() => setIsMenuOpen(!isMenuOpen)}

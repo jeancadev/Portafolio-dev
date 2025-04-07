@@ -16,6 +16,14 @@ const Index = () => {
     const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
     document.documentElement.classList.toggle('dark', isDarkMode);
     
+    // Also set up a listener for changes in system theme preference
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleThemeChange = (e: MediaQueryListEvent) => {
+      document.documentElement.classList.toggle('dark', e.matches);
+    };
+    
+    mediaQuery.addEventListener('change', handleThemeChange);
+    
     // Actualizar el título de la página
     document.title = 'Portfolio | Desarrollador de Software';
     
@@ -23,6 +31,11 @@ const Index = () => {
     window.scrollTo(0, 0);
     
     setMounted(true);
+    
+    // Clean up the event listener on component unmount
+    return () => {
+      mediaQuery.removeEventListener('change', handleThemeChange);
+    };
   }, []);
 
   // Evitar cambios de hydration
