@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { Toggle } from '@/components/ui/toggle';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 interface LanguageToggleProps {
