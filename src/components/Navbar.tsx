@@ -2,10 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import ThemeToggle from './ThemeToggle';
+import LanguageToggle from './LanguageToggle';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [currentLanguage, setCurrentLanguage] = useState<'es' | 'en'>('es');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,12 +26,16 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Inicio', href: '#home' },
-    { name: 'Sobre mí', href: '#about' },
-    { name: 'Proyectos', href: '#projects' },
-    { name: 'Habilidades', href: '#skills' },
-    { name: 'Contacto', href: '#contact' },
+    { name: currentLanguage === 'es' ? 'Inicio' : 'Home', href: '#home' },
+    { name: currentLanguage === 'es' ? 'Sobre mí' : 'About', href: '#about' },
+    { name: currentLanguage === 'es' ? 'Proyectos' : 'Projects', href: '#projects' },
+    { name: currentLanguage === 'es' ? 'Habilidades' : 'Skills', href: '#skills' },
+    { name: currentLanguage === 'es' ? 'Contacto' : 'Contact', href: '#contact' },
   ];
+
+  const handleLanguageChange = (language: 'es' | 'en') => {
+    setCurrentLanguage(language);
+  };
 
   return (
     <header className={`fixed top-0 z-50 w-full transition-all duration-300 ${scrolled ? 'bg-dark/90 shadow-lg backdrop-blur-sm' : 'bg-transparent'}`}>
@@ -48,18 +55,25 @@ const Navbar = () => {
           ))}
         </ul>
 
-        <Button variant="outline" className="hidden border-blue text-blue hover:bg-blue hover:text-white md:inline-flex">
-          <a href="#contact">Contáctame</a>
-        </Button>
+        <div className="hidden md:flex items-center gap-4">
+          <LanguageToggle currentLanguage={currentLanguage} onChange={handleLanguageChange} />
+          <ThemeToggle />
+          <Button variant="outline" className="border-blue text-blue hover:bg-blue hover:text-white">
+            <a href="#contact">{currentLanguage === 'es' ? 'Contáctame' : 'Contact Me'}</a>
+          </Button>
+        </div>
 
         {/* Mobile Menu Button */}
-        <button
-          className="text-light md:hidden"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <ThemeToggle />
+          <button
+            className="text-light"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </nav>
 
       {/* Mobile Navigation */}
@@ -87,11 +101,15 @@ const Navbar = () => {
             ))}
           </ul>
 
-          <Button variant="outline" className="mt-8 border-blue text-blue hover:bg-blue hover:text-white">
-            <a href="#contact" onClick={() => setIsMenuOpen(false)}>
-              Contáctame
-            </a>
-          </Button>
+          <div className="mt-6 flex flex-col items-center space-y-4">
+            <LanguageToggle currentLanguage={currentLanguage} onChange={handleLanguageChange} />
+            
+            <Button variant="outline" className="border-blue text-blue hover:bg-blue hover:text-white">
+              <a href="#contact" onClick={() => setIsMenuOpen(false)}>
+                {currentLanguage === 'es' ? 'Contáctame' : 'Contact Me'}
+              </a>
+            </Button>
+          </div>
         </div>
       )}
     </header>
