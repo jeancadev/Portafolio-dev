@@ -1,6 +1,5 @@
 
 import React, { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
 import LanguageToggle from './LanguageToggle';
 
 const Navbar = () => {
@@ -36,7 +35,7 @@ const Navbar = () => {
 
   return (
     <header className={`fixed top-0 z-50 w-full transition-all duration-300 flex justify-center ${scrolled ? 'py-2' : 'py-4'}`}>
-      <nav className="container mx-auto px-4 sm:px-6 md:px-8">
+      <nav className="container mx-auto px-4 sm:px-6 md:px-8 max-w-5xl">
         <div className="flex items-center justify-center">
           <div className="glass-nav flex items-center rounded-full max-w-full lg:max-w-4xl xl:max-w-5xl overflow-x-auto no-scrollbar">
             <div className="flex flex-nowrap py-2 px-1 sm:px-2">
@@ -45,7 +44,7 @@ const Navbar = () => {
                   <li key={link.name} className="px-1 sm:px-2">
                     <a 
                       href={link.href} 
-                      className="nav-link-glass block px-2 sm:px-3 py-2 text-xs sm:text-sm md:text-base whitespace-nowrap text-light hover:text-blue transition-colors"
+                      className="nav-link-glass block px-2 sm:px-3 py-2 text-xs sm:text-sm md:text-base whitespace-nowrap hover:text-blue transition-colors"
                     >
                       {link.name}
                     </a>
@@ -55,9 +54,6 @@ const Navbar = () => {
 
               <div className="flex items-center gap-2 lg:gap-4 px-2 sm:px-3">
                 <LanguageToggle currentLanguage={currentLanguage} onChange={handleLanguageChange} />
-                <Button variant="outline" className="text-xs sm:text-sm border-blue text-blue hover:bg-blue hover:text-white rounded-full whitespace-nowrap">
-                  <a href="#contact">{currentLanguage === 'es' ? 'Contáctame' : 'Contact Me'}</a>
-                </Button>
               </div>
             </div>
           </div>

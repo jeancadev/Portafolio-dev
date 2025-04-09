@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { ChevronDown, Download, Mail } from 'lucide-react';
+import { Copy, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useToast } from '@/hooks/use-toast';
@@ -9,8 +9,8 @@ const HeroSection = () => {
   const { toast } = useToast();
   const [copied, setCopied] = useState(false);
 
-  const email = "email@example.com"; // Cambia esto por tu email real
-  const cvUrl = "/cv.pdf"; // Cambia esto por la ruta a tu CV
+  const email = "jean.obandocortes@gmail.com"; 
+  const cvUrl = "/cv.pdf";
 
   const copyEmail = () => {
     navigator.clipboard.writeText(email).then(() => {
@@ -47,25 +47,26 @@ const HeroSection = () => {
               Construyo aplicaciones modernas con tecnologías de vanguardia para crear experiencias digitales excepcionales.
             </p>
             
-            <div className="flex flex-wrap gap-4 mb-6 animate-fade-in opacity-0 [animation-delay:0.6s]">
-              <Button className="bg-blue hover:bg-blue-dark text-white gap-2" onClick={copyEmail}>
-                <Mail className="h-4 w-4" />
-                {copied ? "¡Copiado!" : "Copiar Email"}
-              </Button>
+            <div className="flex flex-wrap items-center gap-4 mb-6 animate-fade-in opacity-0 [animation-delay:0.6s]">
+              <div className="flex items-center gap-2 px-4 py-2 rounded-md bg-muted/10 border border-muted/20">
+                <span className="text-sm md:text-base text-muted-foreground">
+                  {email}
+                </span>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  onClick={copyEmail} 
+                  className="h-8 w-8 text-blue hover:text-blue-dark hover:bg-blue/10"
+                >
+                  <Copy className="h-4 w-4" />
+                  <span className="sr-only">Copiar email</span>
+                </Button>
+              </div>
               <Button variant="outline" className="border-blue text-blue hover:bg-blue hover:text-white gap-2" asChild>
                 <a href={cvUrl} download>
                   <Download className="h-4 w-4" />
                   Descargar CV
                 </a>
-              </Button>
-            </div>
-            
-            <div className="flex flex-wrap gap-4 animate-fade-in opacity-0 [animation-delay:0.8s]">
-              <Button className="bg-blue hover:bg-blue-dark text-white">
-                <a href="#projects">Ver proyectos</a>
-              </Button>
-              <Button variant="outline" className="border-blue text-blue hover:bg-blue hover:text-white">
-                <a href="#contact">Contáctame</a>
               </Button>
             </div>
           </div>
@@ -81,15 +82,6 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
-      
-      <a 
-        href="#about" 
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center text-muted-foreground hover:text-blue transition-colors" 
-        aria-label="Scroll down"
-      >
-        <span className="text-sm mb-2">Scroll</span>
-        <ChevronDown className="animate-bounce" />
-      </a>
     </section>
   );
 };
