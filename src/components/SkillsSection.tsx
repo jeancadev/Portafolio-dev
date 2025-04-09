@@ -43,7 +43,7 @@ const SkillsSection = () => {
 
   return (
     <section id="skills" className="section-padding bg-gradient-to-b from-dark/95 to-dark">
-      <div className="container mx-auto">
+      <div className="container mx-auto px-4">
         <div className="mb-12 text-center">
           <h2 className="text-3xl md:text-4xl font-bold heading-accent pb-2 mb-4">Mis Habilidades</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -52,14 +52,14 @@ const SkillsSection = () => {
           </p>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-3">
           {skillGroups.map((group) => (
-            <div key={group.category} className="bg-muted/5 border border-muted/20 rounded-lg p-6 backdrop-blur-sm text-center">
+            <div key={group.category} className="bg-muted/5 border border-muted/20 rounded-lg p-5 md:p-6 backdrop-blur-sm text-center">
               <div className="flex justify-center">{group.icon}</div>
-              <h3 className="text-xl font-bold mb-6 text-blue">{group.category}</h3>
-              <div className="flex flex-wrap justify-center gap-3">
+              <h3 className="text-xl font-bold mb-5 md:mb-6 text-blue">{group.category}</h3>
+              <div className="flex flex-wrap justify-center gap-2 md:gap-3">
                 {group.skills.map((skill) => (
-                  <div key={skill} className="px-4 py-2 bg-muted/10 border border-blue/20 rounded-full text-sm transition-all hover:bg-blue/20">
+                  <div key={skill} className="px-3 py-1.5 md:px-4 md:py-2 bg-muted/10 border border-blue/20 rounded-full text-xs md:text-sm transition-all hover:bg-blue/20">
                     {skill}
                   </div>
                 ))}
@@ -68,11 +68,11 @@ const SkillsSection = () => {
           ))}
         </div>
 
-        <div className="mt-16">
-          <h3 className="text-2xl font-bold mb-6 text-center">Herramientas & Entornos</h3>
-          <div className="flex flex-wrap justify-center gap-4">
+        <div className="mt-12 md:mt-16">
+          <h3 className="text-xl md:text-2xl font-bold mb-5 md:mb-6 text-center">Herramientas & Entornos</h3>
+          <div className="flex flex-wrap justify-center gap-2 md:gap-4">
             {["VS Code", "Git", "GitHub", "Docker", "AWS", "Jest", "Cypress", "Figma", "Gitlab CI", "Azure"].map(tech => (
-              <div key={tech} className="px-4 py-2 bg-muted/5 border border-muted/20 rounded-full text-sm hover:bg-blue/10 transition-all">
+              <div key={tech} className="px-3 py-1.5 md:px-4 md:py-2 bg-muted/5 border border-muted/20 rounded-full text-xs md:text-sm hover:bg-blue/10 transition-all">
                 {tech}
               </div>
             ))}
