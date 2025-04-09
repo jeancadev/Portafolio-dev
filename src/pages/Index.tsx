@@ -7,33 +7,27 @@ import ProjectsSection from '@/components/ProjectsSection';
 import SkillsSection from '@/components/SkillsSection';
 import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
-import ThemeToggle from '@/components/ThemeToggle';
 
 const Index = () => {
   const [mounted, setMounted] = useState(false);
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
 
   useEffect(() => {
-    // Detectar el tema preferido del sistema al cargar
+    // Detect system theme preference on load
     const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const initialTheme = isDarkMode ? 'dark' : 'light';
-    setTheme(initialTheme);
     document.documentElement.classList.toggle('dark', isDarkMode);
     
-    // Also set up a listener for changes in system theme preference
+    // Set up a listener for changes in system theme preference
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleThemeChange = (e: MediaQueryListEvent) => {
-      const newTheme = e.matches ? 'dark' : 'light';
-      setTheme(newTheme);
       document.documentElement.classList.toggle('dark', e.matches);
     };
     
     mediaQuery.addEventListener('change', handleThemeChange);
     
-    // Actualizar el título de la página
+    // Update the page title
     document.title = 'Portfolio | Desarrollador de Software';
     
-    // Opcional: Scroll al principio cuando se carga la página
+    // Optional: Scroll to top when page loads
     window.scrollTo(0, 0);
     
     setMounted(true);
@@ -44,14 +38,7 @@ const Index = () => {
     };
   }, []);
 
-  // Function to toggle theme manually
-  const toggleTheme = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
-    setTheme(newTheme);
-    document.documentElement.classList.toggle('dark', newTheme === 'dark');
-  };
-
-  // Evitar cambios de hydration
+  // Avoid hydration issues
   if (!mounted) {
     return null;
   }
@@ -59,9 +46,6 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
       <Navbar />
-      <div className="fixed bottom-6 right-6 z-50">
-        <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
-      </div>
       <main>
         <HeroSection />
         <AboutSection />
