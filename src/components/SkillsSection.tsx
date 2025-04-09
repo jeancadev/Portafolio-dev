@@ -1,41 +1,46 @@
 
 import React from 'react';
-import { Progress } from '@/components/ui/progress';
-
-const skillGroups = [
-  {
-    category: "Frontend",
-    skills: [
-      { name: "React", level: 90 },
-      { name: "TypeScript", level: 85 },
-      { name: "Next.js", level: 80 },
-      { name: "Tailwind CSS", level: 95 },
-      { name: "Vue.js", level: 75 }
-    ]
-  },
-  {
-    category: "Backend",
-    skills: [
-      { name: "Node.js", level: 85 },
-      { name: "Express", level: 80 },
-      { name: "SQL", level: 75 },
-      { name: "MongoDB", level: 85 },
-      { name: "GraphQL", level: 70 }
-    ]
-  },
-  {
-    category: "Otros",
-    skills: [
-      { name: "Git", level: 90 },
-      { name: "Docker", level: 75 },
-      { name: "AWS", level: 70 },
-      { name: "Jest", level: 80 },
-      { name: "CI/CD", level: 75 }
-    ]
-  }
-];
+import { Code, Database, Globe, Server } from 'lucide-react';
 
 const SkillsSection = () => {
+  const skillGroups = [
+    {
+      category: "Frontend",
+      icon: <Globe className="w-8 h-8 mb-4 text-blue" />,
+      skills: [
+        "JavaScript", 
+        "TypeScript", 
+        "React", 
+        "Vue.js", 
+        "Tailwind CSS", 
+        "Astro"
+      ]
+    },
+    {
+      category: "Backend",
+      icon: <Server className="w-8 h-8 mb-4 text-blue" />,
+      skills: [
+        "Node.js", 
+        "Express", 
+        "C#", 
+        ".NET",
+        "Python", 
+        "SQL"
+      ]
+    },
+    {
+      category: "Otros",
+      icon: <Code className="w-8 h-8 mb-4 text-blue" />,
+      skills: [
+        "Git", 
+        "Docker", 
+        "AWS", 
+        "Jest", 
+        "CI/CD"
+      ]
+    }
+  ];
+
   return (
     <section id="skills" className="section-padding bg-gradient-to-b from-dark/95 to-dark">
       <div className="container mx-auto">
@@ -49,16 +54,13 @@ const SkillsSection = () => {
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {skillGroups.map((group) => (
-            <div key={group.category} className="bg-muted/5 border border-muted/20 rounded-lg p-6 backdrop-blur-sm">
+            <div key={group.category} className="bg-muted/5 border border-muted/20 rounded-lg p-6 backdrop-blur-sm text-center">
+              <div className="flex justify-center">{group.icon}</div>
               <h3 className="text-xl font-bold mb-6 text-blue">{group.category}</h3>
-              <div className="space-y-4">
+              <div className="flex flex-wrap justify-center gap-3">
                 {group.skills.map((skill) => (
-                  <div key={skill.name}>
-                    <div className="flex justify-between mb-1">
-                      <span>{skill.name}</span>
-                      <span>{skill.level}%</span>
-                    </div>
-                    <Progress value={skill.level} className="h-2 bg-muted/20" indicatorClassName="bg-blue" />
+                  <div key={skill} className="px-4 py-2 bg-muted/10 border border-blue/20 rounded-full text-sm transition-all hover:bg-blue/20">
+                    {skill}
                   </div>
                 ))}
               </div>
@@ -67,11 +69,10 @@ const SkillsSection = () => {
         </div>
 
         <div className="mt-16">
-          <h3 className="text-2xl font-bold mb-6 text-center">Tecnologías y herramientas</h3>
+          <h3 className="text-2xl font-bold mb-6 text-center">Herramientas & Entornos</h3>
           <div className="flex flex-wrap justify-center gap-4">
-            {["JavaScript", "TypeScript", "React", "Vue.js", "Node.js", "Express", "MongoDB", "PostgreSQL", 
-              "GraphQL", "Docker", "AWS", "Git", "GitHub", "Jest", "Cypress", "Figma", "Tailwind", "Redux"].map(tech => (
-              <div key={tech} className="px-4 py-2 bg-muted/5 border border-muted/20 rounded-md text-sm">
+            {["VS Code", "Git", "GitHub", "Docker", "AWS", "Jest", "Cypress", "Figma", "Gitlab CI", "Azure"].map(tech => (
+              <div key={tech} className="px-4 py-2 bg-muted/5 border border-muted/20 rounded-full text-sm hover:bg-blue/10 transition-all">
                 {tech}
               </div>
             ))}

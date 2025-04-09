@@ -35,13 +35,9 @@ const Navbar = () => {
   };
 
   return (
-    <header className={`fixed top-0 z-50 w-full transition-all duration-300 ${scrolled ? 'py-3' : 'py-5'}`}>
-      <nav className="container mx-auto px-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center">
-            <a href="#home" className="text-xl font-bold text-blue">Portfolio<span className="text-light">.</span></a>
-          </div>
-
+    <header className={`fixed top-0 z-50 w-full transition-all duration-300 flex justify-center ${scrolled ? 'py-3' : 'py-5'}`}>
+      <nav className="px-6">
+        <div className="flex items-center justify-center">
           <div className="glass-nav flex items-center rounded-full">
             <ul className="flex">
               {navLinks.map((link) => (
