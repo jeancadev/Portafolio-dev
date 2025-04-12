@@ -24,60 +24,49 @@ const HeroSection = () => {
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center section-padding pt-28 bg-background text-foreground">
+    <section id="home" className="relative min-h-screen flex items-center justify-center section-padding pt-28 bg-background text-foreground">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_20%,rgba(59,130,246,0.1)_0%,rgba(0,0,0,0)_80%)]"></div>
       
-      <div className="container mx-auto">
-        <div className="grid gap-8 lg:grid-cols-2">
-          <div className="flex flex-col justify-center">
-            <div className="flex items-center gap-4 mb-4 animate-fade-in opacity-0 [animation-delay:0.2s]">
-              <Avatar className="h-32 w-32 md:h-48 md:w-48 border-2 border-blue">
-                <AvatarImage src="/lovable-uploads/f4c0ebed-84ca-4304-abb5-30ac1fdcd669.png" alt="Foto de perfil" />
-                <AvatarFallback>JO</AvatarFallback>
-              </Avatar>
-              <div>
-                <p className="text-blue mb-1">Hola, soy</p>
-                <h1 className="text-3xl md:text-5xl font-bold text-foreground">
-                  Desarrollador de Software
-                </h1>
-              </div>
-            </div>
-            
-            <p className="text-xl text-muted-foreground mb-6 max-w-md animate-fade-in opacity-0 [animation-delay:0.4s]">
-              Construyo aplicaciones modernas con tecnologías de vanguardia para crear experiencias digitales excepcionales.
-            </p>
-            
-            <div className="flex flex-wrap items-center gap-4 mb-6 animate-fade-in opacity-0 [animation-delay:0.6s]">
-              <div className="flex items-center gap-2 px-4 py-2 rounded-md bg-card/30 border border-muted/20">
-                <span className="text-sm md:text-base text-muted-foreground">
-                  {email}
-                </span>
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  onClick={copyEmail} 
-                  className="h-8 w-8 text-blue hover:text-blue-dark hover:bg-blue/10"
-                >
-                  <Copy className="h-4 w-4" />
-                  <span className="sr-only">Copiar email</span>
-                </Button>
-              </div>
-              <Button variant="outline" className="border-blue text-blue hover:bg-blue hover:text-white gap-2" asChild>
-                <a href={cvUrl} download>
-                  <Download className="h-4 w-4" />
-                  Descargar CV
-                </a>
-              </Button>
+      <div className="container mx-auto max-w-3xl text-center">
+        <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center gap-4 mb-6 animate-fade-in opacity-0 [animation-delay:0.2s]">
+            <Avatar className="h-40 w-40 md:h-56 md:w-56 border-2 border-blue mb-4">
+              <AvatarImage src="/lovable-uploads/f4c0ebed-84ca-4304-abb5-30ac1fdcd669.png" alt="Foto de perfil" />
+              <AvatarFallback>JO</AvatarFallback>
+            </Avatar>
+            <div>
+              <p className="text-blue mb-1">Hola, soy</p>
+              <h1 className="text-3xl md:text-5xl font-bold text-foreground">
+                Desarrollador de Software
+              </h1>
             </div>
           </div>
           
-          <div className="hidden lg:flex items-center justify-center animate-fade-in opacity-0 [animation-delay:1s]">
-            <div className="relative w-[32rem] h-[32rem]">
-              <div className="absolute inset-0 rounded-full bg-blue/20 blur-3xl"></div>
-              <div className="relative z-10 w-full h-full rounded-full border-2 border-blue/20 flex items-center justify-center overflow-hidden bg-card/30">
-                <div className="w-full h-full bg-gradient-to-br from-blue/10 to-transparent"></div>
-              </div>
+          <p className="text-xl text-muted-foreground mb-8 max-w-2xl animate-fade-in opacity-0 [animation-delay:0.4s]">
+            Construyo aplicaciones modernas con tecnologías de vanguardia para crear experiencias digitales excepcionales.
+          </p>
+          
+          <div className="flex flex-wrap justify-center items-center gap-4 mb-6 animate-fade-in opacity-0 [animation-delay:0.6s]">
+            <div className="flex items-center gap-2 px-4 py-2 rounded-md bg-card/30 border border-muted/20">
+              <span className="text-sm md:text-base text-muted-foreground">
+                {email}
+              </span>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={copyEmail} 
+                className="h-8 w-8 text-blue hover:text-blue-dark hover:bg-blue/10"
+              >
+                <Copy className="h-4 w-4" />
+                <span className="sr-only">Copiar email</span>
+              </Button>
             </div>
+            <Button variant="outline" className="border-blue text-blue hover:bg-blue hover:text-white gap-2" asChild>
+              <a href={cvUrl} download>
+                <Download className="h-4 w-4" />
+                Descargar CV
+              </a>
+            </Button>
           </div>
         </div>
       </div>
