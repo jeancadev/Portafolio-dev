@@ -42,7 +42,7 @@ const certifications = [
 
 const EducationSection = () => {
   return (
-    <section id="education" className="section-padding bg-gradient-to-b from-dark/95 to-dark">
+    <section id="education" className="section-padding bg-gradient-to-b from-background/95 to-background text-foreground">
       <div className="container mx-auto">
         <div className="mb-12 text-center">
           <h2 className="text-3xl md:text-4xl font-bold heading-accent pb-2 mb-4">Formación</h2>
@@ -55,15 +55,15 @@ const EducationSection = () => {
           <div>
             <div className="flex items-center gap-3 mb-6">
               <GraduationCap className="text-blue" size={24} />
-              <h3 className="text-2xl font-bold">Educación</h3>
+              <h3 className="text-2xl font-bold text-foreground">Educación</h3>
             </div>
 
             <div className="space-y-6">
               {education.map((item) => (
-                <Card key={item.id} className="bg-muted/5 border-muted/20 transition-transform hover:translate-y-[-5px]">
+                <Card key={item.id} className="bg-card/30 border-muted/20 transition-transform hover:translate-y-[-5px]">
                   <CardHeader>
                     <div className="flex justify-between items-start">
-                      <CardTitle className="text-lg">{item.title}</CardTitle>
+                      <CardTitle className="text-lg text-foreground">{item.title}</CardTitle>
                       <Badge variant="outline" className="bg-blue/10 text-blue border-blue/20">
                         <Calendar className="mr-1 h-3 w-3" /> {item.period}
                       </Badge>
@@ -88,15 +88,15 @@ const EducationSection = () => {
           <div>
             <div className="flex items-center gap-3 mb-6">
               <Award className="text-blue" size={24} />
-              <h3 className="text-2xl font-bold">Certificaciones</h3>
+              <h3 className="text-2xl font-bold text-foreground">Certificaciones</h3>
             </div>
 
             <div className="space-y-6">
               {certifications.map((item) => (
-                <Card key={item.id} className="bg-muted/5 border-muted/20 transition-transform hover:translate-y-[-5px]">
+                <Card key={item.id} className="bg-card/30 border-muted/20 transition-transform hover:translate-y-[-5px]">
                   <CardHeader>
                     <div className="flex justify-between items-start">
-                      <CardTitle className="text-lg">{item.title}</CardTitle>
+                      <CardTitle className="text-lg text-foreground">{item.title}</CardTitle>
                       <Badge variant="outline" className="bg-blue/10 text-blue border-blue/20">
                         {item.year}
                       </Badge>

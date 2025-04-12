@@ -24,7 +24,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center section-padding pt-28">
+    <section id="home" className="relative min-h-screen flex items-center section-padding pt-28 bg-background text-foreground">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_20%,rgba(59,130,246,0.1)_0%,rgba(0,0,0,0)_80%)]"></div>
       
       <div className="container mx-auto">
@@ -37,7 +37,7 @@ const HeroSection = () => {
               </Avatar>
               <div>
                 <p className="text-blue mb-1">Hola, soy</p>
-                <h1 className="text-3xl md:text-5xl font-bold">
+                <h1 className="text-3xl md:text-5xl font-bold text-foreground">
                   Desarrollador de Software
                 </h1>
               </div>
@@ -48,7 +48,7 @@ const HeroSection = () => {
             </p>
             
             <div className="flex flex-wrap items-center gap-4 mb-6 animate-fade-in opacity-0 [animation-delay:0.6s]">
-              <div className="flex items-center gap-2 px-4 py-2 rounded-md bg-muted/10 border border-muted/20">
+              <div className="flex items-center gap-2 px-4 py-2 rounded-md bg-card/30 border border-muted/20">
                 <span className="text-sm md:text-base text-muted-foreground">
                   {email}
                 </span>
@@ -74,7 +74,7 @@ const HeroSection = () => {
           <div className="hidden lg:flex items-center justify-center animate-fade-in opacity-0 [animation-delay:1s]">
             <div className="relative w-80 h-80">
               <div className="absolute inset-0 rounded-full bg-blue/20 blur-3xl"></div>
-              <div className="relative z-10 w-full h-full rounded-full border-2 border-blue/20 flex items-center justify-center overflow-hidden bg-dark">
+              <div className="relative z-10 w-full h-full rounded-full border-2 border-blue/20 flex items-center justify-center overflow-hidden bg-card/30">
                 <div className="w-full h-full bg-gradient-to-br from-blue/10 to-transparent"></div>
                 <div className="absolute inset-0 flex items-center justify-center text-8xl font-bold text-blue/20">&lt;/&gt;</div>
               </div>

@@ -111,7 +111,7 @@
   }
 
   .project-card {
-    @apply relative overflow-hidden rounded-lg border border-muted/20 bg-muted/5 backdrop-blur-sm transition-all duration-300 hover:shadow-lg hover:shadow-blue/10;
+    @apply relative overflow-hidden rounded-lg border border-muted/20 bg-card/30 backdrop-blur-sm transition-all duration-300 hover:shadow-lg hover:shadow-blue/10;
   }
 
   .heading-accent {
@@ -121,17 +121,17 @@
   /* iOS/macOS inspired glassmorphism styles */
   .glass-nav {
     @apply backdrop-blur-xl border border-border shadow-lg px-3 py-1;
-    background-color: hsl(var(--background) / 0.7);
+    background-color: hsl(var(--card) / 0.7);
   }
   
   .glass-card {
     @apply backdrop-blur-xl border border-border rounded-xl shadow-lg;
-    background-color: hsl(var(--background) / 0.5);
+    background-color: hsl(var(--card) / 0.5);
   }
   
   .glass-button {
     @apply backdrop-blur-md border border-border rounded-full transition-all duration-300;
-    background-color: hsl(var(--background) / 0.5);
+    background-color: hsl(var(--card) / 0.5);
   }
   
   /* Animations for iOS/macOS feel */

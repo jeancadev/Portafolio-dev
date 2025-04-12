@@ -8,7 +8,7 @@ import { Card } from '@/components/ui/card';
 
 const ContactSection = () => {
   return (
-    <section id="contact" className="section-padding bg-dark">
+    <section id="contact" className="section-padding bg-background text-foreground">
       <div className="container mx-auto">
         <div className="mb-12 text-center">
           <h2 className="text-3xl md:text-4xl font-bold heading-accent pb-2 mb-4">Contáctame</h2>
@@ -18,8 +18,8 @@ const ContactSection = () => {
         </div>
 
         <div className="grid gap-8 md:grid-cols-2">
-          <Card className="bg-muted/5 border-muted/20 p-6">
-            <h3 className="text-xl font-bold mb-4">Envíame un mensaje</h3>
+          <Card className="bg-card/30 border-muted/20 p-6">
+            <h3 className="text-xl font-bold mb-4 text-foreground">Envíame un mensaje</h3>
             <form className="space-y-4">
               <div>
                 <Input placeholder="Tu nombre" className="bg-muted/10 border-muted/20" />
@@ -44,7 +44,7 @@ const ContactSection = () => {
 
           <div className="flex flex-col justify-between">
             <div>
-              <h3 className="text-xl font-bold mb-4">Información de contacto</h3>
+              <h3 className="text-xl font-bold mb-4 text-foreground">Información de contacto</h3>
               <p className="text-muted-foreground mb-6">
                 Puedes contactarme directamente por email o a través de mis perfiles en redes sociales.
                 Estoy disponible para trabajos freelance, colaboraciones y oportunidades laborales.
@@ -55,21 +55,21 @@ const ContactSection = () => {
                   <div className="rounded-full bg-blue/10 p-2">
                     <Mail className="h-4 w-4 text-blue" />
                   </div>
-                  <a href="mailto:email@example.com" className="text-light hover:text-blue transition-colors">
-                    email@example.com
+                  <a href="mailto:jean.obandocortes@gmail.com" className="text-foreground hover:text-blue transition-colors">
+                    jean.obandocortes@gmail.com
                   </a>
                 </div>
               </div>
             </div>
 
             <div>
-              <h3 className="text-xl font-bold mb-4">Redes sociales</h3>
+              <h3 className="text-xl font-bold mb-4 text-foreground">Redes sociales</h3>
               <div className="flex gap-4">
                 <a 
                   href="#" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="rounded-full bg-muted/10 p-3 text-light hover:bg-blue hover:text-white transition-all"
+                  className="rounded-full bg-card/30 p-3 text-foreground hover:bg-blue hover:text-white transition-all"
                 >
                   <Github className="h-5 w-5" />
                 </a>
@@ -77,7 +77,7 @@ const ContactSection = () => {
                   href="#" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="rounded-full bg-muted/10 p-3 text-light hover:bg-blue hover:text-white transition-all"
+                  className="rounded-full bg-card/30 p-3 text-foreground hover:bg-blue hover:text-white transition-all"
                 >
                   <Linkedin className="h-5 w-5" />
                 </a>
@@ -85,7 +85,7 @@ const ContactSection = () => {
                   href="#" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="rounded-full bg-muted/10 p-3 text-light hover:bg-blue hover:text-white transition-all"
+                  className="rounded-full bg-card/30 p-3 text-foreground hover:bg-blue hover:text-white transition-all"
                 >
                   <Twitter className="h-5 w-5" />
                 </a>
