@@ -37,7 +37,7 @@ const projects = [
 
 const ProjectsSection = () => {
   return (
-    <section id="projects" className="section-padding bg-dark">
+    <section id="projects" className="section-padding">
       <div className="container mx-auto">
         <div className="mb-12 text-center">
           <h2 className="text-3xl md:text-4xl font-bold heading-accent pb-2 mb-4">Proyectos Destacados</h2>
@@ -49,14 +49,14 @@ const ProjectsSection = () => {
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
-            <Card key={project.id} className="project-card overflow-hidden group">
+            <Card key={project.id} className="project-card overflow-hidden group backdrop-blur-sm border border-muted/20 bg-card/30">
               <div className="relative h-48 overflow-hidden">
                 <img 
                   src={project.image} 
                   alt={project.title} 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-dark to-transparent opacity-70"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-70"></div>
               </div>
               
               <CardHeader>
