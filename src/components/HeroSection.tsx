@@ -31,7 +31,7 @@ const HeroSection = () => {
         <div className="grid gap-8 lg:grid-cols-2">
           <div className="flex flex-col justify-center">
             <div className="flex items-center gap-4 mb-4 animate-fade-in opacity-0 [animation-delay:0.2s]">
-              <Avatar className="h-24 w-24 md:h-36 md:w-36 border-2 border-blue">
+              <Avatar className="h-32 w-32 md:h-48 md:w-48 border-2 border-blue">
                 <AvatarImage src="/lovable-uploads/f4c0ebed-84ca-4304-abb5-30ac1fdcd669.png" alt="Foto de perfil" />
                 <AvatarFallback>JO</AvatarFallback>
               </Avatar>
@@ -72,7 +72,7 @@ const HeroSection = () => {
           </div>
           
           <div className="hidden lg:flex items-center justify-center animate-fade-in opacity-0 [animation-delay:1s]">
-            <div className="relative w-96 h-96">
+            <div className="relative w-[32rem] h-[32rem]">
               <div className="absolute inset-0 rounded-full bg-blue/20 blur-3xl"></div>
               <div className="relative z-10 w-full h-full rounded-full border-2 border-blue/20 flex items-center justify-center overflow-hidden bg-card/30">
                 <div className="w-full h-full bg-gradient-to-br from-blue/10 to-transparent"></div>
