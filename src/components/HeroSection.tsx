@@ -31,15 +31,15 @@ const HeroSection = () => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           {/* Left side: Text content */}
           <div className="w-full md:w-3/5 animate-fade-in opacity-0 [animation-delay:0.2s]">
-            <div className="space-y-6 text-left">
-              <div>
-                <p className="text-blue mb-1">Hola, soy</p>
-                <h1 className="text-3xl md:text-5xl font-bold text-foreground">
+            <div className="space-y-6">
+              <div className="text-left">
+                <p className="text-blue mb-1 text-lg">Hola, soy</p>
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight">
                   Desarrollador de Software
                 </h1>
               </div>
               
-              <p className="text-lg md:text-xl text-muted-foreground max-w-xl">
+              <p className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-xl">
                 Construyo aplicaciones modernas con tecnologías de vanguardia para crear experiencias digitales excepcionales.
               </p>
               
@@ -52,13 +52,13 @@ const HeroSection = () => {
                     variant="ghost" 
                     size="icon" 
                     onClick={copyEmail} 
-                    className="h-8 w-8 text-blue hover:text-blue-dark hover:bg-blue/10"
+                    className="h-8 w-8 text-blue hover:text-blue-dark hover:bg-blue/10 cursor-hover-effect"
                   >
                     <Copy className="h-4 w-4" />
                     <span className="sr-only">Copiar email</span>
                   </Button>
                 </div>
-                <Button variant="outline" className="border-blue text-blue hover:bg-blue hover:text-white gap-2" asChild>
+                <Button variant="outline" className="border-blue text-blue hover:bg-blue hover:text-white gap-2 cursor-hover-effect" asChild>
                   <a href={cvUrl} download>
                     <Download className="h-4 w-4" />
                     Descargar CV
@@ -70,7 +70,7 @@ const HeroSection = () => {
           
           {/* Right side: Avatar */}
           <div className="w-full md:w-2/5 flex justify-center md:justify-end animate-fade-in opacity-0 [animation-delay:0.4s]">
-            <Avatar className="h-48 w-48 md:h-64 md:w-64 border-2 border-blue">
+            <Avatar className="h-48 w-48 md:h-64 md:w-64 border-2 border-blue cursor-hover-effect">
               <AvatarImage src="/lovable-uploads/f4c0ebed-84ca-4304-abb5-30ac1fdcd669.png" alt="Foto de perfil" />
               <AvatarFallback>JO</AvatarFallback>
             </Avatar>

@@ -34,17 +34,17 @@ const Navbar = () => {
   };
 
   return (
-    <header className={`fixed top-0 z-50 w-full transition-all duration-300 flex justify-center ${scrolled ? 'py-1' : 'py-2'}`}>
-      <nav className="container mx-auto px-4 sm:px-6 md:px-8 max-w-5xl">
+    <header className={`fixed top-0 z-50 w-full transition-all duration-300 flex justify-center ${scrolled ? 'py-0.5' : 'py-1'}`}>
+      <nav className="container mx-auto px-3 sm:px-4 max-w-5xl">
         <div className="flex items-center justify-center">
-          <div className="glass-nav flex items-center rounded-full max-w-full lg:max-w-3xl xl:max-w-4xl overflow-x-auto no-scrollbar">
-            <div className="flex flex-nowrap py-2 px-2 sm:px-3">
-              <ul className="flex px-2 flex-nowrap">
+          <div className="glass-nav flex items-center rounded-full max-w-full overflow-x-auto no-scrollbar py-1">
+            <div className="flex items-center justify-between w-full px-2">
+              <ul className="flex space-x-1 sm:space-x-2">
                 {navLinks.map((link) => (
-                  <li key={link.name} className="px-1 sm:px-2">
+                  <li key={link.name}>
                     <a 
                       href={link.href} 
-                      className="nav-link-glass block px-2 sm:px-3 py-1.5 text-sm md:text-base whitespace-nowrap hover:text-blue transition-colors"
+                      className="nav-link-glass block px-2 py-1 text-xs sm:text-sm md:text-sm whitespace-nowrap hover:text-blue transition-colors cursor-hover-effect"
                     >
                       {link.name}
                     </a>
@@ -52,9 +52,7 @@ const Navbar = () => {
                 ))}
               </ul>
 
-              <div className="flex items-center gap-2 lg:gap-3 px-2 sm:px-3">
-                <LanguageToggle currentLanguage={currentLanguage} onChange={handleLanguageChange} />
-              </div>
+              <LanguageToggle currentLanguage={currentLanguage} onChange={handleLanguageChange} />
             </div>
           </div>
         </div>

@@ -72,12 +72,12 @@
 @layer base {
   * {
     @apply border-border;
+    cursor: default;
   }
 
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
-    cursor: default;
   }
 
   html {
@@ -87,11 +87,22 @@
   /* Efecto sutil de cursor personalizado para todo el portafolio */
   a, button, input, select, textarea, [role="button"] {
     @apply cursor-pointer transition-all duration-200;
+    position: relative;
   }
   
   /* Efecto de hover para elementos interactivos */
   a:hover, button:hover, [role="button"]:hover {
     @apply transition-transform duration-200 scale-[1.02];
+  }
+  
+  /* Cursor effect */
+  .cursor-hover-effect {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  
+  .cursor-hover-effect:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   }
 }
 
@@ -131,7 +142,7 @@
   
   /* iOS/macOS inspired glassmorphism styles */
   .glass-nav {
-    @apply backdrop-blur-xl border border-border shadow-lg px-3 py-1;
+    @apply backdrop-blur-xl border border-border shadow-lg px-2 py-0.5;
     background-color: hsl(var(--card) / 0.7);
   }
   
@@ -166,16 +177,7 @@
   animation: float 4s ease-in-out infinite;
 }
 
-/* Efecto sutil para el cursor al pasar por elementos */
-.cursor-hover-effect {
-  transition: transform 0.2s ease;
-}
-.cursor-hover-effect:hover {
-  transform: scale(1.05);
-}
-
 /* Estilos para el cursor personalizado sutil */
 * {
   transition: all 0.2s ease;
 }
-
