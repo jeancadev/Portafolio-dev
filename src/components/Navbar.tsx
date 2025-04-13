@@ -38,7 +38,7 @@ const Navbar = () => {
       <nav className="container mx-auto px-3 sm:px-4 max-w-5xl">
         <div className="flex items-center justify-center">
           <div className="glass-nav flex items-center rounded-full max-w-full overflow-x-auto no-scrollbar py-2">
-            <div className="flex items-center justify-between w-full px-3">
+            <div className="flex items-center justify-between w-full px-3 sm:px-4">
               <ul className="flex space-x-2 sm:space-x-3">
                 {navLinks.map((link) => (
                   <li key={link.name}>
@@ -52,7 +52,9 @@ const Navbar = () => {
                 ))}
               </ul>
 
-              <LanguageToggle currentLanguage={currentLanguage} onChange={handleLanguageChange} />
+              <div className="ml-2 sm:ml-4">
+                <LanguageToggle currentLanguage={currentLanguage} onChange={handleLanguageChange} />
+              </div>
             </div>
           </div>
         </div>
