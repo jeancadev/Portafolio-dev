@@ -34,17 +34,17 @@ const Navbar = () => {
   };
 
   return (
-    <header className={`fixed top-0 z-50 w-full transition-all duration-300 flex justify-center ${scrolled ? 'py-0.5' : 'py-1'}`}>
+    <header className={`fixed top-0 z-50 w-full transition-all duration-300 flex justify-center ${scrolled ? 'py-1.5' : 'py-2'}`}>
       <nav className="container mx-auto px-3 sm:px-4 max-w-5xl">
         <div className="flex items-center justify-center">
-          <div className="glass-nav flex items-center rounded-full max-w-full overflow-x-auto no-scrollbar py-1">
-            <div className="flex items-center justify-between w-full px-2">
-              <ul className="flex space-x-1 sm:space-x-2">
+          <div className="glass-nav flex items-center rounded-full max-w-full overflow-x-auto no-scrollbar py-2">
+            <div className="flex items-center justify-between w-full px-3">
+              <ul className="flex space-x-2 sm:space-x-3">
                 {navLinks.map((link) => (
                   <li key={link.name}>
                     <a 
                       href={link.href} 
-                      className="nav-link-glass block px-2 py-1 text-xs sm:text-sm md:text-sm whitespace-nowrap hover:text-blue transition-colors cursor-hover-effect"
+                      className="nav-link-glass block px-2.5 py-1.5 text-sm whitespace-nowrap hover:text-blue transition-colors cursor-hover-effect"
                     >
                       {link.name}
                     </a>

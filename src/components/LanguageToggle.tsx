@@ -18,14 +18,14 @@ const LanguageToggle = ({ currentLanguage, onChange }: LanguageToggleProps) => {
       <ToggleGroupItem 
         value="es" 
         aria-label="Español" 
-        className={`text-xs font-medium px-2.5 py-0.5 rounded-full transition-all cursor-hover-effect ${currentLanguage === 'es' ? 'bg-blue text-white' : 'text-light/80'}`}
+        className={`text-sm font-medium px-3 py-1 rounded-full transition-all cursor-hover-effect ${currentLanguage === 'es' ? 'bg-blue text-white' : 'text-light/80'}`}
       >
         ES
       </ToggleGroupItem>
       <ToggleGroupItem 
         value="en" 
         aria-label="English" 
-        className={`text-xs font-medium px-2.5 py-0.5 rounded-full transition-all cursor-hover-effect ${currentLanguage === 'en' ? 'bg-blue text-white' : 'text-light/80'}`}
+        className={`text-sm font-medium px-3 py-1 rounded-full transition-all cursor-hover-effect ${currentLanguage === 'en' ? 'bg-blue text-white' : 'text-light/80'}`}
       >
         EN
       </ToggleGroupItem>
