@@ -77,10 +77,21 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
+    cursor: default;
   }
 
   html {
     @apply scroll-smooth;
+  }
+  
+  /* Efecto sutil de cursor personalizado para todo el portafolio */
+  a, button, input, select, textarea, [role="button"] {
+    @apply cursor-pointer transition-all duration-200;
+  }
+  
+  /* Efecto de hover para elementos interactivos */
+  a:hover, button:hover, [role="button"]:hover {
+    @apply transition-transform duration-200 scale-[1.02];
   }
 }
 
@@ -154,3 +165,17 @@
 .float-animation {
   animation: float 4s ease-in-out infinite;
 }
+
+/* Efecto sutil para el cursor al pasar por elementos */
+.cursor-hover-effect {
+  transition: transform 0.2s ease;
+}
+.cursor-hover-effect:hover {
+  transform: scale(1.05);
+}
+
+/* Estilos para el cursor personalizado sutil */
+* {
+  transition: all 0.2s ease;
+}
+
