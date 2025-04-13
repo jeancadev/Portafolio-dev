@@ -11,8 +11,6 @@ import Footer from '@/components/Footer';
 const Index = () => {
   const [mounted, setMounted] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [cursorElement, setCursorElement] = useState<HTMLDivElement | null>(null);
-  const [cursorDotElement, setCursorDotElement] = useState<HTMLDivElement | null>(null);
 
   useEffect(() => {
     // Detect system theme preference on load
@@ -33,47 +31,58 @@ const Index = () => {
     // Optional: Scroll to top when page loads
     window.scrollTo(0, 0);
 
-    // Create custom cursor elements
-    const cursor = document.createElement('div');
-    cursor.classList.add('custom-cursor');
-    document.body.appendChild(cursor);
-    setCursorElement(cursor);
-
-    const cursorDot = document.createElement('div');
-    cursorDot.classList.add('custom-cursor-dot');
-    document.body.appendChild(cursorDot);
-    setCursorDotElement(cursorDot);
-
-    // Handle mouse movement
+    // Handle mouse movement for radial gradient effect
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
       
       // Update CSS variables for radial gradient effect
       document.body.style.setProperty('--x', `${e.clientX}px`);
       document.body.style.setProperty('--y', `${e.clientY}px`);
+    };
+
+    // Handle click for water ripple effect
+    const handleClick = (e: MouseEvent) => {
+      // Only create ripples on empty space clicks (not on interactive elements)
+      const target = e.target as HTMLElement;
+      const isInteractive = 
+        target.tagName === 'A' || 
+        target.tagName === 'BUTTON' || 
+        target.tagName === 'INPUT' ||
+        target.closest('a') || 
+        target.closest('button') || 
+        target.closest('input');
       
-      // Update cursor position with small delay for smoothness
-      if (cursor) {
-        cursor.style.left = `${e.clientX}px`;
-        cursor.style.top = `${e.clientY}px`;
-      }
-      
-      if (cursorDot) {
-        cursorDot.style.left = `${e.clientX}px`;
-        cursorDot.style.top = `${e.clientY}px`;
+      if (!isInteractive) {
+        createRipple(e);
       }
     };
 
+    // Create water ripple effect at mouse position
+    const createRipple = (e: MouseEvent) => {
+      const ripple = document.createElement('div');
+      ripple.classList.add('ripple');
+      ripple.style.left = `${e.clientX}px`;
+      ripple.style.top = `${e.clientY}px`;
+      document.body.appendChild(ripple);
+
+      // Remove ripple after animation completes
+      setTimeout(() => {
+        if (document.body.contains(ripple)) {
+          document.body.removeChild(ripple);
+        }
+      }, 1000);
+    };
+
     document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('click', handleClick);
     
     setMounted(true);
     
-    // Clean up event listeners and remove custom cursor on component unmount
+    // Clean up event listeners
     return () => {
       mediaQuery.removeEventListener('change', handleThemeChange);
       document.removeEventListener('mousemove', handleMouseMove);
-      if (cursor) document.body.removeChild(cursor);
-      if (cursorDot) document.body.removeChild(cursorDot);
+      document.removeEventListener('click', handleClick);
     };
   }, []);
 

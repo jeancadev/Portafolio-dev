@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -69,13 +70,13 @@
 
   * {
     @apply border-border;
-    cursor: none;
   }
 
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
     position: relative;
+    overflow-x: hidden;
   }
 
   body::before {
@@ -100,9 +101,9 @@
     @apply scroll-smooth;
   }
   
-  /* Efecto sutil de cursor personalizado para todo el portafolio */
+  /* Efecto sutil para elementos interactivos */
   a, button, input, select, textarea, [role="button"] {
-    @apply cursor-pointer transition-all duration-200;
+    @apply transition-all duration-200;
     position: relative;
   }
   
@@ -111,7 +112,7 @@
     @apply transition-transform duration-200 scale-[1.02];
   }
   
-  /* Cursor effect */
+  /* Hover effect for interactive elements */
   .cursor-hover-effect {
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
@@ -121,47 +122,21 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   }
 
-  /* Custom cursor styles */
-  .custom-cursor {
-    width: 20px;
-    height: 20px;
-    border: 2px solid rgba(59, 130, 246, 0.5);
+  /* Water ripple effect styles */
+  .ripple {
+    position: absolute;
     border-radius: 50%;
-    position: fixed;
+    background-color: rgba(59, 130, 246, 0.3);
+    transform: scale(0);
+    animation: ripple-animation 1s linear;
     pointer-events: none;
-    transform: translate(-50%, -50%);
-    transition: width 0.2s, height 0.2s, border-color 0.2s;
-    z-index: 9999;
-    mix-blend-mode: difference;
   }
 
-  .custom-cursor-dot {
-    width: 6px;
-    height: 6px;
-    background-color: rgba(59, 130, 246, 0.8);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    transform: translate(-50%, -50%);
-    transition: width 0.2s, height 0.2s, background 0.2s;
-    z-index: 9999;
-    mix-blend-mode: difference;
-  }
-
-  a:hover ~ .custom-cursor,
-  button:hover ~ .custom-cursor,
-  [role="button"]:hover ~ .custom-cursor {
-    width: 40px;
-    height: 40px;
-    border-color: rgba(59, 130, 246, 0.8);
-  }
-
-  a:hover ~ .custom-cursor-dot,
-  button:hover ~ .custom-cursor-dot,
-  [role="button"]:hover ~ .custom-cursor-dot {
-    width: 8px;
-    height: 8px;
-    background-color: rgba(59, 130, 246, 1);
+  @keyframes ripple-animation {
+    to {
+      transform: scale(4);
+      opacity: 0;
+    }
   }
 }
 
@@ -240,3 +215,4 @@
 * {
   transition: all 0.2s ease;
 }
+
