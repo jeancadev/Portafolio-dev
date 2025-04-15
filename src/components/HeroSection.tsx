@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Copy, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -33,10 +32,10 @@ const HeroSection = () => {
             <div className="space-y-6">
               <div className="text-left">
                 <p className="text-blue mb-2 text-xl md:text-2xl lg:text-3xl font-semibold">Hola, soy</p>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-2">
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight mb-2">
                   Jean Carlos
                 </h1>
-                <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground leading-tight">
+                <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-foreground leading-tight">
                   Desarrollador de Software
                 </h2>
               </div>
@@ -74,7 +73,6 @@ const HeroSection = () => {
             </div>
           </div>
           
-          {/* Right side: Avatar */}
           <div className="w-full md:w-2/5 flex justify-center md:justify-end animate-fade-in opacity-0 [animation-delay:0.4s]">
             <Avatar className="h-48 w-48 md:h-64 md:w-64 border-2 border-blue cursor-hover-effect">
               <AvatarImage src="/lovable-uploads/f4c0ebed-84ca-4304-abb5-30ac1fdcd669.png" alt="Foto de perfil" />
