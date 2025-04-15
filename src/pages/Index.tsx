@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import Navbar from '@/components/Navbar';
@@ -34,11 +33,9 @@ const Index = () => {
   });
 
   useEffect(() => {
-    // Detect system theme preference on load
     const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
     document.documentElement.classList.toggle('dark', isDarkMode);
     
-    // Set up a listener for changes in system theme preference
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleThemeChange = (e: MediaQueryListEvent) => {
       document.documentElement.classList.toggle('dark', e.matches);
@@ -46,24 +43,18 @@ const Index = () => {
     
     mediaQuery.addEventListener('change', handleThemeChange);
     
-    // Update the page title
     document.title = 'Portfolio | Desarrollador de Software';
     
-    // Optional: Scroll to top when page loads
     window.scrollTo(0, 0);
 
-    // Handle mouse movement for radial gradient effect
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
       
-      // Update CSS variables for radial gradient effect
       document.body.style.setProperty('--x', `${e.clientX}px`);
       document.body.style.setProperty('--y', `${e.clientY}px`);
     };
 
-    // Handle click for water ripple effect
     const handleClick = (e: MouseEvent) => {
-      // Only create ripples on empty space clicks (not on interactive elements)
       const target = e.target as HTMLElement;
       const isInteractive = 
         target.tagName === 'A' || 
@@ -78,7 +69,6 @@ const Index = () => {
       }
     };
 
-    // Create water ripple effect at mouse position
     const createRipple = (e: MouseEvent) => {
       const ripple = document.createElement('div');
       ripple.classList.add('ripple');
@@ -86,7 +76,6 @@ const Index = () => {
       ripple.style.top = `${e.clientY}px`;
       document.body.appendChild(ripple);
 
-      // Remove ripple after animation completes
       setTimeout(() => {
         if (document.body.contains(ripple)) {
           document.body.removeChild(ripple);
@@ -99,7 +88,6 @@ const Index = () => {
     
     setMounted(true);
     
-    // Clean up event listeners
     return () => {
       mediaQuery.removeEventListener('change', handleThemeChange);
       document.removeEventListener('mousemove', handleMouseMove);
@@ -107,7 +95,6 @@ const Index = () => {
     };
   }, []);
 
-  // Avoid hydration issues
   if (!mounted) {
     return null;
   }
@@ -118,19 +105,47 @@ const Index = () => {
       <main>
         <HeroSection />
         
-        <div ref={aboutRef} className={`transition-all duration-700 transform ${aboutInView ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+        <div 
+          ref={aboutRef} 
+          className={`transition-all duration-500 ease-out transform 
+            ${aboutInView 
+              ? 'translate-y-0 opacity-100 scale-[1.01]' 
+              : 'translate-y-10 opacity-0 scale-95'
+            }`}
+        >
           <AboutSection />
         </div>
 
-        <div ref={projectsRef} className={`transition-all duration-700 transform ${projectsInView ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+        <div 
+          ref={projectsRef} 
+          className={`transition-all duration-500 ease-out transform 
+            ${projectsInView 
+              ? 'translate-y-0 opacity-100 scale-[1.01]' 
+              : 'translate-y-10 opacity-0 scale-95'
+            }`}
+        >
           <ProjectsSection />
         </div>
 
-        <div ref={skillsRef} className={`transition-all duration-700 transform ${skillsInView ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+        <div 
+          ref={skillsRef} 
+          className={`transition-all duration-500 ease-out transform 
+            ${skillsInView 
+              ? 'translate-y-0 opacity-100 scale-[1.01]' 
+              : 'translate-y-10 opacity-0 scale-95'
+            }`}
+        >
           <SkillsSection />
         </div>
 
-        <div ref={contactRef} className={`transition-all duration-700 transform ${contactInView ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+        <div 
+          ref={contactRef} 
+          className={`transition-all duration-500 ease-out transform 
+            ${contactInView 
+              ? 'translate-y-0 opacity-100 scale-[1.01]' 
+              : 'translate-y-10 opacity-0 scale-95'
+            }`}
+        >
           <ContactSection />
         </div>
       </main>
