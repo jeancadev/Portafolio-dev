@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Copy, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -44,7 +45,7 @@ const HeroSection = () => {
                 Construyo aplicaciones modernas con tecnologías de vanguardia para crear experiencias digitales excepcionales.
               </p>
               
-              <div className="flex flex-wrap items-center gap-4 mt-6">
+              <div className="flex flex-wrap items-center gap-4 mt-6 pl-0 md:pl-1">
                 <div className="flex items-center gap-2 px-4 py-2 rounded-md bg-card/30 border border-muted/20">
                   <span className="text-sm md:text-base text-muted-foreground">
                     {email}
@@ -86,3 +87,4 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
+
