@@ -32,7 +32,7 @@ const HeroSection = () => {
           <div className="w-full md:w-3/5 animate-fade-in opacity-0 [animation-delay:0.2s]">
             <div className="space-y-6">
               <div className="text-left">
-                <p className="text-blue mb-1 text-lg">Hola, soy</p>
+                <p className="text-blue mb-2 text-xl md:text-2xl lg:text-3xl font-semibold">Hola, soy</p>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-2">
                   Jean Carlos
                 </h1>
@@ -41,11 +41,11 @@ const HeroSection = () => {
                 </h2>
               </div>
               
-              <p className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-xl">
+              <p className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-xl mt-4">
                 Construyo aplicaciones modernas con tecnologías de vanguardia para crear experiencias digitales excepcionales.
               </p>
               
-              <div className="flex flex-wrap items-center gap-4">
+              <div className="flex flex-wrap items-center gap-4 mt-6">
                 <div className="flex items-center gap-2 px-4 py-2 rounded-md bg-card/30 border border-muted/20">
                   <span className="text-sm md:text-base text-muted-foreground">
                     {email}
@@ -60,7 +60,11 @@ const HeroSection = () => {
                     <span className="sr-only">Copiar email</span>
                   </Button>
                 </div>
-                <Button variant="outline" className="border-blue text-blue hover:bg-blue hover:text-white gap-2 cursor-hover-effect" asChild>
+                <Button 
+                  variant="outline" 
+                  className="border-blue text-blue hover:bg-blue hover:text-white gap-2 cursor-hover-effect" 
+                  asChild
+                >
                   <a href={cvUrl} download>
                     <Download className="h-4 w-4" />
                     Descargar CV
