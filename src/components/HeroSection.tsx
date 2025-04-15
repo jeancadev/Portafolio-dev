@@ -29,14 +29,16 @@ const HeroSection = () => {
       
       <div className="container mx-auto max-w-5xl">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-          {/* Left side: Text content */}
           <div className="w-full md:w-3/5 animate-fade-in opacity-0 [animation-delay:0.2s]">
             <div className="space-y-6">
               <div className="text-left">
                 <p className="text-blue mb-1 text-lg">Hola, soy</p>
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight">
-                  Desarrollador de Software
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-2">
+                  Jean Carlos
                 </h1>
+                <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground leading-tight">
+                  Desarrollador de Software
+                </h2>
               </div>
               
               <p className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-xl">

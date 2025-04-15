@@ -1,5 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
 import AboutSection from '@/components/AboutSection';
@@ -11,6 +12,26 @@ import Footer from '@/components/Footer';
 const Index = () => {
   const [mounted, setMounted] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  const { ref: aboutRef, inView: aboutInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1
+  });
+
+  const { ref: projectsRef, inView: projectsInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1
+  });
+
+  const { ref: skillsRef, inView: skillsInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1
+  });
+
+  const { ref: contactRef, inView: contactInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1
+  });
 
   useEffect(() => {
     // Detect system theme preference on load
@@ -96,10 +117,22 @@ const Index = () => {
       <Navbar />
       <main>
         <HeroSection />
-        <AboutSection />
-        <ProjectsSection />
-        <SkillsSection />
-        <ContactSection />
+        
+        <div ref={aboutRef} className={`transition-all duration-700 transform ${aboutInView ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+          <AboutSection />
+        </div>
+
+        <div ref={projectsRef} className={`transition-all duration-700 transform ${projectsInView ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+          <ProjectsSection />
+        </div>
+
+        <div ref={skillsRef} className={`transition-all duration-700 transform ${skillsInView ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+          <SkillsSection />
+        </div>
+
+        <div ref={contactRef} className={`transition-all duration-700 transform ${contactInView ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+          <ContactSection />
+        </div>
       </main>
       <Footer />
     </div>
