@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { ExternalLink, Github } from 'lucide-react';
+import { Github } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -8,30 +7,27 @@ import { Button } from '@/components/ui/button';
 const projects = [
   {
     id: 1,
-    title: "E-commerce Dashboard",
-    description: "Panel de administración para tienda online con análisis de datos en tiempo real, gestión de inventario y procesamiento de pedidos.",
-    image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
-    tags: ["React", "Node.js", "Express", "MongoDB", "Redux"],
-    liveUrl: "#",
-    githubUrl: "#"
+    title: "Game Management Platform",
+    description: "Sistema robusto para gestión de partidas multijugador con autenticación JWT y comunicación en tiempo real vía SignalR. Implementa Clean Architecture y principios SOLID para garantizar un código mantenible y escalable.",
+    image: "/lovable-uploads/f4c0ebed-84ca-4304-abb5-30ac1fdcd669.png",
+    tags: ["ASP.NET Core 8.0", "Entity Framework Core", "Clean Architecture", "JWT", "SignalR", "Swagger"],
+    githubUrl: "https://github.com/jeancadev/GameManagementPlatform-"
   },
   {
     id: 2,
-    title: "Sistema de Gestión de Proyectos",
-    description: "Aplicación web para gestionar proyectos, tareas y colaboradores con chat en tiempo real y seguimiento de tiempo.",
-    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
-    tags: ["Vue.js", "Firebase", "Tailwind CSS", "GraphQL"],
-    liveUrl: "#",
-    githubUrl: "#"
+    title: "Business Management",
+    description: "Sistema CRUD empresarial optimizado con Clean Architecture y Docker. Gestiona clientes, productos, ventas e inventarios con autenticación JWT y seeding automático de datos para un despliegue rápido.",
+    image: "/lovable-uploads/business-management-swagger.png",
+    tags: ["C# .NET Core", "ASP.NET Core", "SQL Server", "Docker", "Entity Framework", "Clean Architecture"],
+    githubUrl: "https://github.com/jeancadev/BusinessManagement"
   },
   {
     id: 3,
-    title: "Aplicación de Finanzas Personales",
-    description: "App para gestionar finanzas personales con visualización de datos, presupuestos, y análisis de gastos.",
-    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6",
-    tags: ["React Native", "TypeScript", "Redux", "Node.js", "PostgreSQL"],
-    liveUrl: "#",
-    githubUrl: "#"
+    title: "Real-Time Dashboard",
+    description: "Dashboard interactivo full-stack para monitoreo de recursos en tiempo real. Integra frontend React con backend Python Flask, ofreciendo una solución profesional y escalable en contenedores Docker.",
+    image: "/lovable-uploads/d0ad05af-09b3-4da0-a524-8344f8c9fc04.png",
+    tags: ["React", "Python Flask", "Docker", "WebSocket", "CSS", "RESTful API"],
+    githubUrl: "https://github.com/jeancadev/real-time-dashboard"
   }
 ];
 
@@ -74,15 +70,10 @@ const ProjectsSection = () => {
                 </div>
               </CardContent>
               
-              <CardFooter className="flex justify-between">
+              <CardFooter className="flex justify-center">
                 <Button variant="ghost" size="sm" className="text-blue hover:text-blue-light">
                   <a href={project.githubUrl} className="flex items-center gap-1" target="_blank" rel="noopener noreferrer">
-                    <Github size={16} /> Código
-                  </a>
-                </Button>
-                <Button variant="ghost" size="sm" className="text-blue hover:text-blue-light">
-                  <a href={project.liveUrl} className="flex items-center gap-1" target="_blank" rel="noopener noreferrer">
-                    <ExternalLink size={16} /> Demo
+                    <Github size={16} /> Ver Código
                   </a>
                 </Button>
               </CardFooter>
@@ -92,7 +83,10 @@ const ProjectsSection = () => {
 
         <div className="mt-12 text-center">
           <Button className="bg-blue hover:bg-blue-dark text-white">
-            Ver más proyectos
+            <a href="https://github.com/jeancadev" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+              <Github size={18} />
+              Ver más proyectos
+            </a>
           </Button>
         </div>
       </div>
