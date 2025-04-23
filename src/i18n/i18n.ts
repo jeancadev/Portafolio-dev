@@ -91,6 +91,9 @@ i18n
           "messageSuccess": "Thank you for contacting me. I'll reply as soon as possible.",
           "messageError": "Error sending message",
           "tryAgain": "Please try again later.",
+
+          // Footer
+          "allRightsReserved": "All rights reserved."
         }
       },
       es: {
@@ -176,6 +179,9 @@ i18n
           "messageSuccess": "Gracias por contactarme. Te responderé lo antes posible.",
           "messageError": "Error al enviar mensaje",
           "tryAgain": "Por favor, intenta nuevamente más tarde.",
+
+          // Footer
+          "allRightsReserved": "Todos los derechos reservados."
         }
       }
     },
