@@ -1,4 +1,4 @@
-# Portfolio de Jean Carlos | Desarrollador Web
+# Portfolio Jean Carlos | Desarrollador Web
 
 ## 🚀 Descripción
 Portfolio profesional desarrollado con React y TypeScript, mostrando mis proyectos y habilidades en desarrollo web. Diseñado con un enfoque moderno y minimalista utilizando las últimas tecnologías del ecosistema React.
@@ -22,10 +22,10 @@ Portfolio profesional desarrollado con React y TypeScript, mostrando mis proyect
 
 ```bash
 # Clonar el repositorio
-git clone https://github.com/tu-usuario/portfolio-dev.git
+git clone https://github.com/jeancadev/Portafolio-dev.git
 
 # Navegar al directorio
-cd portfolio-dev
+cd Portfolio-dev
 
 # Instalar dependencias
 npm install
