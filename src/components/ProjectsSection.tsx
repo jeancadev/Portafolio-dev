@@ -9,7 +9,7 @@ const projects = [
     id: 1,
     title: "Game Management Platform",
     description: "Sistema robusto para gestión de partidas multijugador con autenticación JWT y comunicación en tiempo real vía SignalR. Implementa Clean Architecture y principios SOLID para garantizar un código mantenible y escalable.",
-    image: "/lovable-uploads/f4c0ebed-84ca-4304-abb5-30ac1fdcd669.png",
+    image: "/projects/proyecto2.png",
     tags: ["ASP.NET Core 8.0", "Entity Framework Core", "Clean Architecture", "JWT", "SignalR", "Swagger"],
     githubUrl: "https://github.com/jeancadev/GameManagementPlatform-"
   },
@@ -17,7 +17,7 @@ const projects = [
     id: 2,
     title: "Business Management",
     description: "Sistema CRUD empresarial optimizado con Clean Architecture y Docker. Gestiona clientes, productos, ventas e inventarios con autenticación JWT y seeding automático de datos para un despliegue rápido.",
-    image: "/lovable-uploads/business-management-swagger.png",
+    image: "/projects/proyecto.png",
     tags: ["C# .NET Core", "ASP.NET Core", "SQL Server", "Docker", "Entity Framework", "Clean Architecture"],
     githubUrl: "https://github.com/jeancadev/BusinessManagement"
   },
@@ -25,7 +25,7 @@ const projects = [
     id: 3,
     title: "Real-Time Dashboard",
     description: "Dashboard interactivo full-stack para monitoreo de recursos en tiempo real. Integra frontend React con backend Python Flask, ofreciendo una solución profesional y escalable en contenedores Docker.",
-    image: "/lovable-uploads/d0ad05af-09b3-4da0-a524-8344f8c9fc04.png",
+    image: "/projects/proyecto3.png",
     tags: ["React", "Python Flask", "Docker", "WebSocket", "CSS", "RESTful API"],
     githubUrl: "https://github.com/jeancadev/real-time-dashboard"
   }
@@ -45,34 +45,45 @@ const ProjectsSection = () => {
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
-            <Card key={project.id} className="project-card overflow-hidden group backdrop-blur-sm border border-muted/20 bg-card/30">
-              <div className="relative h-48 overflow-hidden">
+            <Card key={project.id} className="project-card flex flex-col h-full group backdrop-blur-sm border border-muted/20 bg-card/30">
+              <div className="relative h-[250px] overflow-hidden">
                 <img 
                   src={project.image} 
                   alt={project.title} 
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-70"></div>
               </div>
               
-              <CardHeader>
-                <CardTitle className="text-xl">{project.title}</CardTitle>
-                <CardDescription className="line-clamp-2">{project.description}</CardDescription>
+              <CardHeader className="flex-none">
+                <CardTitle className="text-xl mb-2">{project.title}</CardTitle>
+                <CardDescription className="text-sm text-muted-foreground line-clamp-4">
+                  {project.description}
+                </CardDescription>
               </CardHeader>
               
-              <CardContent>
+              <CardContent className="flex-grow">
                 <div className="flex flex-wrap gap-2">
                   {project.tags.map((tag) => (
-                    <Badge key={tag} variant="outline" className="bg-blue/10 text-blue border-blue/20">
+                    <Badge 
+                      key={tag} 
+                      variant="outline" 
+                      className="bg-blue/10 text-blue border-blue/20 text-xs py-1"
+                    >
                       {tag}
                     </Badge>
                   ))}
                 </div>
               </CardContent>
               
-              <CardFooter className="flex justify-center">
-                <Button variant="ghost" size="sm" className="text-blue hover:text-blue-light">
-                  <a href={project.githubUrl} className="flex items-center gap-1" target="_blank" rel="noopener noreferrer">
+              <CardFooter className="flex-none mt-auto">
+                <Button variant="ghost" size="sm" className="w-full text-blue hover:text-blue-light">
+                  <a 
+                    href={project.githubUrl} 
+                    className="flex items-center justify-center gap-2 w-full" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                  >
                     <Github size={16} /> Ver Código
                   </a>
                 </Button>

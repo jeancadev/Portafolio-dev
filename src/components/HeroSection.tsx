@@ -1,16 +1,30 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Copy, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useToast } from '@/hooks/use-toast';
+import TypewriterEffect from './TypewriterEffect';
+import { useTranslation } from 'react-i18next';
 
 const HeroSection = () => {
   const { toast } = useToast();
   const [copied, setCopied] = useState(false);
+  const [cycleKey, setCycleKey] = useState(0);
+  const { t } = useTranslation();
 
   const email = "jean.obandocortes@gmail.com"; 
   const cvUrl = "/cv.pdf";
+  const restartDelay = 25000; // Aumentado a 25 segundos para dar más tiempo de lectura
+
+  const description = "Especialista en desarrollo Full Stack con enfoque en arquitecturas modernas y soluciones escalables. Creo software que marca la diferencia, combinando excelencia técnica con innovación práctica.";
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCycleKey(prev => prev + 1);
+    }, restartDelay);
+
+    return () => clearInterval(intervalId);
+  }, [restartDelay]);
 
   const copyEmail = () => {
     navigator.clipboard.writeText(email).then(() => {
@@ -25,49 +39,67 @@ const HeroSection = () => {
 
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center section-padding pt-28 bg-background text-foreground">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_20%,rgba(59,130,246,0.1)_0%,rgba(0,0,0,0)_80%)]"></div>
-      
-      <div className="container mx-auto max-w-5xl">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-          <div className="w-full md:w-3/5 animate-fade-in opacity-0 [animation-delay:0.2s]">
-            <div className="space-y-6">
-              <div className="text-left">
-                <p className="text-blue mb-2 text-xl md:text-2xl lg:text-3xl font-semibold">Hola, soy</p>
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight mb-2">
-                  Jean Carlos
-                </h1>
-                <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-foreground leading-tight">
-                  Desarrollador de Software
-                </h2>
+      <div className="container mx-auto">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-12">
+          <div className="flex-1 text-center md:text-left">
+            <div className="space-y-4 animate-fade-in opacity-0 [animation-delay:0.2s]">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
+                <TypewriterEffect 
+                  text={t('hello')}
+                  delay={30}
+                  showCursor={false}
+                  startDelay={0}
+                  repeat={false}
+                />
+                <br />
+                <span className="text-blue">
+                  <TypewriterEffect 
+                    text="Jean Carlos"
+                    delay={30}
+                    showCursor={false}
+                    startDelay={1000}
+                    repeat={false}
+                  />
+                </span>
+              </h1>
+              
+              <div className="text-sm md:text-base lg:text-lg text-muted-foreground max-w-xl leading-relaxed mt-6">
+                <TypewriterEffect 
+                  text={t('description')}
+                  delay={30}
+                  showCursor={true}
+                  startDelay={2000}
+                  cycleKey={cycleKey}
+                  repeat={true}
+                />
               </div>
               
-              <p className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-xl mt-4">
-                Construyo aplicaciones modernas con tecnologías de vanguardia para crear experiencias digitales excepcionales.
-              </p>
-              
-              <div className="flex flex-wrap items-center gap-4 mt-6 pl-0 md:pl-1">
-                <div className="flex items-center gap-2 px-4 py-2 rounded-md bg-card/30 border border-muted/20">
-                  <span className="text-sm md:text-base text-muted-foreground">
-                    {email}
-                  </span>
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    onClick={copyEmail} 
-                    className="h-8 w-8 text-blue hover:text-blue-dark hover:bg-blue/10 cursor-hover-effect"
-                  >
-                    <Copy className="h-4 w-4" />
-                    <span className="sr-only">Copiar email</span>
-                  </Button>
+              <div className="flex flex-col md:flex-row items-center gap-4 mt-8">
+                <div className="w-full md:w-auto">
+                  <div className="flex items-center justify-center md:justify-start gap-2 px-4 py-2 rounded-md bg-card/30 border border-muted/20">
+                    <span className="text-sm md:text-base text-muted-foreground">
+                      {email}
+                    </span>
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      onClick={copyEmail} 
+                      className="h-8 w-8 text-blue hover:text-blue-dark hover:bg-blue/10"
+                    >
+                      <Copy className="h-4 w-4" />
+                      <span className="sr-only">Copiar email</span>
+                    </Button>
+                  </div>
                 </div>
+
                 <Button 
                   variant="outline" 
-                  className="border-blue text-blue hover:bg-blue hover:text-white gap-2 cursor-hover-effect" 
+                  className="w-full md:w-auto border-blue text-blue hover:bg-blue hover:text-white gap-2" 
                   asChild
                 >
                   <a href={cvUrl} download>
                     <Download className="h-4 w-4" />
-                    Descargar CV
+                    {t('downloadCV')}
                   </a>
                 </Button>
               </div>
@@ -75,7 +107,7 @@ const HeroSection = () => {
           </div>
           
           <div className="w-full md:w-2/5 flex justify-center md:justify-end animate-fade-in opacity-0 [animation-delay:0.4s]">
-            <Avatar className="h-48 w-48 md:h-64 md:w-64 border-2 border-blue cursor-hover-effect">
+            <Avatar className="h-48 w-48 md:h-64 md:w-64 border-2 border-blue">
               <AvatarImage src="/lovable-uploads/f4c0ebed-84ca-4304-abb5-30ac1fdcd669.png" alt="Foto de perfil" />
               <AvatarFallback>JO</AvatarFallback>
             </Avatar>

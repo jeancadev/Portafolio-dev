@@ -1,18 +1,21 @@
-
 import React from 'react';
 import { Book, Laptop, Code, Users } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import { useTranslation } from 'react-i18next';
 
 const AboutSection = () => {
+  const { t } = useTranslation();
+
   return (
-    <section id="about" className="section-padding bg-gradient-to-b from-background to-background/95 text-foreground">
+    <section id="about" className="section-padding mt-24 bg-gradient-to-b from-background to-background/95 text-foreground">
       <div className="container mx-auto">
         <div className="mb-12 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold heading-accent pb-2 mb-4">Sobre mí</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Soy un desarrollador de software apasionado por crear soluciones tecnológicas innovadoras, 
-            con experiencia en el desarrollo de aplicaciones web y móviles.
-          </p>
+          <h2 className="text-3xl md:text-4xl font-bold heading-accent pb-2 mb-4">{t('aboutMe')}</h2>
+          <div className="text-muted-foreground max-w-3xl mx-auto space-y-4">
+            <p>{t('aboutDescription1')}</p>
+            <p>{t('aboutDescription2')}</p>
+            <p>{t('aboutDescription3')}</p>
+          </div>
         </div>
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
@@ -59,40 +62,41 @@ const AboutSection = () => {
 
         <div className="mt-16 grid md:grid-cols-2 gap-8">
           <div>
-            <h3 className="text-2xl font-bold mb-4 text-foreground">Mi Trayectoria</h3>
-            <p className="text-muted-foreground mb-6">
-              Con más de 5 años de experiencia en desarrollo de software, he tenido la oportunidad de trabajar 
-              en diversos proyectos que me han permitido desarrollar una sólida experiencia técnica y de negocio.
-            </p>
-            <p className="text-muted-foreground">
-              Mi enfoque se centra en crear aplicaciones web y móviles de alto rendimiento con una excelente 
-              experiencia de usuario. Me apasiona aprender nuevas tecnologías y aplicarlas para resolver 
-              problemas complejos.
-            </p>
+            <h3 className="text-2xl font-bold mb-4 text-foreground">{t('professionalFocus')}</h3>
+            <div className="text-muted-foreground mb-6">
+              {t('focusDescription1')}
+            </div>
+            <div className="text-muted-foreground">
+              {t('focusDescription2')}
+            </div>
           </div>
           
           <div>
-            <h3 className="text-2xl font-bold mb-4 text-foreground">Intereses</h3>
-            <ul className="space-y-2 text-muted-foreground">
-              <li className="flex items-center gap-2">
-                <span className="text-blue">▹</span>
-                <span>Desarrollo web full-stack</span>
+            <h3 className="text-2xl font-bold mb-4 text-foreground">{t('specializationAreas')}</h3>
+            <ul className="space-y-3 text-muted-foreground">
+              <li className="flex items-center gap-3">
+                <span>💡</span>
+                <span>{t('area1')}</span>
               </li>
-              <li className="flex items-center gap-2">
-                <span className="text-blue">▹</span>
-                <span>Desarrollo de aplicaciones móviles</span>
+              <li className="flex items-center gap-3">
+                <span>⚡</span>
+                <span>{t('area2')}</span>
               </li>
-              <li className="flex items-center gap-2">
-                <span className="text-blue">▹</span>
-                <span>Arquitectura de software</span>
+              <li className="flex items-center gap-3">
+                <span>🐳</span>
+                <span>{t('area3')}</span>
               </li>
-              <li className="flex items-center gap-2">
-                <span className="text-blue">▹</span>
-                <span>Inteligencia Artificial</span>
+              <li className="flex items-center gap-3">
+                <span>☁️</span>
+                <span>{t('area4')}</span>
               </li>
-              <li className="flex items-center gap-2">
-                <span className="text-blue">▹</span>
-                <span>Cloud Computing</span>
+              <li className="flex items-center gap-3">
+                <span>🔄</span>
+                <span>{t('area5')}</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <span>🧠</span>
+                <span>{t('area6')}</span>
               </li>
             </ul>
           </div>

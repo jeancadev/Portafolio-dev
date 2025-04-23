@@ -1,35 +1,26 @@
-
 import React from 'react';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { Button } from '@/components/ui/button';
+import { useTranslation } from 'react-i18next';
 
-interface LanguageToggleProps {
-  currentLanguage: 'es' | 'en';
-  onChange: (language: 'es' | 'en') => void;
-}
+const LanguageToggle = () => {
+  const { i18n } = useTranslation();
 
-const LanguageToggle = ({ currentLanguage, onChange }: LanguageToggleProps) => {
+  const toggleLanguage = () => {
+    const newLang = i18n.language === 'es' ? 'en' : 'es';
+    i18n.changeLanguage(newLang);
+  };
+
   return (
-    <ToggleGroup 
-      type="single" 
-      value={currentLanguage} 
-      onValueChange={(value) => value && onChange(value as 'es' | 'en')}
-      className="border border-white/10 bg-dark/40 rounded-full p-0.5"
+    <Button
+      variant="ghost"
+      size="icon"
+      onClick={toggleLanguage}
+      className="w-9 px-0 transition-transform hover:scale-110"
     >
-      <ToggleGroupItem 
-        value="es" 
-        aria-label="Español" 
-        className={`text-sm font-medium px-3 py-1 rounded-full transition-all cursor-hover-effect ${currentLanguage === 'es' ? 'bg-blue text-white' : 'text-light/80'}`}
-      >
-        ES
-      </ToggleGroupItem>
-      <ToggleGroupItem 
-        value="en" 
-        aria-label="English" 
-        className={`text-sm font-medium px-3 py-1 rounded-full transition-all cursor-hover-effect ${currentLanguage === 'en' ? 'bg-blue text-white' : 'text-light/80'}`}
-      >
-        EN
-      </ToggleGroupItem>
-    </ToggleGroup>
+      <span className="text-sm font-medium">
+        {i18n.language === 'es' ? 'EN' : 'ES'}
+      </span>
+    </Button>
   );
 };
 
