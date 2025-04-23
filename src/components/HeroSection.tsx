@@ -10,7 +10,8 @@ const HeroSection = () => {
   const { toast } = useToast();
   const [copied, setCopied] = useState(false);
   const [cycleKey, setCycleKey] = useState(0);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const [languageKey, setLanguageKey] = useState(0);
 
   const email = "jean.obandocortes@gmail.com"; 
   const cvUrl = "/cv.pdf";
@@ -25,6 +26,11 @@ const HeroSection = () => {
 
     return () => clearInterval(intervalId);
   }, [restartDelay]);
+
+  // Efecto para detectar cambios de idioma
+  useEffect(() => {
+    setLanguageKey(prev => prev + 1);
+  }, [i18n.language]);
 
   const copyEmail = () => {
     navigator.clipboard.writeText(email).then(() => {
@@ -50,6 +56,7 @@ const HeroSection = () => {
                   showCursor={false}
                   startDelay={0}
                   repeat={false}
+                  key={`hello-${languageKey}`}
                 />
                 <br />
                 <span className="text-blue">
@@ -59,6 +66,7 @@ const HeroSection = () => {
                     showCursor={false}
                     startDelay={1000}
                     repeat={false}
+                    key={`name-${languageKey}`}
                   />
                 </span>
               </h1>
@@ -71,6 +79,7 @@ const HeroSection = () => {
                   startDelay={2000}
                   cycleKey={cycleKey}
                   repeat={true}
+                  key={`desc-${languageKey}`}
                 />
               </div>
               
@@ -84,7 +93,9 @@ const HeroSection = () => {
                       variant="ghost" 
                       size="icon" 
                       onClick={copyEmail} 
-                      className="h-8 w-8 text-blue hover:text-blue-dark hover:bg-blue/10"
+                      className="h-8 w-8 text-blue hover:text-blue-dark hover:bg-blue/10 
+                               transition-all duration-300 hover:scale-110 hover:rotate-12 
+                               active:scale-95 focus:ring-2 focus:ring-blue/40"
                     >
                       <Copy className="h-4 w-4" />
                       <span className="sr-only">Copiar email</span>

@@ -3,43 +3,45 @@ import { Github } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-
-const projects = [
-  {
-    id: 1,
-    title: "Game Management Platform",
-    description: "Sistema robusto para gestión de partidas multijugador con autenticación JWT y comunicación en tiempo real vía SignalR. Implementa Clean Architecture y principios SOLID para garantizar un código mantenible y escalable.",
-    image: "/projects/proyecto2.png",
-    tags: ["ASP.NET Core 8.0", "Entity Framework Core", "Clean Architecture", "JWT", "SignalR", "Swagger"],
-    githubUrl: "https://github.com/jeancadev/GameManagementPlatform-"
-  },
-  {
-    id: 2,
-    title: "Business Management",
-    description: "Sistema CRUD empresarial optimizado con Clean Architecture y Docker. Gestiona clientes, productos, ventas e inventarios con autenticación JWT y seeding automático de datos para un despliegue rápido.",
-    image: "/projects/proyecto.png",
-    tags: ["C# .NET Core", "ASP.NET Core", "SQL Server", "Docker", "Entity Framework", "Clean Architecture"],
-    githubUrl: "https://github.com/jeancadev/BusinessManagement"
-  },
-  {
-    id: 3,
-    title: "Real-Time Dashboard",
-    description: "Dashboard interactivo full-stack para monitoreo de recursos en tiempo real. Integra frontend React con backend Python Flask, ofreciendo una solución profesional y escalable en contenedores Docker.",
-    image: "/projects/proyecto3.png",
-    tags: ["React", "Python Flask", "Docker", "WebSocket", "CSS", "RESTful API"],
-    githubUrl: "https://github.com/jeancadev/real-time-dashboard"
-  }
-];
+import { useTranslation } from 'react-i18next';
 
 const ProjectsSection = () => {
+  const { t } = useTranslation();
+
+  const projects = [
+    {
+      id: 1,
+      title: "Game Management Platform",
+      description: t('gameManagementDesc'),
+      image: "/projects/proyecto2.png",
+      tags: ["ASP.NET Core 8.0", "Entity Framework Core", "Clean Architecture", "JWT", "SignalR", "Swagger"],
+      githubUrl: "https://github.com/jeancadev/GameManagementPlatform-"
+    },
+    {
+      id: 2,
+      title: "Business Management",
+      description: t('businessManagementDesc'),
+      image: "/projects/proyecto.png",
+      tags: ["C# .NET Core", "ASP.NET Core", "SQL Server", "Docker", "Entity Framework", "Clean Architecture"],
+      githubUrl: "https://github.com/jeancadev/BusinessManagement"
+    },
+    {
+      id: 3,
+      title: "Real-Time Dashboard",
+      description: t('dashboardDesc'),
+      image: "/projects/proyecto3.png",
+      tags: ["React", "Python Flask", "Docker", "WebSocket", "CSS", "RESTful API"],
+      githubUrl: "https://github.com/jeancadev/real-time-dashboard"
+    }
+  ];
+
   return (
     <section id="projects" className="section-padding">
       <div className="container mx-auto">
         <div className="mb-12 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold heading-accent pb-2 mb-4">Proyectos Destacados</h2>
+          <h2 className="text-3xl md:text-4xl font-bold heading-accent pb-2 mb-4">{t('featuredProjects')}</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Estos son algunos de los proyectos en los que he trabajado recientemente.
-            Cada uno demuestra diferentes habilidades y tecnologías.
+            {t('projectsDescription')}
           </p>
         </div>
 
@@ -49,7 +51,7 @@ const ProjectsSection = () => {
               <div className="relative h-[250px] overflow-hidden">
                 <img 
                   src={project.image} 
-                  alt={project.title} 
+                  alt={project.title}
                   className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-70"></div>
@@ -84,7 +86,7 @@ const ProjectsSection = () => {
                     target="_blank" 
                     rel="noopener noreferrer"
                   >
-                    <Github size={16} /> Ver Código
+                    <Github size={16} /> {t('viewCode')}
                   </a>
                 </Button>
               </CardFooter>
@@ -96,7 +98,7 @@ const ProjectsSection = () => {
           <Button className="bg-blue hover:bg-blue-dark text-white">
             <a href="https://github.com/jeancadev" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
               <Github size={18} />
-              Ver más proyectos
+              {t('viewMoreProjects')}
             </a>
           </Button>
         </div>

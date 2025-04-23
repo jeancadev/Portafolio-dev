@@ -7,7 +7,7 @@ const SkillsSection = () => {
   
   const skillGroups = [
     {
-      category: "Frontend",
+      category: t("frontend"),
       icon: <Globe className="w-8 h-8 mb-4 text-blue" />,
       skills: [
         "JavaScript", 
@@ -19,7 +19,7 @@ const SkillsSection = () => {
       ]
     },
     {
-      category: "Backend",
+      category: t("backend"),
       icon: <Server className="w-8 h-8 mb-4 text-blue" />,
       skills: [
         "Node.js", 
@@ -32,7 +32,7 @@ const SkillsSection = () => {
       ]
     },
     {
-      category: "Otros",
+      category: t("others"),
       icon: <Code className="w-8 h-8 mb-4 text-blue" />,
       skills: [
         "Git", 

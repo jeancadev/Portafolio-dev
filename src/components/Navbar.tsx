@@ -62,8 +62,8 @@ const Navbar = () => {
     <header 
       className={`fixed top-0 w-full z-50 transition-all duration-300 ease-in-out border-b border-neutral-200/10 ${
         isScrolled 
-          ? 'bg-background/75 backdrop-blur-xl shadow-lg py-2' 
-          : 'bg-background/60 backdrop-blur-lg py-4'
+          ? 'bg-background/65 backdrop-blur-2xl shadow-lg py-2' 
+          : 'bg-background/50 backdrop-blur-xl py-4'
       }`}
     >
       <nav className="container mx-auto px-6 flex items-center justify-between">
@@ -101,7 +101,7 @@ const Navbar = () => {
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent className="w-[300px] bg-background/80 backdrop-blur-xl border-neutral-200/10">
+            <SheetContent className="w-[300px] bg-background/60 backdrop-blur-3xl border-neutral-200/10">
               <div className="flex flex-col gap-4 mt-8">
                 {menuItems.map((item) => (
                   <a

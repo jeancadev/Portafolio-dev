@@ -24,8 +24,8 @@ const AboutSection = () => {
               <div className="mb-4 rounded-full bg-blue/10 p-3">
                 <Code className="h-6 w-6 text-blue" />
               </div>
-              <h3 className="mb-2 font-bold text-foreground">Desarrollo</h3>
-              <p className="text-sm text-muted-foreground">Creo soluciones robustas y escalables utilizando las mejores prácticas.</p>
+              <h3 className="mb-2 font-bold text-foreground">{t('cardDevelopment')}</h3>
+              <p className="text-sm text-muted-foreground">{t('cardDevelopmentDesc')}</p>
             </CardContent>
           </Card>
 
@@ -34,8 +34,8 @@ const AboutSection = () => {
               <div className="mb-4 rounded-full bg-blue/10 p-3">
                 <Laptop className="h-6 w-6 text-blue" />
               </div>
-              <h3 className="mb-2 font-bold text-foreground">Tecnologías</h3>
-              <p className="text-sm text-muted-foreground">Domino tecnologías modernas para crear aplicaciones de alto rendimiento.</p>
+              <h3 className="mb-2 font-bold text-foreground">{t('cardTech')}</h3>
+              <p className="text-sm text-muted-foreground">{t('cardTechDesc')}</p>
             </CardContent>
           </Card>
 
@@ -44,8 +44,8 @@ const AboutSection = () => {
               <div className="mb-4 rounded-full bg-blue/10 p-3">
                 <Users className="h-6 w-6 text-blue" />
               </div>
-              <h3 className="mb-2 font-bold text-foreground">Colaboración</h3>
-              <p className="text-sm text-muted-foreground">Trabajo eficientemente en equipos multidisciplinarios.</p>
+              <h3 className="mb-2 font-bold text-foreground">{t('cardCollab')}</h3>
+              <p className="text-sm text-muted-foreground">{t('cardCollabDesc')}</p>
             </CardContent>
           </Card>
 
@@ -54,8 +54,8 @@ const AboutSection = () => {
               <div className="mb-4 rounded-full bg-blue/10 p-3">
                 <Book className="h-6 w-6 text-blue" />
               </div>
-              <h3 className="mb-2 font-bold text-foreground">Aprendizaje</h3>
-              <p className="text-sm text-muted-foreground">Constantemente actualizo mis conocimientos para mantenerme a la vanguardia.</p>
+              <h3 className="mb-2 font-bold text-foreground">{t('cardLearning')}</h3>
+              <p className="text-sm text-muted-foreground">{t('cardLearningDesc')}</p>
             </CardContent>
           </Card>
         </div>
