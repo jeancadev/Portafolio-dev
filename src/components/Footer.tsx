@@ -1,7 +1,9 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const Footer = () => {
+  const { t } = useTranslation();
   const currentYear = new Date().getFullYear();
   
   return (
@@ -10,19 +12,19 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">
             <p className="text-muted-foreground">
-              © {currentYear} Portfolio. Todos los derechos reservados.
+              © {currentYear} Portfolio. {t("allRightsReserved", "Todos los derechos reservados.")}
             </p>
           </div>
           
           <div className="flex gap-6">
             <a href="#home" className="text-muted-foreground hover:text-blue transition-colors">
-              Inicio
+              {t('nav.home')}
             </a>
             <a href="#projects" className="text-muted-foreground hover:text-blue transition-colors">
-              Proyectos
+              {t('nav.projects')}
             </a>
             <a href="#contact" className="text-muted-foreground hover:text-blue transition-colors">
-              Contacto
+              {t('nav.contact')}
             </a>
           </div>
         </div>
@@ -32,3 +34,4 @@ const Footer = () => {
 };
 
 export default Footer;
+

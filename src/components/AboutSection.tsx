@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Book, Laptop, Code, Users } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
@@ -24,8 +25,8 @@ const AboutSection = () => {
               <div className="mb-4 rounded-full bg-blue/10 p-3">
                 <Code className="h-6 w-6 text-blue" />
               </div>
-              <h3 className="mb-2 font-bold text-foreground">Desarrollo</h3>
-              <p className="text-sm text-muted-foreground">Creo soluciones robustas y escalables utilizando las mejores prácticas.</p>
+              <h3 className="mb-2 font-bold text-foreground">{t("aboutDev", "Desarrollo")}</h3>
+              <p className="text-sm text-muted-foreground">{t("aboutDevDesc", "Creo soluciones robustas y escalables utilizando las mejores prácticas.")}</p>
             </CardContent>
           </Card>
 
@@ -34,8 +35,8 @@ const AboutSection = () => {
               <div className="mb-4 rounded-full bg-blue/10 p-3">
                 <Laptop className="h-6 w-6 text-blue" />
               </div>
-              <h3 className="mb-2 font-bold text-foreground">Tecnologías</h3>
-              <p className="text-sm text-muted-foreground">Domino tecnologías modernas para crear aplicaciones de alto rendimiento.</p>
+              <h3 className="mb-2 font-bold text-foreground">{t("aboutTech", "Tecnologías")}</h3>
+              <p className="text-sm text-muted-foreground">{t("aboutTechDesc", "Domino tecnologías modernas para crear aplicaciones de alto rendimiento.")}</p>
             </CardContent>
           </Card>
 
@@ -44,8 +45,8 @@ const AboutSection = () => {
               <div className="mb-4 rounded-full bg-blue/10 p-3">
                 <Users className="h-6 w-6 text-blue" />
               </div>
-              <h3 className="mb-2 font-bold text-foreground">Colaboración</h3>
-              <p className="text-sm text-muted-foreground">Trabajo eficientemente en equipos multidisciplinarios.</p>
+              <h3 className="mb-2 font-bold text-foreground">{t("aboutCollab", "Colaboración")}</h3>
+              <p className="text-sm text-muted-foreground">{t("aboutCollabDesc", "Trabajo eficientemente en equipos multidisciplinarios.")}</p>
             </CardContent>
           </Card>
 
@@ -54,8 +55,8 @@ const AboutSection = () => {
               <div className="mb-4 rounded-full bg-blue/10 p-3">
                 <Book className="h-6 w-6 text-blue" />
               </div>
-              <h3 className="mb-2 font-bold text-foreground">Aprendizaje</h3>
-              <p className="text-sm text-muted-foreground">Constantemente actualizo mis conocimientos para mantenerme a la vanguardia.</p>
+              <h3 className="mb-2 font-bold text-foreground">{t("aboutLearn", "Aprendizaje")}</h3>
+              <p className="text-sm text-muted-foreground">{t("aboutLearnDesc", "Constantemente actualizo mis conocimientos para mantenerme a la vanguardia.")}</p>
             </CardContent>
           </Card>
         </div>
@@ -107,3 +108,4 @@ const AboutSection = () => {
 };
 
 export default AboutSection;
+

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Code, Database, Globe, Server } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -7,7 +8,7 @@ const SkillsSection = () => {
   
   const skillGroups = [
     {
-      category: "Frontend",
+      category: t("frontend", "Frontend"),
       icon: <Globe className="w-8 h-8 mb-4 text-blue" />,
       skills: [
         "JavaScript", 
@@ -19,7 +20,7 @@ const SkillsSection = () => {
       ]
     },
     {
-      category: "Backend",
+      category: t("backend", "Backend"),
       icon: <Server className="w-8 h-8 mb-4 text-blue" />,
       skills: [
         "Node.js", 
@@ -32,7 +33,7 @@ const SkillsSection = () => {
       ]
     },
     {
-      category: "Otros",
+      category: t("otherSkills", "Otros"),
       icon: <Code className="w-8 h-8 mb-4 text-blue" />,
       skills: [
         "Git", 
@@ -102,3 +103,4 @@ const SkillsSection = () => {
 };
 
 export default SkillsSection;
+
