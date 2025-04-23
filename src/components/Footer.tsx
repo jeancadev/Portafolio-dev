@@ -11,11 +11,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">
             <p className="text-muted-foreground">
-<<<<<<< HEAD
               © {currentYear} Portfolio. {t('allRightsReserved')}
-=======
-              © {currentYear} Portfolio. {t("allRightsReserved", "Todos los derechos reservados.")}
->>>>>>> 98f7ee48efb0f6a932cdb4e719c38d8d7e81a866
             </p>
           </div>
           
