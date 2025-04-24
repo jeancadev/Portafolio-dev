@@ -14,7 +14,7 @@ const HeroSection = () => {
   const [languageKey, setLanguageKey] = useState(0);
 
   const email = "jean.obandocortes@gmail.com"; 
-  const cvUrl = "/cv.pdf";
+  const cvUrl = "/docs/JeanCarlosCV.pdf";
   const restartDelay = 25000; // Aumentado a 25 segundos para dar más tiempo de lectura
 
   const description = "Especialista en desarrollo Full Stack con enfoque en arquitecturas modernas y soluciones escalables. Creo software que marca la diferencia, combinando excelencia técnica con innovación práctica.";
@@ -118,9 +118,17 @@ const HeroSection = () => {
           </div>
           
           <div className="w-full md:w-2/5 flex justify-center md:justify-end animate-fade-in opacity-0 [animation-delay:0.4s]">
-            <Avatar className="h-48 w-48 md:h-64 md:w-64 border-2 border-blue">
-              <AvatarImage src="/lovable-uploads/f4c0ebed-84ca-4304-abb5-30ac1fdcd669.png" alt="Foto de perfil" />
-              <AvatarFallback>JO</AvatarFallback>
+            <Avatar className="h-48 w-48 md:h-64 md:w-64 border-2 border-blue 
+                             transition-all duration-300 ease-in-out 
+                             hover:scale-105 hover:shadow-xl hover:shadow-blue/20
+                             hover:border-4">
+              <AvatarImage 
+                src="/profile/profile.jpg" 
+                alt="Foto de perfil de Jean Carlos"
+                className="transition-all duration-300 ease-in-out
+                          hover:brightness-110" 
+              />
+              <AvatarFallback>JC</AvatarFallback>
             </Avatar>
           </div>
         </div>
