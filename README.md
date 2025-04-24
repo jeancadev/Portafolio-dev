@@ -27,7 +27,7 @@ Portfolio profesional desarrollado con React y TypeScript, mostrando mis proyect
 git clone https://github.com/jeancadev/Portafolio-dev.git
 
 # Navegar al directorio
-cd portfolio-dev
+cd Portafolio-dev
 
 # Instalar dependencias
 npm install
