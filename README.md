@@ -1,7 +1,9 @@
-# Portfolio Jean Carlos | Desarrollador Web
+# Portfolio de Jean Carlos | Desarrollador Web
 
 ## 🚀 Descripción
 Portfolio profesional desarrollado con React y TypeScript, mostrando mis proyectos y habilidades en desarrollo web. Diseñado con un enfoque moderno y minimalista utilizando las últimas tecnologías del ecosistema React.
+
+🌐 **Ver Portfolio:** [jeancadev-portafolio.vercel.app](https://jeancadev-portafolio.vercel.app/)
 
 ## ⚡ Tecnologías Utilizadas
 - React 18
@@ -25,7 +27,7 @@ Portfolio profesional desarrollado con React y TypeScript, mostrando mis proyect
 git clone https://github.com/jeancadev/Portafolio-dev.git
 
 # Navegar al directorio
-cd Portfolio-dev
+cd portfolio-dev
 
 # Instalar dependencias
 npm install
@@ -40,6 +42,15 @@ npm run dev
 - `npm run preview` - Vista previa de la versión de producción
 - `npm run lint` - Ejecuta el linter
 - `npm run type-check` - Verifica tipos de TypeScript
+
+## 🚀 Despliegue
+El portfolio está desplegado y alojado en Vercel, aprovechando sus características de:
+- Despliegue automático desde GitHub
+- SSL gratuito
+- Alto rendimiento
+- Integración perfecta con React/Vite
+
+**URL del Portfolio:** [jeancadev-portafolio.vercel.app](https://jeancadev-portafolio.vercel.app/)
 
 ## 📝 Licencia
 MIT
