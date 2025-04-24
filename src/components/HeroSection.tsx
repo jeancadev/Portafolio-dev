@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Copy, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -12,6 +12,7 @@ const HeroSection = () => {
   const [cycleKey, setCycleKey] = useState(0);
   const { t, i18n } = useTranslation();
   const [languageKey, setLanguageKey] = useState(0);
+  const imageRef = useRef<HTMLImageElement>(null);
 
   const email = "jean.obandocortes@gmail.com"; 
   const cvUrl = "/docs/JeanCarlosCV.pdf";
@@ -31,6 +32,14 @@ const HeroSection = () => {
   useEffect(() => {
     setLanguageKey(prev => prev + 1);
   }, [i18n.language]);
+
+  useEffect(() => {
+    if (imageRef.current) {
+      imageRef.current.decode().catch(() => {
+        // Manejo silencioso del error si la imagen falla al decodificar
+      });
+    }
+  }, []);
 
   const copyEmail = () => {
     navigator.clipboard.writeText(email).then(() => {
@@ -123,12 +132,23 @@ const HeroSection = () => {
                              hover:scale-105 hover:shadow-xl hover:shadow-blue/20
                              hover:border-4">
               <AvatarImage 
+                ref={imageRef}
                 src="/profile/profile.jpg" 
                 alt="Foto de perfil de Jean Carlos"
-                className="transition-all duration-300 ease-in-out
-                          hover:brightness-110" 
+                className="transition-all duration-300 ease-in-out hover:brightness-110"
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+                style={{
+                  objectFit: 'cover',
+                  width: '100%',
+                  height: '100%',
+                  willChange: 'transform'
+                }}
               />
-              <AvatarFallback>JC</AvatarFallback>
+              <AvatarFallback>
+                <div className="animate-pulse bg-muted rounded-full w-full h-full" />
+              </AvatarFallback>
             </Avatar>
           </div>
         </div>
