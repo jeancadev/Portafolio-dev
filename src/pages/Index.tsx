@@ -43,7 +43,7 @@ const Index = () => {
     
     mediaQuery.addEventListener('change', handleThemeChange);
     
-    document.title = 'Portfolio | Desarrollador de Software';
+    document.title = 'Jean Carlos | Desarrollador de Software';
     
     window.scrollTo(0, 0);
 
