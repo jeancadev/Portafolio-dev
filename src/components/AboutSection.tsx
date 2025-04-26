@@ -1,10 +1,12 @@
-import React from 'react';
-import { Book, Laptop, Code, Users } from 'lucide-react';
+import React, { useState } from 'react';
+import { Book, Laptop, Code, Users, ChevronDown } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { useTranslation } from 'react-i18next';
 
 const AboutSection = () => {
   const { t } = useTranslation();
+  const [isExpanded, setIsExpanded] = useState(false);
 
   return (
     <section id="about" className="section-padding mt-24 bg-gradient-to-b from-background to-background/95 text-foreground">
@@ -63,11 +65,26 @@ const AboutSection = () => {
         <div className="mt-16 grid md:grid-cols-2 gap-8">
           <div>
             <h3 className="text-2xl font-bold mb-4 text-foreground">{t('professionalFocus')}</h3>
-            <div className="text-muted-foreground mb-6">
-              {t('focusDescription1')}
-            </div>
-            <div className="text-muted-foreground">
-              {t('focusDescription2')}
+            <div className="relative">
+              <div className={`text-muted-foreground overflow-hidden transition-all duration-500 ease-in-out ${!isExpanded ? 'max-h-28' : 'max-h-[500px]'}`}>
+                <p className="mb-4">
+                  {t('focusDescription1')}
+                </p>
+                <p className={`transform transition-opacity duration-500 ${isExpanded ? 'opacity-100' : 'opacity-0'}`}>
+                  {t('focusDescription2')}
+                </p>
+                {!isExpanded && (
+                  <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background to-transparent" />
+                )}
+              </div>
+              <Button
+                variant="ghost"
+                className="mt-2 w-full border border-blue/20 hover:bg-blue/10 text-blue hover:text-blue-dark group"
+                onClick={() => setIsExpanded(!isExpanded)}
+              >
+                <span>{isExpanded ? t('readLess') : t('readMore')}</span>
+                <ChevronDown className={`ml-2 h-4 w-4 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} />
+              </Button>
             </div>
           </div>
           

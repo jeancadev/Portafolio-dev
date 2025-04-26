@@ -31,6 +31,8 @@ i18n
           "professionalFocus": "Professional Focus",
           "focusDescription1": "My experience focuses on developing modern web applications, emphasizing performance optimization, implementing clean architectures, and leveraging Artificial Intelligence and advanced language models to enhance productivity and solution quality.",
           "focusDescription2": "I excel at designing and developing robust distributed systems, applying advanced design patterns, continuous integration practices, and AI-driven workflows that automate tasks, generate insights, and ensure maintainable and scalable code.",
+          "readMore": "Read More",
+          "readLess": "Show Less",
           
           // Specialization Areas
           "specializationAreas": "Specialization Areas",
@@ -120,6 +122,8 @@ i18n
           "professionalFocus": "Mi Enfoque Profesional",
           "focusDescription1": "Mi experiencia se centra en el desarrollo de aplicaciones web modernas, con énfasis en la optimización de rendimiento, la implementación de arquitecturas limpias y el aprovechamiento de Inteligencia Artificial y modelos de lenguaje avanzados para potenciar la productividad y la calidad de las soluciones.",
           "focusDescription2": "Destaco por mi habilidad para diseñar y desarrollar sistemas distribuidos robustos, aplicando patrones de diseño avanzados, prácticas de integración continua y flujos de trabajo impulsados por IA que automatizan tareas, generan insights y garantizan un código mantenible y escalable.",
+          "readMore": "Leer Más",
+          "readLess": "Mostrar Menos",
           
           // Specialization Areas
           "specializationAreas": "Áreas de Especialización",
