@@ -15,7 +15,7 @@ const HeroSection = () => {
   const imageRef = useRef<HTMLImageElement>(null);
 
   const email = "jean.obandocortes@gmail.com"; 
-  const cvUrl = "/docs/CV-JeanCarlosObando.pdf";
+  const cvUrl = "/docs/CV_JeanCarlosObando.pdf";
   const restartDelay = 25000; // Aumentado a 25 segundos para dar más tiempo de lectura
 
   const description = "Especialista en desarrollo Full Stack con enfoque en arquitecturas modernas y soluciones escalables. Creo software que marca la diferencia, combinando excelencia técnica con innovación práctica.";
