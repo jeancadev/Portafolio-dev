@@ -76,18 +76,18 @@ const HeroSection = () => {
                 <span className="inline-block">
                   <TypewriterEffect 
                     text={t('hello')}
-                    delay={25}
+                    delay={50}
                     showCursor={false}
-                    startDelay={600}
+                    startDelay={800}
                     repeat={false}
                     key={`hello-${languageKey}${heroInView ? '-visible' : ''}`}
                   />
                   <span className="text-blue ml-2">
                     <TypewriterEffect 
                       text="Jean Carlos"
-                      delay={25}
+                      delay={50}
                       showCursor={false}
-                      startDelay={1200}
+                      startDelay={1500}
                       repeat={false}
                       key={`name-${languageKey}${heroInView ? '-visible' : ''}`}
                     />
@@ -98,9 +98,9 @@ const HeroSection = () => {
               <div className="text-sm md:text-base lg:text-lg text-muted-foreground max-w-xl leading-relaxed mt-6">
                 <TypewriterEffect 
                   text={t('description')}
-                  delay={20}
+                  delay={40}
                   showCursor={true}
-                  startDelay={2500}
+                  startDelay={3000}
                   cycleKey={cycleKey}
                   repeat={true}
                   key={`desc-${languageKey}`}

@@ -60,8 +60,19 @@ const TypewriterEffect: React.FC<TypewriterEffectProps> = ({
 
   useEffect(() => {
     if (isTyping && currentIndex < words.length) {
-      // Usar una duración variable basada en la longitud de la palabra para un efecto más natural
-      const typingDelay = delay * Math.max(1, words[currentIndex]?.length / 2);
+      // Velocidad variable basada en varios factores para simular escritura humana
+      const word = words[currentIndex];
+      const wordLength = word?.length || 1;
+      
+      // Factores que afectan la velocidad:
+      // 1. Longitud de la palabra (palabras más largas toman más tiempo)
+      // 2. Pequeña variación aleatoria para simular ritmo humano
+      // 3. Pausa más larga después de signos de puntuación
+      const hasPunctuation = /[.,!?]$/.test(word || '');
+      const randomVariation = Math.random() * 0.5 + 0.75; // Variación entre 0.75x y 1.25x
+      const punctuationDelay = hasPunctuation ? 2.5 : 1;
+      
+      const typingDelay = delay * Math.min(2, wordLength / 3) * randomVariation * punctuationDelay;
       
       const timer = setTimeout(handleTyping, typingDelay);
       return () => clearTimeout(timer);
