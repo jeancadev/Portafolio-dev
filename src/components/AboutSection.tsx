@@ -9,8 +9,8 @@ const AboutSection = () => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <section id="about" className="section-padding mt-0 bg-gradient-to-b from-background to-background/95 text-foreground">
-      <div className="container mx-auto">
+    <section id="about" className="section-padding mt-0 bg-gradient-to-b from-background to-background/95 text-foreground content-visibility-auto">
+      <div className="container mx-auto px-4 md:px-6">
         <div className="mb-12 text-center">
           <h2 className="text-3xl md:text-4xl font-bold heading-accent pb-2 mb-4">{t('aboutMe')}</h2>
           <div className="text-muted-foreground max-w-3xl mx-auto space-y-4">
@@ -20,7 +20,7 @@ const AboutSection = () => {
           </div>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-4">
           <Card className="bg-card/50 border-muted/20 backdrop-blur-sm transition-transform hover:scale-105">
             <CardContent className="flex flex-col items-center p-6 text-center">
               <div className="mb-4 rounded-full bg-blue/10 p-3">

@@ -82,7 +82,9 @@ const Navbar = () => {
               key={item.href}
               href={item.href}
               onClick={handleNavClick}
-              className="text-sm font-medium text-foreground/75 hover:text-foreground transition-colors px-3 py-2 rounded-md hover:bg-foreground/10"
+              className="relative text-sm font-medium text-foreground/75 hover:text-foreground transition-colors px-3 py-2 rounded-md
+                       after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-blue
+                       after:transition-all after:duration-300 hover:after:w-full"
             >
               {item.label}
             </a>
@@ -108,7 +110,10 @@ const Navbar = () => {
                     key={item.href}
                     href={item.href}
                     onClick={handleNavClick}
-                    className="text-foreground/90 hover:text-foreground transition-colors px-4 py-3 rounded-md hover:bg-foreground/10"
+                    className="relative text-foreground/90 hover:text-foreground transition-colors px-4 py-3 rounded-md
+                             after:absolute after:bottom-0 after:left-2 after:right-2 after:h-[2px] after:bg-blue
+                             after:transform after:scale-x-0 after:transition-transform after:duration-300
+                             hover:after:scale-x-100"
                   >
                     {item.label}
                   </a>

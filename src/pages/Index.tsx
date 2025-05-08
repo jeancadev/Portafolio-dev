@@ -13,15 +13,15 @@ const Index = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   const { ref: aboutRef, inView: aboutInView } = useInView({
-    threshold: 0.25,
+    threshold: 0.1, // Reducido para mejorar la detección en móviles
     triggerOnce: true,
-    rootMargin: '-50px'
+    rootMargin: '-10px' // Reducido para activar antes la animación
   });
 
   const { ref: projectsRef, inView: projectsInView } = useInView({
-    threshold: 0.25,
+    threshold: 0.1, // Reducido para mejorar la detección en móviles
     triggerOnce: true,
-    rootMargin: '-50px'
+    rootMargin: '-10px' // Reducido para activar antes la animación
   });
 
   const { ref: skillsRef, inView: skillsInView } = useInView({

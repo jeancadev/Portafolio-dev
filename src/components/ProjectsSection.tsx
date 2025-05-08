@@ -36,8 +36,8 @@ const ProjectsSection = () => {
   ];
 
   return (
-    <section id="projects" className="section-padding">
-      <div className="container mx-auto">
+    <section id="projects" className="section-padding content-visibility-auto">
+      <div className="container mx-auto px-4 md:px-6">
         <div className="mb-12 text-center">
           <h2 className="text-3xl md:text-4xl font-bold heading-accent pb-2 mb-4">{t('featuredProjects')}</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -45,21 +45,22 @@ const ProjectsSection = () => {
           </p>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
             <Card key={project.id} className="project-card flex flex-col h-full group backdrop-blur-sm border border-muted/20 bg-card/30">
-              <div className="relative h-[250px] overflow-hidden">
+              <div className="relative h-[200px] md:h-[250px] overflow-hidden">
                 <img 
                   src={project.image} 
                   alt={project.title}
                   className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-70"></div>
               </div>
               
               <CardHeader className="flex-none">
                 <CardTitle className="text-xl mb-2">{project.title}</CardTitle>
-                <CardDescription className="text-sm text-muted-foreground line-clamp-4">
+                <CardDescription className="text-sm text-muted-foreground line-clamp-3 md:line-clamp-4">
                   {project.description}
                 </CardDescription>
               </CardHeader>
