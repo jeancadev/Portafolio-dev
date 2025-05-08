@@ -80,7 +80,7 @@ const HeroSection = () => {
                     <span className="text-blue mr-2">$ </span>
                     <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight flex flex-col items-start gap-2">
                       <TypewriterEffect 
-                        text={`Hola, soy`}
+                        text={t('hello')}
                         delay={60}
                         showCursor={false}
                         startDelay={500}
