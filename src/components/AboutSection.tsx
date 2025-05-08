@@ -79,7 +79,7 @@ const AboutSection = () => {
               </div>
               <Button
                 variant="ghost"
-                className="mt-2 w-full border border-blue/20 hover:bg-blue/10 text-blue hover:text-blue-dark group"
+                className="mt-2 w-full border border-blue/20 hover:bg-blue/10 text-blue hover:text-blue-dark group active:scale-95"
                 onClick={() => setIsExpanded(!isExpanded)}
               >
                 <span>{isExpanded ? t('readLess') : t('readMore')}</span>

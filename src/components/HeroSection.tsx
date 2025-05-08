@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useToast } from '@/hooks/use-toast';
 import TypewriterEffect from './TypewriterEffect';
+import Terminal from '@/components/ui/terminal';
 import { useTranslation } from 'react-i18next';
 import { useInView } from 'react-intersection-observer';
 
@@ -17,22 +18,23 @@ const HeroSection = () => {
   
   const { ref: heroRef, inView: heroInView } = useInView({
     threshold: 0.2,
-    triggerOnce: false
+    triggerOnce: false,
+    rootMargin: '-10% 0px -10% 0px' // Ajustado para mejor detección
   });
 
   const email = "jean.obandocortes@gmail.com"; 
   const cvUrl = "/docs/CV_JeanCarlosObando.pdf";
-  const restartDelay = 25000; // Aumentado a 25 segundos para dar más tiempo de lectura
+  // Ya no necesitamos el restartDelay porque la reescritura se controlará con inView
 
   const description = "Especialista en desarrollo Full Stack con enfoque en arquitecturas modernas y soluciones escalables. Creo software que marca la diferencia, combinando excelencia técnica con innovación práctica.";
 
+  // El efecto para controlar el ciclo ahora depende de heroInView
   useEffect(() => {
-    const intervalId = setInterval(() => {
+    if (heroInView) {
+      // Reiniciar el cycleKey cuando la sección está en vista
       setCycleKey(prev => prev + 1);
-    }, restartDelay);
-
-    return () => clearInterval(intervalId);
-  }, [restartDelay]);
+    }
+  }, [heroInView]);
 
   // Efecto para detectar cambios de idioma
   useEffect(() => {
@@ -72,40 +74,45 @@ const HeroSection = () => {
                 ? 'hero-entrance-animation' 
                 : 'opacity-0'
             }`}>
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
-                <span className="inline-block">
-                  <TypewriterEffect 
-                    text={t('hello')}
-                    delay={50}
-                    showCursor={false}
-                    startDelay={800}
-                    repeat={false}
-                    key={`hello-${languageKey}${heroInView ? '-visible' : ''}`}
-                  />
-                  <span className="text-blue ml-2">
-                    <TypewriterEffect 
-                      text="Jean Carlos"
-                      delay={50}
-                      showCursor={false}
-                      startDelay={1500}
-                      repeat={false}
-                      key={`name-${languageKey}${heroInView ? '-visible' : ''}`}
-                    />
-                  </span>
-                </span>
-              </h1>
-              
-              <div className="text-sm md:text-base lg:text-lg text-muted-foreground max-w-xl leading-relaxed mt-6">
-                <TypewriterEffect 
-                  text={t('description')}
-                  delay={40}
-                  showCursor={true}
-                  startDelay={3000}
-                  cycleKey={cycleKey}
-                  repeat={true}
-                  key={`desc-${languageKey}`}
-                />
-              </div>
+              <Terminal title={`${t('welcome')}@portfolio ~ $`}>
+                <div className="space-y-6">
+                  <div className="flex items-start">
+                    <span className="text-blue mr-2">$ </span>
+                    <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight flex flex-col items-start gap-2">
+                      <TypewriterEffect 
+                        text={`Hola, soy`}
+                        delay={60}
+                        showCursor={false}
+                        startDelay={500}
+                        repeat={false}
+                        key={`hello-${languageKey}${heroInView ? '-visible' : ''}-1`}
+                      />
+                      <TypewriterEffect 
+                        text="Jean Carlos"
+                        delay={70}
+                        showCursor={false}
+                        startDelay={1500}
+                        repeat={false}
+                        key={`name-${languageKey}${heroInView ? '-visible' : ''}-2`}
+                      />
+                    </h1>
+                  </div>
+                  
+                  <div className="flex items-start">
+                    <span className="text-blue mr-2">$ </span>
+                    <div className="text-sm md:text-base lg:text-lg text-muted-foreground max-w-xl leading-relaxed">
+                      <TypewriterEffect 
+                        text={t('description')}
+                        delay={40}
+                        showCursor={true}
+                        startDelay={2500}
+                        repeat={false}
+                        key={`desc-${heroInView ? 'visible' : 'hidden'}-${languageKey}`}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </Terminal>
               
               <div className="flex flex-col md:flex-row items-center gap-4 mt-8 animate-fade-in opacity-0 [animation-delay:1.2s]">
                 <div className="w-full md:w-auto">
@@ -129,11 +136,15 @@ const HeroSection = () => {
 
                 <Button 
                   variant="outline" 
-                  className="w-full md:w-auto border-blue text-blue hover:bg-blue hover:text-white gap-2" 
+                  className="w-full md:w-auto border-blue text-blue gap-2 
+                           transition-all duration-300 ease-in-out
+                           hover:bg-blue hover:text-white hover:scale-105
+                           hover:shadow-lg hover:shadow-blue/20
+                           active:scale-95 group" 
                   asChild
                 >
                   <a href={cvUrl} download>
-                    <Download className="h-4 w-4" />
+                    <Download className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-[-2px] group-hover:scale-110" />
                     {t('downloadCV')}
                   </a>
                 </Button>

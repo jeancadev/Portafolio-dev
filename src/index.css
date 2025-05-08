@@ -202,6 +202,95 @@
     @apply pt-24 pb-8 px-6 md:px-12 lg:px-24; /* Padding inferior reducido para acercar más las secciones */
   }
 
+  /* Terminal de macOS */
+  .macos-terminal {
+    background-color: hsl(var(--card) / 0.3);
+    backdrop-filter: blur(8px);
+    border: 1px solid hsl(var(--muted) / 0.2);
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 800px;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: terminalEntrance 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .terminal-header {
+    background: linear-gradient(to bottom, hsl(var(--card) / 0.5), hsl(var(--card) / 0.3));
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid hsl(var(--muted) / 0.2);
+  }
+
+  .terminal-buttons {
+    display: flex;
+    gap: 0.5rem;
+    margin-right: 1rem;
+  }
+
+  .terminal-button {
+    width: 12px;
+    height: 12px;
+    border-radius: 9999px;
+    transition: transform 0.2s ease;
+  }
+
+  .terminal-button:hover {
+    transform: scale(1.1);
+  }
+
+  .terminal-close { background-color: #ff5f56; }
+  .terminal-minimize { background-color: #ffbd2e; }
+  .terminal-maximize { background-color: #27c93f; }
+
+  .terminal-title {
+    flex: 1;
+    text-align: center;
+    color: hsl(var(--muted-foreground));
+    font-size: 0.875rem;
+    font-family: ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
+  }
+
+  .terminal-body {
+    padding: 1.5rem;
+    font-family: ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
+    line-height: 1.6;
+  }
+
+  .terminal-prompt {
+    color: hsl(var(--blue));
+    margin-right: 0.5rem;
+  }
+
+  .terminal-content {
+    animation: contentFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 0.8s;
+    opacity: 0;
+  }
+
+  @keyframes terminalEntrance {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes contentFade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
   .nav-link {
     @apply relative hover:text-blue transition-colors duration-200 after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-0 after:bg-blue after:transition-all hover:after:w-full;
   }
@@ -383,6 +472,53 @@
     .reveal-section-hidden {
       opacity: 0;
     }
+  }
+
+  /* Terminal de macOS */
+  .macos-terminal {
+    @apply bg-card/30 backdrop-blur-sm border border-muted/20 rounded-lg;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 800px;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: terminalEntrance 1s ease forwards;
+    animation-delay: 0.5s;
+  }
+
+  .terminal-header {
+    @apply bg-gradient-to-b from-card/50 to-card/30 p-3 flex items-center border-b border-muted/20;
+  }
+
+  .terminal-buttons {
+    @apply flex gap-2 mr-4;
+  }
+
+  .terminal-button {
+    @apply w-3 h-3 rounded-full;
+  }
+
+  .terminal-close { @apply bg-red-500; }
+  .terminal-minimize { @apply bg-yellow-500; }
+  .terminal-maximize { @apply bg-green-500; }
+
+  .terminal-title {
+    @apply flex-1 text-center text-sm text-muted-foreground font-mono;
+  }
+
+  .terminal-body {
+    @apply p-6 font-mono leading-relaxed;
+  }
+
+  .terminal-prompt {
+    @apply text-blue mr-2;
+  }
+
+  .terminal-content {
+    animation: contentFade 0.5s ease forwards;
+    animation-delay: 1s;
+    opacity: 0;
   }
 }
 

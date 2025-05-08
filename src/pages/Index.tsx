@@ -176,7 +176,7 @@ const Index = () => {
       {/* Botón para volver arriba con animación mejorada */}
       <button 
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className="fixed bottom-8 right-8 bg-blue/80 hover:bg-blue text-white rounded-full p-3 shadow-lg opacity-0 invisible transform translate-y-10 transition-all duration-300 ease-in-out z-50 group hover:scale-110 scroll-button view-more-btn"
+        className="fixed bottom-8 right-8 bg-blue/80 hover:bg-blue text-white rounded-full p-3 shadow-lg opacity-0 invisible transform translate-y-10 transition-all duration-300 ease-in-out z-50 group hover:scale-110 active:scale-95 scroll-button view-more-btn"
         aria-label="Volver arriba"
       >
         <svg 

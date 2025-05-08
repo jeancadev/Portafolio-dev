@@ -12,25 +12,24 @@ interface TypewriterEffectProps {
 
 const TypewriterEffect: React.FC<TypewriterEffectProps> = ({ 
   text, 
-  delay = 30,
+  delay = 300, // Delay significativamente más alto para una escritura más lenta y dramática
   className = "",
   showCursor = true,
   startDelay = 0,
   cycleKey = 0,
   repeat = false
-}) => {
-  const [displayText, setDisplayText] = useState('');
+}) => {  const [displayText, setDisplayText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTyping, setIsTyping] = useState(false);
-  const words = text.split(' ');
+  const characters = text.split('');
 
-  // Función memoizada para manejar la escritura
+  // Función memoizada para manejar la escritura letra por letra
   const handleTyping = useCallback(() => {
-    if (currentIndex < words.length) {
-      setDisplayText(prev => prev + (prev ? ' ' : '') + words[currentIndex]);
+    if (currentIndex < characters.length) {
+      setDisplayText(prev => prev + characters[currentIndex]);
       setCurrentIndex(prev => prev + 1);
     }
-  }, [currentIndex, words]);
+  }, [currentIndex, characters]);
 
   // Reiniciar solo si repeat es true y cycleKey cambia
   useEffect(() => {
@@ -57,27 +56,32 @@ const TypewriterEffect: React.FC<TypewriterEffectProps> = ({
       return () => clearTimeout(timer);
     }
   }, [startDelay, isTyping]);
-
   useEffect(() => {
-    if (isTyping && currentIndex < words.length) {
-      // Velocidad variable basada en varios factores para simular escritura humana
-      const word = words[currentIndex];
-      const wordLength = word?.length || 1;
+    if (isTyping && currentIndex < characters.length) {
+      // Simulación más realista de escritura humana
+      const currentChar = characters[currentIndex];
       
       // Factores que afectan la velocidad:
-      // 1. Longitud de la palabra (palabras más largas toman más tiempo)
-      // 2. Pequeña variación aleatoria para simular ritmo humano
-      // 3. Pausa más larga después de signos de puntuación
-      const hasPunctuation = /[.,!?]$/.test(word || '');
-      const randomVariation = Math.random() * 0.5 + 0.75; // Variación entre 0.75x y 1.25x
-      const punctuationDelay = hasPunctuation ? 2.5 : 1;
+      // 1. Pausa más larga después de signos de puntuación
+      // 2. Pausa más corta entre letras normales
+      // 3. Variación aleatoria para simular ritmo humano
+      const isPunctuation = /[.,!?]/.test(currentChar);
+      const isSpace = currentChar === ' ';
+      const randomVariation = Math.random() * 0.4 + 0.8; // Variación entre 0.8x y 1.2x
       
-      const typingDelay = delay * Math.min(2, wordLength / 3) * randomVariation * punctuationDelay;
+      let typingDelay;
+      if (isPunctuation) {
+        typingDelay = delay * 3 * randomVariation; // Pausa más larga después de puntuación
+      } else if (isSpace) {
+        typingDelay = delay * 1.5 * randomVariation; // Pausa media en espacios
+      } else {
+        typingDelay = delay * randomVariation; // Velocidad normal para letras
+      }
       
       const timer = setTimeout(handleTyping, typingDelay);
       return () => clearTimeout(timer);
     }
-  }, [currentIndex, words, delay, isTyping, handleTyping]);
+  }, [currentIndex, characters, delay, isTyping, handleTyping]);
 
   return (
     <span className={`${className} relative will-change-contents`}>

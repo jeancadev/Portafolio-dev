@@ -95,8 +95,7 @@ const ProjectsSection = () => {
           ))}
         </div>
 
-        <div className="mt-12 text-center">
-          <Button className="bg-blue hover:bg-blue-dark text-white view-more-btn">
+        <div className="mt-12 text-center">          <Button className="bg-blue hover:bg-blue-dark text-white view-more-btn active:scale-95">
             <a 
               href="https://github.com/jeancadev?tab=repositories" 
               target="_blank" 
