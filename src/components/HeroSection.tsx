@@ -68,7 +68,7 @@ const HeroSection = () => {
     >
       <div className="container mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between gap-12">
-          <div className="flex-1 text-center md:text-left">
+          <div className="flex-1 text-left">
             <div className={`space-y-4 ${
               heroInView 
                 ? 'hero-entrance-animation' 
@@ -100,7 +100,7 @@ const HeroSection = () => {
                   
                   <div className="flex items-start">
                     <span className="text-blue mr-2">$ </span>
-                    <div className="text-sm md:text-base lg:text-lg text-muted-foreground max-w-xl leading-relaxed">
+                    <div className="text-sm md:text-base lg:text-lg text-muted-foreground max-w-xl leading-relaxed text-left">
                       <TypewriterEffect 
                         text={t('description')}
                         delay={40}
