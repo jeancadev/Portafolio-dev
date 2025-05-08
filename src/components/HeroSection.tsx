@@ -5,6 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useToast } from '@/hooks/use-toast';
 import TypewriterEffect from './TypewriterEffect';
 import { useTranslation } from 'react-i18next';
+import { useInView } from 'react-intersection-observer';
 
 const HeroSection = () => {
   const { toast } = useToast();
@@ -13,6 +14,11 @@ const HeroSection = () => {
   const { t, i18n } = useTranslation();
   const [languageKey, setLanguageKey] = useState(0);
   const imageRef = useRef<HTMLImageElement>(null);
+  
+  const { ref: heroRef, inView: heroInView } = useInView({
+    threshold: 0.2,
+    triggerOnce: false
+  });
 
   const email = "jean.obandocortes@gmail.com"; 
   const cvUrl = "/docs/CV_JeanCarlosObando.pdf";
@@ -53,46 +59,55 @@ const HeroSection = () => {
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center section-padding pt-28 bg-background text-foreground">
+    <section 
+      id="home" 
+      ref={heroRef}
+      className="relative min-h-screen flex items-center justify-center hero-section-padding pt-28 bg-background text-foreground"
+    >
       <div className="container mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between gap-12">
           <div className="flex-1 text-center md:text-left">
-            <div className="space-y-4 animate-fade-in opacity-0 [animation-delay:0.2s]">
+            <div className={`space-y-4 ${
+              heroInView 
+                ? 'hero-entrance-animation' 
+                : 'opacity-0'
+            }`}>
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
-                <TypewriterEffect 
-                  text={t('hello')}
-                  delay={30}
-                  showCursor={false}
-                  startDelay={0}
-                  repeat={false}
-                  key={`hello-${languageKey}`}
-                />
-                <br />
-                <span className="text-blue">
+                <span className="inline-block">
                   <TypewriterEffect 
-                    text="Jean Carlos"
-                    delay={30}
+                    text={t('hello')}
+                    delay={25}
                     showCursor={false}
-                    startDelay={1000}
+                    startDelay={600}
                     repeat={false}
-                    key={`name-${languageKey}`}
+                    key={`hello-${languageKey}${heroInView ? '-visible' : ''}`}
                   />
+                  <span className="text-blue ml-2">
+                    <TypewriterEffect 
+                      text="Jean Carlos"
+                      delay={25}
+                      showCursor={false}
+                      startDelay={1200}
+                      repeat={false}
+                      key={`name-${languageKey}${heroInView ? '-visible' : ''}`}
+                    />
+                  </span>
                 </span>
               </h1>
               
               <div className="text-sm md:text-base lg:text-lg text-muted-foreground max-w-xl leading-relaxed mt-6">
                 <TypewriterEffect 
                   text={t('description')}
-                  delay={30}
+                  delay={20}
                   showCursor={true}
-                  startDelay={2000}
+                  startDelay={2500}
                   cycleKey={cycleKey}
                   repeat={true}
                   key={`desc-${languageKey}`}
                 />
               </div>
               
-              <div className="flex flex-col md:flex-row items-center gap-4 mt-8">
+              <div className="flex flex-col md:flex-row items-center gap-4 mt-8 animate-fade-in opacity-0 [animation-delay:1.2s]">
                 <div className="w-full md:w-auto">
                   <div className="flex items-center justify-center md:justify-start gap-2 px-4 py-2 rounded-md bg-card/30 border border-muted/20">
                     <span className="text-sm md:text-base text-muted-foreground">
@@ -126,16 +141,16 @@ const HeroSection = () => {
             </div>
           </div>
           
-          <div className="w-full md:w-2/5 flex justify-center md:justify-end animate-fade-in opacity-0 [animation-delay:0.4s]">
+          <div className="w-full md:w-2/5 flex justify-center md:justify-end">
             <Avatar className="h-48 w-48 md:h-64 md:w-64 border-2 border-blue 
-                             transition-all duration-300 ease-in-out 
-                             hover:scale-105 hover:shadow-xl hover:shadow-blue/20
-                             hover:border-4">
+                             transition-all duration-500 ease-in-out 
+                             hover:shadow-xl hover:shadow-blue/20
+                             hover:border-4 float-animation transform-gpu">
               <AvatarImage 
                 ref={imageRef}
                 src="/profile/profile.jpg" 
                 alt="Foto de perfil de Jean Carlos"
-                className="transition-all duration-300 ease-in-out hover:brightness-110"
+                className="stable-image"
                 loading="eager"
                 fetchPriority="high"
                 decoding="async"
@@ -143,7 +158,6 @@ const HeroSection = () => {
                   objectFit: 'cover',
                   width: '100%',
                   height: '100%',
-                  willChange: 'transform'
                 }}
               />
               <AvatarFallback>

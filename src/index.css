@@ -152,6 +152,31 @@
   .animate-blink-fast {
     animation: blink 0.8s steps(1) infinite;
   }
+
+  @keyframes float {
+    0% {
+      transform: translateY(0px) translateZ(0);
+    }
+    50% {
+      transform: translateY(-10px) translateZ(0) scale(1.01);
+    }
+    100% {
+      transform: translateY(0px) translateZ(0);
+    }
+  }
+
+  .float-animation {
+    animation: float 5s ease-in-out infinite;
+    transform-style: preserve-3d;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+    will-change: transform;
+  }
+
+  .float-animation:hover {
+    animation-play-state: paused;
+  }
 }
 
 @layer utilities {
@@ -169,7 +194,12 @@
 
 @layer components {
   .section-padding {
-    @apply py-32 px-6 md:px-12 lg:px-24; /* Aumentado de py-28 a py-32 para un poco más de espacio */
+    @apply py-16 px-6 md:px-12 lg:px-24; /* Reducido de py-24 a py-16 para disminuir aún más el espacio */
+  }
+
+  /* Espaciado especial para primera sección */
+  .hero-section-padding {
+    @apply pt-24 pb-8 px-6 md:px-12 lg:px-24; /* Padding inferior reducido para acercar más las secciones */
   }
 
   .nav-link {
@@ -181,7 +211,7 @@
   }
 
   .project-card {
-    @apply relative overflow-hidden rounded-lg border border-muted/20 bg-card/30 backdrop-blur-sm transition-all duration-300 hover:shadow-lg hover:shadow-blue/10;
+    @apply relative overflow-hidden rounded-lg border border-muted/20 bg-card/30 backdrop-blur-sm transition-all duration-500 ease-out hover:shadow-lg hover:shadow-blue/10 hover:translate-y-[-5px];
   }
 
   .heading-accent {
@@ -265,6 +295,79 @@
       transform: translateX(100%) skewX(-45deg);
     }
   }
+
+  /* Nuevas animaciones profesionales para el scroll */
+  .reveal-section {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+    transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .reveal-section-hidden {
+    opacity: 0;
+    transform: translateY(30px) scale(0.98);
+    filter: blur(8px);
+    transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .reveal-delay-200 {
+    transition-delay: 0.2s;
+  }
+
+  .reveal-delay-400 {
+    transition-delay: 0.4s;
+  }
+
+  .reveal-delay-600 {
+    transition-delay: 0.6s;
+  }
+
+  @keyframes revealSection {
+    0% {
+      opacity: 0;
+      transform: translateY(30px) scale(0.98);
+      filter: blur(8px);
+    }
+    30% {
+      opacity: 0.5;
+      filter: blur(4px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+  }
+
+  /* Optimizaciones para el rendimiento */
+  .reveal-section, .reveal-section-hidden {
+    will-change: transform, opacity, filter;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Para dispositivos que prefieren menos movimiento */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-section, .reveal-section-hidden {
+      transition: opacity 0.5s ease-out;
+      transform: none;
+      filter: none;
+    }
+
+    .float-animation {
+      animation: none;
+      transform: none;
+    }
+
+    @keyframes simpleFade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  }
 }
 
 /* Small but improved animations for iOS/macOS like smoothness */
@@ -281,5 +384,376 @@
 /* Estilos para el cursor personalizado sutil */
 * {
   transition: all 0.2s ease;
+}
+
+/* Estilos para el botón de scroll */
+.scroll-button {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+}
+
+body.show-scroll-button .scroll-button {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Transiciones mejoradas para toda la página */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Ajusta según el tamaño de tu navbar */
+}
+
+/* Mejoras en las animaciones para elementos interactivos */
+a, button, input, select, textarea, [role="button"] {
+  @apply transition-all duration-300 ease-out;
+  position: relative;
+}
+
+a:hover, button:hover, [role="button"]:hover {
+  @apply transition-transform duration-300 ease-out scale-[1.02];
+}
+
+/* Mejoras para la navegación de escritorio */
+.nav-link {
+  @apply relative hover:text-blue transition-all duration-300 ease-out after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-0 after:bg-blue after:transition-all after:duration-300 hover:after:w-full;
+}
+
+/* Efecto de animación para secciones */
+section {
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Clases de animación adicionales para efectos más notorios */
+.section-reveal {
+  transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Estilos de animación para mejorar el scrolling */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Ajusta según el tamaño de tu navbar */
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root {
+    scroll-behavior: smooth;
+  }
+  
+  .animate-on-scroll {
+    transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    will-change: transform, opacity;
+  }
+  
+  .animate-on-scroll.is-visible {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  
+  .animate-on-scroll:not(.is-visible) {
+    transform: translateY(50px) scale(0.95);
+    opacity: 0;
+  }
+}
+
+/* Animación mejorada para imágenes */
+img {
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), 
+              filter 0.4s ease-out, 
+              scale 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform, filter, scale;
+}
+
+img:hover {
+  filter: brightness(1.1) contrast(1.05);
+  transform: scale(1.03) translateY(-3px);
+  box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+}
+
+/* Mejora para la animación de menú */
+.animate-menu-open {
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Animaciones permanentes (reseteo cuando salen del viewport) */
+@keyframes reset-animation {
+  0% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+/* Estilos para asegurar que las animaciones se reinicien correctamente */
+.animate-dramatic-fade {
+  animation-name: dramatic-fade;
+  animation-duration: 0.6s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  animation-fill-mode: forwards;
+  transform: translateZ(0); /* Fuerza la aceleración por hardware */
+  will-change: auto;
+}
+
+/* Reinicio de animaciones para scroll */
+.reset-on-scroll-out:not(.is-visible) {
+  transition-duration: 0.5s;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* Ajustes para animaciones repetibles */
+.animation-reset {
+  animation: none !important;
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+  backface-visibility: hidden;
+}
+
+/* Corregir el problema de saltos en la imagen */
+.smooth-image {
+  will-change: auto; /* Cambiar de will-change: transform a auto para evitar problemas */
+  transition: transform 0.3s ease-out, filter 0.3s ease-out;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+/* Corregir el problema de parpadeo en botones durante scroll */
+button, a, [role="button"] {
+  backface-visibility: hidden; /* Evita parpadeos */
+  transform-style: preserve-3d;
+  transform: translateZ(0); /* Fuerza la aceleración por hardware */
+}
+
+/* Clase para el botón de Ver Más Proyectos */
+.no-flicker {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  will-change: auto;
+}
+
+/* Estabilizador para botones durante scroll */
+@media (prefers-reduced-motion: no-preference) {
+  .no-flicker {
+    transition: none !important;
+  }
+}
+
+/* Optimización de renderizado */
+.content-visibility-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
+  isolation: isolate;
+}
+
+/* Más optimizaciones para botones y elementos interactivos */
+button, a, [role="button"] {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Animaciones variadas para secciones */
+.slide-up-animation {
+  animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.slide-right-animation {
+  animation: slideRight 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.zoom-in-animation {
+  animation: zoomIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.fade-in-rotate-animation {
+  animation: fadeInRotate 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideRight {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes zoomIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeInRotate {
+  0% {
+    opacity: 0;
+    transform: rotate(-5deg) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+}
+
+/* Animaciones mejoradas para secciones específicas */
+.projects-animation {
+  animation: projectsReveal 0.7s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  transform-origin: center;
+}
+
+.skills-animation {
+  animation: skillsStagger 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Solucion para estabilizar la imagen de perfil */
+.stable-image {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  will-change: opacity;
+  transition: opacity 0.5s ease-out;
+}
+
+@keyframes projectsReveal {
+  0% {
+    opacity: 0;
+    transform: perspective(1000px) rotateX(5deg) translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(1000px) rotateX(0) translateY(0);
+  }
+}
+
+@keyframes skillsStagger {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+    filter: blur(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Animación especial para la HeroSection (entrada inicial) */
+.hero-entrance-animation {
+  animation: heroEntrance 1s cubic-bezier(0.26, 0.86, 0.44, 0.985) forwards;
+}
+
+@keyframes heroEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(-15px) scale(0.98);
+    filter: blur(8px);
+  }
+  50% {
+    opacity: 0.8;
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Animación especial para la imagen de perfil - versión suave sin rebote */
+.profile-image-animation {
+  animation: profileSmooth 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: 0.4s;
+}
+
+@keyframes profileSmooth {
+  0% {
+    opacity: 0;
+    transform: translateX(20px) scale(0.95);
+    filter: drop-shadow(0 0 0 rgba(59, 130, 246, 0));
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: drop-shadow(0 5px 15px rgba(59, 130, 246, 0.2));
+  }
+}
+
+/* Animación mejorada anti-parpadeo específica para el botón "Ver Más Proyectos" */
+.view-more-btn {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  perspective: 1000px;
+  transform: translate3d(0, 0, 0);
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.view-more-btn:hover {
+  transform: translateY(-2px) translate3d(0, 0, 0);
+  box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.3);
+}
+
+/* Optimización para animaciones durante el scroll */
+.scroll-visible-animation {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.scroll-visible-animation.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Mejora en espaciado entre secciones */
+.section-spacing {
+  margin-bottom: 4rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+  .section-spacing {
+    margin-bottom: 6rem;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+}
+
+/* Mejora en la animación del fadeInRotate para hacerla más suave */
+@keyframes fadeInRotate {
+  0% {
+    opacity: 0;
+    transform: rotate(-3deg) scale(0.97);
+    filter: blur(3px);
+  }
+  50% {
+    filter: blur(1px);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+    filter: blur(0);
+  }
 }
 

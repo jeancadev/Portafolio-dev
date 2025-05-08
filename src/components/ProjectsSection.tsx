@@ -95,8 +95,13 @@ const ProjectsSection = () => {
         </div>
 
         <div className="mt-12 text-center">
-          <Button className="bg-blue hover:bg-blue-dark text-white">
-            <a href="https://github.com/jeancadev?tab=repositories" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+          <Button className="bg-blue hover:bg-blue-dark text-white view-more-btn">
+            <a 
+              href="https://github.com/jeancadev?tab=repositories" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="flex items-center gap-2"
+            >
               <Github size={18} />
               {t('viewMoreProjects')}
             </a>

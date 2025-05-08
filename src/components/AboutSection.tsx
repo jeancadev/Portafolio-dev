@@ -9,7 +9,7 @@ const AboutSection = () => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <section id="about" className="section-padding mt-24 bg-gradient-to-b from-background to-background/95 text-foreground">
+    <section id="about" className="section-padding mt-0 bg-gradient-to-b from-background to-background/95 text-foreground">
       <div className="container mx-auto">
         <div className="mb-12 text-center">
           <h2 className="text-3xl md:text-4xl font-bold heading-accent pb-2 mb-4">{t('aboutMe')}</h2>

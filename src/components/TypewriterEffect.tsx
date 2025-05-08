@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 interface TypewriterEffectProps {
   text: string;
@@ -24,6 +24,14 @@ const TypewriterEffect: React.FC<TypewriterEffectProps> = ({
   const [isTyping, setIsTyping] = useState(false);
   const words = text.split(' ');
 
+  // Función memoizada para manejar la escritura
+  const handleTyping = useCallback(() => {
+    if (currentIndex < words.length) {
+      setDisplayText(prev => prev + (prev ? ' ' : '') + words[currentIndex]);
+      setCurrentIndex(prev => prev + 1);
+    }
+  }, [currentIndex, words]);
+
   // Reiniciar solo si repeat es true y cycleKey cambia
   useEffect(() => {
     if (!repeat) return;
@@ -48,24 +56,30 @@ const TypewriterEffect: React.FC<TypewriterEffectProps> = ({
 
       return () => clearTimeout(timer);
     }
-  }, [startDelay]);
+  }, [startDelay, isTyping]);
 
   useEffect(() => {
     if (isTyping && currentIndex < words.length) {
-      const timer = setTimeout(() => {
-        setDisplayText(prev => prev + (prev ? ' ' : '') + words[currentIndex]);
-        setCurrentIndex(prev => prev + 1);
-      }, delay * words[currentIndex].length);
-
+      // Usar una duración variable basada en la longitud de la palabra para un efecto más natural
+      const typingDelay = delay * Math.max(1, words[currentIndex]?.length / 2);
+      
+      const timer = setTimeout(handleTyping, typingDelay);
       return () => clearTimeout(timer);
     }
-  }, [currentIndex, words, delay, isTyping]);
+  }, [currentIndex, words, delay, isTyping, handleTyping]);
 
   return (
-    <span className={`${className} relative`}>
+    <span className={`${className} relative will-change-contents`}>
       {displayText}
-      {showCursor && (
-        <span className="inline-block w-0.5 h-5 ml-1 bg-blue animate-blink-fast align-middle">
+      {showCursor && isTyping && (
+        <span 
+          className="inline-block w-0.5 h-5 ml-1 bg-blue animate-blink-fast align-middle"
+          style={{ 
+            willChange: 'opacity',
+            backfaceVisibility: 'hidden',
+            transform: 'translateZ(0)'
+          }}
+        >
         </span>
       )}
     </span>
