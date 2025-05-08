@@ -53,8 +53,8 @@ const HeroSection = () => {
     navigator.clipboard.writeText(email).then(() => {
       setCopied(true);
       toast({
-        title: "¡Email copiado!",
-        description: `${email} ha sido copiado al portapapeles.`,
+        title: t('emailCopied'),
+        description: t('emailCopiedDesc'),
       });
       setTimeout(() => setCopied(false), 2000);
     });

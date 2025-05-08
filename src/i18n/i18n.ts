@@ -90,9 +90,12 @@ i18n
 
           // Toast Messages
           "messageSent": "Message sent!",
-          "messageSuccess": "Thank you for contacting me. I'll reply as soon as possible.",
-          "messageError": "Error sending message",
+          "messageSuccess": "Thank you for contacting me. I'll reply as soon as possible.",          "messageError": "Error sending message",
           "tryAgain": "Please try again later.",
+          
+          // Copy Messages
+          "emailCopied": "Email copied!",
+          "emailCopiedDesc": "Email has been copied to clipboard.",
 
           // Footer
           "allRightsReserved": "All rights reserved."
@@ -180,9 +183,12 @@ i18n
 
           // Toast Messages
           "messageSent": "¡Mensaje enviado!",
-          "messageSuccess": "Gracias por contactarme. Te responderé lo antes posible.",
-          "messageError": "Error al enviar mensaje",
+          "messageSuccess": "Gracias por contactarme. Te responderé lo antes posible.",          "messageError": "Error al enviar mensaje",
           "tryAgain": "Por favor, intenta nuevamente más tarde.",
+
+          // Copy Messages
+          "emailCopied": "¡Email copiado!",
+          "emailCopiedDesc": "El email ha sido copiado al portapapeles.",
 
           // Footer
           "allRightsReserved": "Todos los derechos reservados."
