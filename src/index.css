@@ -204,9 +204,14 @@
 
   /* Terminal de macOS */
   .macos-terminal {
-    background-color: hsl(var(--card) / 0.3);
-    backdrop-filter: blur(8px);
-    border: 1px solid hsl(var(--muted) / 0.2);
+    background-color: hsl(var(--card) / 0.4);
+    backdrop-filter: blur(12px);
+    border: 1.5px solid hsl(var(--blue) / 0.2);
+    box-shadow: 
+      0 4px 6px -1px rgba(0, 0, 0, 0.2),
+      0 2px 4px -2px rgba(0, 0, 0, 0.1),
+      0 0 0 1px hsl(var(--blue) / 0.1),
+      inset 0 1px 0 0 hsl(var(--blue) / 0.05);
     border-radius: 0.5rem;
     box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.2);
     width: 100%;
