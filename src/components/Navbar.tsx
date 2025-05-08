@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu } from 'lucide-react';
 import { useTheme } from 'next-themes';
+import { cn } from "@/lib/utils";
 import ThemeToggle from './ThemeToggle';
 import LanguageToggle from './LanguageToggle';
 import { Button } from '@/components/ui/button';
@@ -12,11 +13,25 @@ const Navbar = () => {
   const { theme, setTheme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
       setIsScrolled(scrollPosition > 0);
+      
+      // Detectar sección activa
+      const sections = ['home', 'about', 'projects', 'skills', 'contact'];
+      for (const section of sections) {
+        const element = document.querySelector(`#${section}`);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          if (rect.top <= 100 && rect.bottom >= 100) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -28,7 +43,9 @@ const Navbar = () => {
     const href = e.currentTarget.getAttribute('href');
     
     if (href) {
-      setIsOpen(false); // Cerrar el menú
+      const section = href.replace('#', '');
+      setActiveSection(section);
+      setIsOpen(false);
       
       setTimeout(() => {
         const element = document.querySelector(href);
@@ -42,7 +59,7 @@ const Navbar = () => {
             behavior: 'smooth'
           });
         }
-      }, 100); // Pequeño retraso para asegurar una transición suave
+      }, 100);
     }
   };
 
@@ -60,7 +77,7 @@ const Navbar = () => {
 
   return (
     <header 
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ease-in-out border-b border-neutral-200/10 ${
+      className={`fixed top-0 w-full z-50 transition-all duration-500 ease-in-out border-b border-neutral-200/10 ${
         isScrolled 
           ? 'bg-background/65 backdrop-blur-2xl shadow-lg py-2' 
           : 'bg-background/50 backdrop-blur-xl py-4'
@@ -77,18 +94,26 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-6">
-          {menuItems.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              onClick={handleNavClick}
-              className="relative text-sm font-medium text-foreground/75 hover:text-foreground transition-colors px-3 py-2 rounded-md
-                       after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-blue
-                       after:transition-all after:duration-300 hover:after:w-full"
-            >
-              {item.label}
-            </a>
-          ))}
+          {menuItems.map((item) => {
+            const isActive = activeSection === item.href.replace('#', '');
+            return (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={handleNavClick}
+                className={cn(
+                  "relative text-sm font-medium transition-all duration-500 ease-out px-3 py-2 rounded-md",
+                  isActive 
+                    ? "text-foreground after:w-full" 
+                    : "text-foreground/75 hover:text-foreground after:w-0 hover:after:w-full",
+                  "after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-blue",
+                  "after:transition-all after:duration-500 after:ease-out"
+                )}
+              >
+                {item.label}
+              </a>
+            );
+          })}
         </div>
 
         <div className="flex items-center gap-2">
@@ -98,26 +123,50 @@ const Navbar = () => {
           {/* Mobile Navigation */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="md:hidden">
-              <Button variant="ghost" size="icon" className="hover:bg-foreground/10">
-                <Menu className="h-5 w-5" />
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="relative hover:bg-foreground/10 transition-all duration-500
+                         after:absolute after:inset-0 after:rounded-full after:border after:border-foreground/10
+                         after:scale-75 after:opacity-0 hover:after:scale-100 hover:after:opacity-100
+                         after:transition-all after:duration-500"
+              >
+                <Menu className={cn(
+                  "h-5 w-5 transition-transform duration-500",
+                  isOpen && "rotate-90"
+                )} />
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent className="w-[300px] bg-background/60 backdrop-blur-3xl border-neutral-200/10">
+            <SheetContent 
+              className="w-[300px] bg-background/60 backdrop-blur-3xl border-neutral-200/10
+                       data-[state=open]:animate-in data-[state=closed]:animate-out
+                       data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0
+                       data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right
+                       transition-all duration-500"
+            >
               <div className="flex flex-col gap-4 mt-8">
-                {menuItems.map((item) => (
-                  <a
-                    key={item.href}
-                    href={item.href}
-                    onClick={handleNavClick}
-                    className="relative text-foreground/90 hover:text-foreground transition-colors px-4 py-3 rounded-md
-                             after:absolute after:bottom-0 after:left-2 after:right-2 after:h-[2px] after:bg-blue
-                             after:transform after:scale-x-0 after:transition-transform after:duration-300
-                             hover:after:scale-x-100"
-                  >
-                    {item.label}
-                  </a>
-                ))}
+                {menuItems.map((item) => {
+                  const isActive = activeSection === item.href.replace('#', '');
+                  return (
+                    <a
+                      key={item.href}
+                      href={item.href}
+                      onClick={handleNavClick}
+                      className={cn(
+                        "relative text-foreground/90 hover:text-foreground transition-all duration-500 px-4 py-3 rounded-md",
+                        isActive 
+                          ? "text-foreground after:scale-x-100" 
+                          : "after:scale-x-0 hover:after:scale-x-100",
+                        "after:absolute after:bottom-0 after:left-2 after:right-2 after:h-[2px] after:bg-blue",
+                        "after:transform after:transition-transform after:duration-500 after:ease-out",
+                        isActive && "bg-foreground/5"
+                      )}
+                    >
+                      {item.label}
+                    </a>
+                  );
+                })}
               </div>
             </SheetContent>
           </Sheet>
