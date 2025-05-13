@@ -187,7 +187,10 @@ export function ToolHoverCard({ tool, children }: ToolHoverCardProps) {
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language.startsWith('es') ? 'es' : 'en';
   const toolInfo = toolDescriptions[tool];
+  const [isOpen, setIsOpen] = React.useState(false);
   const [isMobile, setIsMobile] = React.useState(false);
+  const [touchStartTime, setTouchStartTime] = React.useState(0);
+  const triggerRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     const checkMobile = () => {
@@ -200,15 +203,50 @@ export function ToolHoverCard({ tool, children }: ToolHoverCardProps) {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Cerrar el tooltip cuando se toca fuera
+  React.useEffect(() => {
+    if (!isMobile) return;
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (triggerRef.current && !triggerRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [isMobile]);
+
+  const handleTouchStart = () => {
+    setTouchStartTime(Date.now());
+  };
+
+  const handleTouchEnd = () => {
+    const touchDuration = Date.now() - touchStartTime;
+    if (touchDuration < 500) { // Solo toggle si el toque fue menor a 500ms
+      setIsOpen(!isOpen);
+    }
+  };
+
   if (!toolInfo) return <>{children}</>;
 
   return (
-    <HoverCard openDelay={0} closeDelay={0}>
+    <HoverCard open={isMobile ? isOpen : undefined}>
       <HoverCardTrigger asChild>
-        {children}
+        <div 
+          ref={triggerRef}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+          onClick={() => isMobile && setIsOpen(!isOpen)}
+          className="touch-manipulation"
+        >
+          {children}
+        </div>
       </HoverCardTrigger>
       <HoverCardContent
-        className="w-[280px] sm:w-80 rounded-xl bg-card/95 backdrop-blur-sm border border-blue/20 shadow-xl shadow-blue/10 p-4"
+        className="z-50 w-[280px] sm:w-80 rounded-xl bg-card/95 backdrop-blur-sm border border-blue/20 
+                 shadow-xl shadow-blue/10 p-4 animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out 
+                 data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95"
         side={isMobile ? "bottom" : "top"}
         align="center"
         sideOffset={isMobile ? 4 : 8}
