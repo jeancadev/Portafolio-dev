@@ -1,6 +1,7 @@
 import React from 'react';
 import { Code, Database, Globe, Server } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { ToolHoverCard } from './ui/tool-hover-card';
 
 const SkillsSection = () => {
   const { t } = useTranslation();
@@ -83,16 +84,15 @@ const SkillsSection = () => {
 
         <div className="mt-12 md:mt-16">
           <h3 className="text-xl md:text-2xl font-bold mb-5 md:mb-6 text-center text-foreground">{t('tools')}</h3>
-          <div className="flex flex-wrap justify-center gap-3 md:gap-4">
-            {["VS Code", "Visual Studio", "Cursor", "Git", "GitHub", "GitHub Copilot", "ChatGPT", "Docker", "AWS", "Jest", "Cypress", "Figma", "Gitlab CI", "Azure", "Claude", "Gemini"].map(tech => (
-              <div 
-                key={tech} 
-                className="px-4 py-2 bg-card/30 border border-muted/20 rounded-full text-sm 
-                          transition-all duration-300 hover:scale-110 hover:bg-blue/20 
-                          hover:border-blue/30 hover:text-blue hover:shadow-lg cursor-pointer"
-              >
-                {tech}
-              </div>
+          <div className="flex flex-wrap justify-center gap-3 md:gap-4">            {["VS Code", "Visual Studio", "Cursor", "Git", "GitHub", "GitHub Copilot", "ChatGPT", "Docker", "AWS", "Jest", "Cypress", "Figma", "Gitlab CI", "Azure", "Claude", "Gemini"].map(tech => (
+              <ToolHoverCard key={tech} tool={tech}>
+                <div                  className="px-3 py-1.5 sm:px-4 sm:py-2 bg-card/30 border border-muted/20 rounded-full text-xs sm:text-sm 
+                            transition-all duration-300 hover:scale-110 active:scale-95 hover:bg-blue/20 
+                            hover:border-blue/30 hover:text-blue hover:shadow-lg touch-manipulation"
+                >
+                  {tech}
+                </div>
+              </ToolHoverCard>
             ))}
           </div>
         </div>

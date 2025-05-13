@@ -194,12 +194,12 @@
 
 @layer components {
   .section-padding {
-    @apply py-16 px-6 md:px-12 lg:px-24; /* Reducido de py-24 a py-16 para disminuir aún más el espacio */
+    @apply py-20 px-6 md:px-12 lg:px-24; /* Ajustado a py-20 para dar más espacio pero mantenerlo equilibrado */
   }
 
   /* Espaciado especial para primera sección */
   .hero-section-padding {
-    @apply pt-24 pb-8 px-6 md:px-12 lg:px-24; /* Padding inferior reducido para acercar más las secciones */
+    @apply pt-24 pb-12 px-6 md:px-12 lg:px-24; /* Padding inferior ajustado para equilibrar el espacio */
   }
 
   /* Terminal de macOS */
@@ -884,16 +884,16 @@ button, a, [role="button"] {
 
 /* Mejora en espaciado entre secciones */
 .section-spacing {
-  margin-bottom: 4rem;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  margin-bottom: 5rem; /* Aumentado de 4rem a 5rem */
+  padding-top: 2.5rem; /* Aumentado de 2rem a 2.5rem */
+  padding-bottom: 2.5rem;
 }
 
 @media (min-width: 768px) {
   .section-spacing {
-    margin-bottom: 6rem;
-    padding-top: 3rem;
-    padding-bottom: 3rem;
+    margin-bottom: 7rem; /* Aumentado de 6rem a 7rem */
+    padding-top: 3.5rem; /* Aumentado de 3rem a 3.5rem */
+    padding-bottom: 3.5rem;
   }
 }
 
