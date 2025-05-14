@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { useTranslation } from 'react-i18next';
+import { gsap } from 'gsap';
+import useTooltipAnimation from '@/hooks/use-tooltip-animation';
 
 interface ToolHoverCardProps {
   tool: string;
@@ -183,28 +185,7 @@ const toolDescriptions: ToolDescriptions = {
   }
 };
 
-// Estilo CSS personalizado para las animaciones de tipo macOS
-const macOSTooltipStyle = `
-  @keyframes tooltipFadeIn {
-    from { opacity: 0; transform: scale(0.96); filter: blur(2px); }
-    to { opacity: 1; transform: scale(1); filter: blur(0); }
-  }
-  
-  @keyframes tooltipFadeOut {
-    from { opacity: 1; transform: scale(1); filter: blur(0); }
-    to { opacity: 0; transform: scale(0.96); filter: blur(2px); }
-  }
-  
-  .macos-tooltip-open {
-    animation: tooltipFadeIn 0.15s cubic-bezier(0.21, 1.02, 0.73, 1) forwards;
-    transform-origin: center center;
-  }
-  
-  .macos-tooltip-closed {
-    animation: tooltipFadeOut 0.15s cubic-bezier(0.21, 1.02, 0.73, 1) forwards;
-    transform-origin: center center;
-  }
-`;
+// Ya no necesitamos estilos CSS para animaciones, GSAP se encarga de todo
 
 export function ToolHoverCard({ tool, children }: ToolHoverCardProps) {
   const { t, i18n } = useTranslation();
@@ -215,6 +196,9 @@ export function ToolHoverCard({ tool, children }: ToolHoverCardProps) {
   const [touchStartTime, setTouchStartTime] = React.useState(0);
   const [touchStartPos, setTouchStartPos] = React.useState({ x: 0, y: 0 });
   const triggerRef = React.useRef<HTMLDivElement>(null);
+  
+  // Activar las animaciones GSAP para tooltips
+  useTooltipAnimation();
 
   React.useEffect(() => {
     const checkMobile = () => {
@@ -224,14 +208,8 @@ export function ToolHoverCard({ tool, children }: ToolHoverCardProps) {
     checkMobile();
     window.addEventListener('resize', checkMobile);
     
-    // Inyectar los estilos CSS personalizados para las animaciones
-    const styleEl = document.createElement('style');
-    styleEl.textContent = macOSTooltipStyle;
-    document.head.appendChild(styleEl);
-    
     return () => {
       window.removeEventListener('resize', checkMobile);
-      styleEl.remove();
     };
   }, []);
 
@@ -310,9 +288,8 @@ export function ToolHoverCard({ tool, children }: ToolHoverCardProps) {
         </div>
       </HoverCardTrigger>
       <HoverCardContent
-        className="z-50 w-[280px] sm:w-80 rounded-xl bg-card/95 backdrop-blur-sm border border-blue/20 
-                 shadow-xl shadow-blue/10 p-4 max-w-[90vw] data-[state=open]:macos-tooltip-open 
-                 data-[state=closed]:macos-tooltip-closed"
+        className="hover-card-content z-50 w-[280px] sm:w-80 rounded-xl bg-card/95 backdrop-blur-sm border border-blue/20 
+                 shadow-xl shadow-blue/10 p-4 max-w-[90vw] transition-none"
         side={isMobile ? "bottom" : "top"}
         align={isMobile ? "center" : "center"}
         sideOffset={isMobile ? 10 : 8}
@@ -321,7 +298,7 @@ export function ToolHoverCard({ tool, children }: ToolHoverCardProps) {
         collisionPadding={16}
         forceMount={isMobile ? isOpen : undefined}
       >
-        <div className="space-y-2.5">
+        <div className="tooltip-content space-y-2.5">
           <h3 className="font-bold text-base sm:text-lg text-foreground">{tool}</h3>
           <div className="space-y-2">
             <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">

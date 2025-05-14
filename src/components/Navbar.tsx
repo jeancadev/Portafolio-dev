@@ -19,17 +19,40 @@ const Navbar = () => {
       const scrollPosition = window.scrollY;
       setIsScrolled(scrollPosition > 0);
       
-      // Detectar sección activa
+      // Detectar sección activa con mayor precisión
       const sections = ['home', 'about', 'projects', 'skills', 'contact'];
+      let maxVisibleSection = null;
+      let maxVisibleHeight = 0;
+      
+      // Calcular qué sección es la más visible en la ventana actual
       for (const section of sections) {
         const element = document.querySelector(`#${section}`);
         if (element) {
           const rect = element.getBoundingClientRect();
-          if (rect.top <= 100 && rect.bottom >= 100) {
-            setActiveSection(section);
+          const viewportHeight = window.innerHeight;
+          
+          // Calcular la parte visible del elemento en la ventana
+          const visibleTop = Math.max(0, rect.top);
+          const visibleBottom = Math.min(viewportHeight, rect.bottom);
+          const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+          
+          // Si es la sección más visible hasta ahora, actualizar
+          if (visibleHeight > maxVisibleHeight) {
+            maxVisibleHeight = visibleHeight;
+            maxVisibleSection = section;
+          }
+          
+          // Caso especial para la sección de inicio cuando está justo arriba
+          if (section === 'home' && scrollPosition <= 100) {
+            maxVisibleSection = 'home';
             break;
           }
         }
+      }
+      
+      // Actualizar la sección activa
+      if (maxVisibleSection) {
+        setActiveSection(maxVisibleSection);
       }
     };
 

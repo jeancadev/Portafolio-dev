@@ -61,15 +61,60 @@ const AboutSection = () => {
     }
   }, []);
 
-  // Handle expanded text animation
+  // Handle expanded text animation with GSAP
   useEffect(() => {
+    // Crear un timeline para mejor control de las animaciones
+    const expandTl = gsap.timeline({
+      paused: true,
+      defaults: { duration: 0.6, ease: 'power3.out' }
+    });
+    
+    const expandedTextElement = document.querySelector('.expanded-text');
+    const gradientElement = document.querySelector('.text-gradient');
+    
     if (isExpanded) {
-      gsap.fromTo(
-        '.expanded-text',
-        { opacity: 0, height: 0 },
-        { opacity: 1, height: 'auto', duration: 0.5, ease: 'power2.out' }
-      );
+      // Primero, asegurar que el texto sea visible pero con opacidad 0
+      gsap.set(expandedTextElement, { display: 'block', opacity: 0, height: 0 });
+      
+      // Animar la apertura del texto
+      expandTl
+        .to(expandedTextElement, { 
+          height: 'auto', 
+          duration: 0.5,
+          ease: 'power2.inOut'
+        })
+        .to(expandedTextElement, { 
+          opacity: 1, 
+          y: 0,
+          duration: 0.4
+        }, '-=0.3')
+        .to(gradientElement, {
+          opacity: 0,
+          duration: 0.3
+        }, '-=0.4');
+    } else if (expandedTextElement) {
+      // Animar el cierre del texto
+      expandTl
+        .to(expandedTextElement, { 
+          opacity: 0, 
+          y: -10,
+          duration: 0.3
+        })
+        .to(expandedTextElement, { 
+          height: 0, 
+          duration: 0.4,
+          ease: 'power3.inOut'
+        }, '-=0.2')
+        .to(gradientElement, {
+          opacity: 1,
+          duration: 0.3
+        }, '-=0.4')
+        .set(expandedTextElement, { display: 'none' });
     }
+    
+    // Ejecutar la animación
+    expandTl.play();
+    
   }, [isExpanded]);
 
   return (
@@ -138,12 +183,10 @@ const AboutSection = () => {
                 <p className="mb-4">
                   {t('focusDescription1')}
                 </p>
-                <p className={`expanded-text transform ${isExpanded ? '' : 'hidden'}`}>
+                <p className="expanded-text">
                   {t('focusDescription2')}
                 </p>
-                {!isExpanded && (
-                  <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background to-transparent" />
-                )}
+                <div className="text-gradient absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background to-transparent transition-opacity duration-300" style={{ opacity: isExpanded ? 0 : 1 }} />
               </div>
               <Button
                 variant="ghost"

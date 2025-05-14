@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,11 +7,109 @@ import { Github, Linkedin, Mail } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import { useToast } from '@/components/ui/use-toast';
 import { useTranslation } from 'react-i18next';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGsapAnimation } from '@/hooks/use-gsap-animation';
 
 const ContactSection = () => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
+  
+  // Referencias para animaciones GSAP
+  const sectionRef = useGsapAnimation<HTMLElement>({
+    trigger: true,
+    start: 'top 75%',
+    duration: 0.8,
+    from: { opacity: 0, y: 40 },
+    to: { opacity: 1, y: 0 }
+  });
+  
+  const formCardRef = useRef<HTMLDivElement>(null);
+  const infoCardRef = useRef<HTMLDivElement>(null);
+  const formElementsRef = useRef<HTMLFormElement>(null);
+  
+  // Configurar animaciones con GSAP
+  useEffect(() => {
+    // Registrar ScrollTrigger
+    gsap.registerPlugin(ScrollTrigger);
+    
+    // Animación para las tarjetas
+    const cards = [formCardRef.current, infoCardRef.current];
+    
+    gsap.fromTo(cards,
+      { 
+        y: 50, 
+        opacity: 0,
+        scale: 0.95
+      },
+      { 
+        y: 0, 
+        opacity: 1,
+        scale: 1,
+        stagger: 0.2,
+        duration: 0.7,
+        ease: 'back.out(1.2)',
+        scrollTrigger: {
+          trigger: cards[0],
+          start: 'top 80%',
+          toggleActions: 'play none none reverse'
+        }
+      }
+    );
+    
+    // Animación para los elementos del formulario
+    if (formElementsRef.current) {
+      const inputs = formElementsRef.current.querySelectorAll('input, textarea, button');
+      
+      gsap.fromTo(inputs,
+        { y: 20, opacity: 0 },
+        { 
+          y: 0, 
+          opacity: 1,
+          stagger: 0.1,
+          duration: 0.5,
+          ease: 'power2.out',
+          delay: 0.4
+        }
+      );
+    }
+    
+    // Animación para los links de contacto
+    const contactLinks = document.querySelectorAll('.contact-link');
+    gsap.fromTo(contactLinks,
+      { x: -20, opacity: 0 },
+      { 
+        x: 0, 
+        opacity: 1,
+        stagger: 0.15,
+        duration: 0.5,
+        ease: 'power2.out',
+        delay: 0.6
+      }
+    );
+    
+    // Pequeña animación de escala al hacer hover en los botones de redes sociales
+    const socialLinks = document.querySelectorAll('.social-link');
+    socialLinks.forEach(link => {
+      link.addEventListener('mouseenter', () => {
+        gsap.to(link, { scale: 1.2, duration: 0.3, ease: 'back.out(1.5)' });
+      });
+      
+      link.addEventListener('mouseleave', () => {
+        gsap.to(link, { scale: 1, duration: 0.2, ease: 'power1.out' });
+      });
+    });
+    
+    return () => {
+      // Limpiar animaciones y eventos
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      socialLinks.forEach(link => {
+        link.removeEventListener('mouseenter', () => {});
+        link.removeEventListener('mouseleave', () => {});
+      });
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,7 +141,10 @@ const ContactSection = () => {
   };
 
   return (
-    <section id="contact" className="section-padding">
+    <section 
+      id="contact" 
+      ref={sectionRef}
+      className="section-padding">
       <div className="container mx-auto">
         <div className="mb-12 text-center">
           <h2 className="text-3xl md:text-4xl font-bold heading-accent pb-2 mb-4">{t('contact')}</h2>
@@ -53,8 +154,10 @@ const ContactSection = () => {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          <Card className="p-6 backdrop-blur-sm border border-muted/20 bg-card/30">
-            <form onSubmit={handleSubmit} className="space-y-4">
+          <Card 
+            ref={formCardRef}
+            className="p-6 backdrop-blur-sm border border-muted/20 bg-card/30 transition-all duration-300 hover:shadow-xl hover:shadow-blue/10">
+            <form ref={formElementsRef} onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <Input 
                   type="text" 
@@ -81,7 +184,7 @@ const ContactSection = () => {
               </div>
               <Button 
                 type="submit" 
-                className="w-full bg-blue hover:bg-blue-dark active:scale-95"
+                className="w-full bg-blue hover:bg-blue-dark active:scale-95 transition-all duration-300 hover:shadow-lg hover:shadow-blue/20"
                 disabled={isLoading}
               >
                 {isLoading ? t('sending') : t('send')}
@@ -89,15 +192,17 @@ const ContactSection = () => {
             </form>
           </Card>
 
-          <Card className="p-6 backdrop-blur-sm border border-muted/20 bg-card/30">
+          <Card 
+            ref={infoCardRef}
+            className="p-6 backdrop-blur-sm border border-muted/20 bg-card/30 transition-all duration-300 hover:shadow-xl hover:shadow-blue/10">
             <div className="space-y-4">
               <h3 className="text-xl font-semibold mb-4">{t('contactInfo')}</h3>
               <div className="space-y-6">
                 <a 
                   href="mailto:jean.obandocortes@gmail.com" 
-                  className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+                  className="contact-link flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-300 hover:translate-x-1"
                 >
-                  <Mail size={20} />
+                  <Mail size={20} className="text-blue" />
                   jean.obandocortes@gmail.com
                 </a>
                 
@@ -106,7 +211,7 @@ const ContactSection = () => {
                     href="https://github.com/jeancadev" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-blue transition-all duration-300 transform hover:scale-110 dark:hover:text-white hover:text-gray-900"
+                    className="social-link text-muted-foreground hover:text-blue transition-all duration-300 transform hover:scale-110 dark:hover:text-white hover:text-gray-900"
                   >
                     <Github size={28} />
                   </a>
@@ -114,7 +219,7 @@ const ContactSection = () => {
                     href="https://www.linkedin.com/in/jeancarlosobando/" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-blue transition-all duration-300 transform hover:scale-110 dark:hover:text-white hover:text-gray-900"
+                    className="social-link text-muted-foreground hover:text-blue transition-all duration-300 transform hover:scale-110 dark:hover:text-white hover:text-gray-900"
                   >
                     <Linkedin size={28} />
                   </a>

@@ -82,28 +82,41 @@
     @apply scroll-smooth;
   }
 
-  /* Efecto del cursor personalizado */
-  .custom-cursor {
-    width: 20px;
-    height: 20px;
-    background: rgba(59, 130, 246, 0.2);
-    border-radius: 50%;
+  /* Cursor principal */
+  .cursor-main {
     position: fixed;
+    width: 8px;
+    height: 8px;
+    background-color: #3b82f6;
+    border-radius: 50%;
     pointer-events: none;
     z-index: 9999;
-    transition: transform 0.15s ease;
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+    mix-blend-mode: screen;
+    transform: translate(-50%, -50%);
   }
-
-  /* Efecto de aura alrededor del cursor */
-  .cursor-aura {
-    width: 40px;
-    height: 40px;
-    background: rgba(59, 130, 246, 0.1);
-    border-radius: 50%;
+  
+  /* Cursor sobre elementos interactivos */
+  .cursor-main.cursor-active {
+    width: 12px;
+    height: 12px;
+    background-color: #60a5fa;
+    box-shadow: 0 0 15px rgba(96, 165, 250, 0.9);
+  }
+  
+  /* Dots que forman la estela */
+  .cursor-trail-dot {
     position: fixed;
+    width: 6px;
+    height: 6px;
+    background-color: #3b82f6;
+    border-radius: 50%;
     pointer-events: none;
     z-index: 9998;
-    transition: transform 0.3s ease;
+    mix-blend-mode: screen;
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.7);
+    transform: translate(-50%, -50%);
+    will-change: left, top, transform, opacity;
   }
 
   /* Efecto sutil para elementos interactivos */

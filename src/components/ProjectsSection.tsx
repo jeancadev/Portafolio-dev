@@ -1,12 +1,84 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Github } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from 'react-i18next';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGsapAnimation } from '@/hooks/use-gsap-animation';
 
 const ProjectsSection = () => {
   const { t } = useTranslation();
+  
+  // Referencias para las animaciones - definimos la sección como visible por defecto
+  const sectionRef = useRef<HTMLElement>(null);
+  
+  const projectsContainerRef = useRef<HTMLDivElement>(null);
+  const ctaButtonRef = useRef<HTMLDivElement>(null);
+  
+  // Configurar animaciones para las tarjetas de proyectos
+  useEffect(() => {
+    // Al cargar, asegurarse de que la sección sea visible primero
+    if (sectionRef.current) {
+      gsap.set(sectionRef.current, { opacity: 1, y: 0 });
+    }
+    
+    if (!projectsContainerRef.current) return;
+    
+    // Registrar ScrollTrigger
+    gsap.registerPlugin(ScrollTrigger);
+    
+    // Primero, asegurarse de que las tarjetas estén ocultas
+    const projectCards = projectsContainerRef.current.querySelectorAll('.project-card');
+    gsap.set(projectCards, { y: 50, opacity: 0, scale: 0.95 });
+    
+    // Crear un pequeño retraso antes de iniciar la animación
+    setTimeout(() => {
+      // Animación de entrada para cada tarjeta con desplazamiento escalonado
+      gsap.to(projectCards, 
+        { 
+          y: 0, 
+          opacity: 1,
+          scale: 1,
+          stagger: 0.15,
+          duration: 0.8,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: projectsContainerRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+            once: true
+          }
+        }
+      );
+    }, 300);
+    
+    // Animación para el botón CTA
+    if (ctaButtonRef.current) {
+      gsap.fromTo(ctaButtonRef.current,
+        { y: 30, opacity: 0, scale: 0.9 },
+        { 
+          y: 0, 
+          opacity: 1, 
+          scale: 1,
+          duration: 0.6,
+          ease: 'back.out(1.7)',
+          delay: 0.6,
+          scrollTrigger: {
+            trigger: ctaButtonRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
+    }
+    
+    return () => {
+      // Limpiar las animaciones
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, []);
 
   const projects = [
     {
@@ -36,7 +108,10 @@ const ProjectsSection = () => {
   ];
 
   return (
-    <section id="projects" className="section-padding content-visibility-auto">
+    <section 
+      id="projects" 
+      ref={sectionRef}
+      className="section-padding content-visibility-auto">
       <div className="container mx-auto px-4 md:px-6">
         <div className="mb-12 text-center">
           <h2 className="text-3xl md:text-4xl font-bold heading-accent pb-2 mb-4">{t('featuredProjects')}</h2>
@@ -45,9 +120,9 @@ const ProjectsSection = () => {
           </p>
         </div>
 
-        <div className="grid gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div ref={projectsContainerRef} className="grid gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
-            <Card key={project.id} className="project-card flex flex-col h-full group backdrop-blur-sm border border-muted/20 bg-card/30">
+            <Card key={project.id} className="project-card flex flex-col h-full group backdrop-blur-sm border border-muted/20 bg-card/30 transition-all duration-300 hover:shadow-xl hover:shadow-blue/10">
               <div className="relative h-[200px] md:h-[250px] overflow-hidden">
                 <img 
                   src={project.image} 
@@ -95,7 +170,8 @@ const ProjectsSection = () => {
           ))}
         </div>
 
-        <div className="mt-12 text-center">          <Button className="bg-blue hover:bg-blue-dark text-white view-more-btn active:scale-95">
+        <div ref={ctaButtonRef} className="mt-12 text-center">
+          <Button className="bg-blue hover:bg-blue-dark text-white view-more-btn active:scale-95 transition-all duration-300 hover:shadow-lg hover:shadow-blue/20">
             <a 
               href="https://github.com/jeancadev?tab=repositories" 
               target="_blank" 
