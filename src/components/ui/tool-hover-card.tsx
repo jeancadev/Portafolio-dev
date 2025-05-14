@@ -183,6 +183,29 @@ const toolDescriptions: ToolDescriptions = {
   }
 };
 
+// Estilo CSS personalizado para las animaciones de tipo macOS
+const macOSTooltipStyle = `
+  @keyframes tooltipFadeIn {
+    from { opacity: 0; transform: scale(0.96); filter: blur(2px); }
+    to { opacity: 1; transform: scale(1); filter: blur(0); }
+  }
+  
+  @keyframes tooltipFadeOut {
+    from { opacity: 1; transform: scale(1); filter: blur(0); }
+    to { opacity: 0; transform: scale(0.96); filter: blur(2px); }
+  }
+  
+  .macos-tooltip-open {
+    animation: tooltipFadeIn 0.15s cubic-bezier(0.21, 1.02, 0.73, 1) forwards;
+    transform-origin: center center;
+  }
+  
+  .macos-tooltip-closed {
+    animation: tooltipFadeOut 0.15s cubic-bezier(0.21, 1.02, 0.73, 1) forwards;
+    transform-origin: center center;
+  }
+`;
+
 export function ToolHoverCard({ tool, children }: ToolHoverCardProps) {
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language.startsWith('es') ? 'es' : 'en';
@@ -190,6 +213,7 @@ export function ToolHoverCard({ tool, children }: ToolHoverCardProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isMobile, setIsMobile] = React.useState(false);
   const [touchStartTime, setTouchStartTime] = React.useState(0);
+  const [touchStartPos, setTouchStartPos] = React.useState({ x: 0, y: 0 });
   const triggerRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
@@ -200,7 +224,15 @@ export function ToolHoverCard({ tool, children }: ToolHoverCardProps) {
     checkMobile();
     window.addEventListener('resize', checkMobile);
     
-    return () => window.removeEventListener('resize', checkMobile);
+    // Inyectar los estilos CSS personalizados para las animaciones
+    const styleEl = document.createElement('style');
+    styleEl.textContent = macOSTooltipStyle;
+    document.head.appendChild(styleEl);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+      styleEl.remove();
+    };
   }, []);
 
   // Cerrar el tooltip cuando se toca fuera
@@ -208,23 +240,57 @@ export function ToolHoverCard({ tool, children }: ToolHoverCardProps) {
     if (!isMobile) return;
 
     const handleClickOutside = (event: MouseEvent) => {
-      if (triggerRef.current && !triggerRef.current.contains(event.target as Node)) {
+      if (isOpen && triggerRef.current && !triggerRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    
+    const handleTouchOutside = (event: TouchEvent) => {
+      if (isOpen && triggerRef.current && !triggerRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
 
     document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
-  }, [isMobile]);
+    document.addEventListener('touchend', handleTouchOutside);
+    
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('touchend', handleTouchOutside);
+    };
+  }, [isMobile, isOpen]);
 
-  const handleTouchStart = () => {
+  const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStartTime(Date.now());
+    // Guardar la posición inicial del toque
+    if (e.touches && e.touches[0]) {
+      setTouchStartPos({ 
+        x: e.touches[0].clientX,
+        y: e.touches[0].clientY 
+      });
+    }
   };
 
-  const handleTouchEnd = () => {
+  const handleTouchEnd = (e: React.TouchEvent) => {
     const touchDuration = Date.now() - touchStartTime;
-    if (touchDuration < 500) { // Solo toggle si el toque fue menor a 500ms
-      setIsOpen(!isOpen);
+    
+    // Verificar si el usuario ha movido el dedo significativamente (scroll vs. tap)
+    if (e.changedTouches && e.changedTouches[0]) {
+      const touchEndPos = {
+        x: e.changedTouches[0].clientX,
+        y: e.changedTouches[0].clientY
+      };
+      
+      const moveDistance = Math.sqrt(
+        Math.pow(touchEndPos.x - touchStartPos.x, 2) + 
+        Math.pow(touchEndPos.y - touchStartPos.y, 2)
+      );
+      
+      // Si el movimiento es menor a 10px y la duración es corta, consideramos que es un tap
+      if (moveDistance < 10 && touchDuration < 500) {
+        e.preventDefault(); // Prevenir doble acción
+        setIsOpen(!isOpen);
+      }
     }
   };
 
@@ -238,21 +304,22 @@ export function ToolHoverCard({ tool, children }: ToolHoverCardProps) {
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
           onClick={() => isMobile && setIsOpen(!isOpen)}
-          className="touch-manipulation"
+          className="touch-manipulation relative"
         >
           {children}
         </div>
       </HoverCardTrigger>
       <HoverCardContent
         className="z-50 w-[280px] sm:w-80 rounded-xl bg-card/95 backdrop-blur-sm border border-blue/20 
-                 shadow-xl shadow-blue/10 p-4 animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out 
-                 data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95"
+                 shadow-xl shadow-blue/10 p-4 max-w-[90vw] data-[state=open]:macos-tooltip-open 
+                 data-[state=closed]:macos-tooltip-closed"
         side={isMobile ? "bottom" : "top"}
-        align="center"
-        sideOffset={isMobile ? 4 : 8}
-        alignOffset={isMobile ? -50 : 0}
+        align={isMobile ? "center" : "center"}
+        sideOffset={isMobile ? 10 : 8}
+        alignOffset={0}
         avoidCollisions={true}
-        collisionPadding={8}
+        collisionPadding={16}
+        forceMount={isMobile ? isOpen : undefined}
       >
         <div className="space-y-2.5">
           <h3 className="font-bold text-base sm:text-lg text-foreground">{tool}</h3>

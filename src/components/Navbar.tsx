@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Menu } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { cn } from "@/lib/utils";
 import ThemeToggle from './ThemeToggle';
@@ -131,10 +130,26 @@ const Navbar = () => {
                          after:scale-75 after:opacity-0 hover:after:scale-100 hover:after:opacity-100
                          after:transition-all after:duration-500"
               >
-                <Menu className={cn(
-                  "h-5 w-5 transition-transform duration-500",
-                  isOpen && "rotate-90"
-                )} />
+                <div className="w-5 h-5 flex flex-col justify-center items-center">
+                  <span 
+                    className={cn(
+                      "w-4 h-0.5 bg-current rounded-full transition-all duration-300 ease-out",
+                      isOpen ? "rotate-45 translate-y-0.5" : "-translate-y-1"
+                    )}
+                  ></span>
+                  <span 
+                    className={cn(
+                      "w-4 h-0.5 bg-current rounded-full transition-all duration-300 ease-out mt-0.5",
+                      isOpen && "opacity-0 scale-0"
+                    )}
+                  ></span>
+                  <span 
+                    className={cn(
+                      "w-4 h-0.5 bg-current rounded-full transition-all duration-300 ease-out mt-0.5",
+                      isOpen ? "-rotate-45 -translate-y-0.5" : "translate-y-1"
+                    )}
+                  ></span>
+                </div>
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
