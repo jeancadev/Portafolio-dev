@@ -184,38 +184,37 @@ const Navbar = () => {
       
       // Detectar sección activa con mayor precisión
       const sections = ['home', 'about', 'projects', 'skills', 'contact'];
-      let maxVisibleSection = null;
-      let maxVisibleHeight = 0;
       
-      // Calcular qué sección es la más visible en la ventana actual
-      for (const section of sections) {
-        const element = document.querySelector(`#${section}`);
+      // Método mejorado: determinar la sección basada en la posición del centro de la pantalla
+      const viewportHeight = window.innerHeight;
+      const viewportCenter = viewportHeight / 2;
+      
+      // Caso especial: si estamos en la parte superior, activa 'home'
+      if (scrollPosition < 50) {
+        setActiveSection('home');
+        return;
+      }
+      
+      // Encontrar qué sección contiene el punto central de la pantalla
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i];
+        const element = document.getElementById(section);
+        
         if (element) {
           const rect = element.getBoundingClientRect();
-          const viewportHeight = window.innerHeight;
-          
-          // Calcular la parte visible del elemento en la ventana
-          const visibleTop = Math.max(0, rect.top);
-          const visibleBottom = Math.min(viewportHeight, rect.bottom);
-          const visibleHeight = Math.max(0, visibleBottom - visibleTop);
-          
-          // Si es la sección más visible hasta ahora, actualizar
-          if (visibleHeight > maxVisibleHeight) {
-            maxVisibleHeight = visibleHeight;
-            maxVisibleSection = section;
-          }
-          
-          // Caso especial para la sección de inicio cuando está justo arriba
-          if (section === 'home' && scrollPosition <= 100) {
-            maxVisibleSection = 'home';
-            break;
+          // Si el centro de la pantalla está dentro de esta sección o si su borde superior está visible
+          if ((rect.top <= viewportCenter && rect.bottom >= viewportCenter) || 
+              (rect.top <= 100 && rect.top > 0)) {
+            setActiveSection(section);
+            return;
           }
         }
       }
       
-      // Actualizar la sección activa
-      if (maxVisibleSection) {
-        setActiveSection(maxVisibleSection);
+      // Si pasamos por todas las secciones sin encontrar una adecuada, usa otra lógica
+      // Para la sección inferior (usualmente 'contact'), si estamos cerca del final de la página
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
+        setActiveSection('contact');
       }
     };
 
