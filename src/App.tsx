@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import CustomCursor from './components/CustomCursor';
 import './i18n/i18n';
+import './styles/smooth-scroll.css';
 
 const queryClient = new QueryClient();
 

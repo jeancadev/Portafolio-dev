@@ -1,17 +1,85 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Book, Laptop, Code, Users, ChevronDown } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from 'react-i18next';
+import { useGsapAnimation } from '@/hooks/use-gsap-animation';
+import { gsap } from 'gsap';
 
 const AboutSection = () => {
   const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(false);
+  
+  // GSAP animation for the about section
+  const aboutSectionRef = useGsapAnimation<HTMLElement>({
+    trigger: true,
+    start: 'top 80%',
+    duration: 1,
+    from: { opacity: 0, y: 40 },
+    to: { opacity: 1, y: 0 }
+  });
+  
+  // Separate animation for cards with staggered entrance
+  const cardsContainerRef = useGsapAnimation<HTMLDivElement>({
+    trigger: true,
+    start: 'top 75%',
+    delay: 0.2,
+    from: { opacity: 0, y: 30 },
+    to: { opacity: 1, y: 0 },
+    stagger: 0.1
+  });
+  
+  // Animation for professional focus and specialization areas
+  const infoSectionRef = useGsapAnimation<HTMLDivElement>({
+    trigger: true,
+    start: 'top 70%',
+    duration: 0.8,
+    from: { opacity: 0, y: 30 },
+    to: { opacity: 1, y: 0 }
+  });
+
+  // Special animation for list items with emoji
+  useEffect(() => {
+    const listItems = document.querySelectorAll('.specialization-item');
+    if (listItems.length > 0) {
+      gsap.fromTo(
+        listItems,
+        { opacity: 0, x: -20 },
+        { 
+          opacity: 1, 
+          x: 0, 
+          duration: 0.5,
+          stagger: 0.1,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: '.specialization-list',
+            start: 'top 80%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
+    }
+  }, []);
+
+  // Handle expanded text animation
+  useEffect(() => {
+    if (isExpanded) {
+      gsap.fromTo(
+        '.expanded-text',
+        { opacity: 0, height: 0 },
+        { opacity: 1, height: 'auto', duration: 0.5, ease: 'power2.out' }
+      );
+    }
+  }, [isExpanded]);
 
   return (
-    <section id="about" className="section-padding mt-0 bg-gradient-to-b from-background to-background/95 text-foreground content-visibility-auto">
+    <section 
+      id="about" 
+      ref={aboutSectionRef}
+      className="section-padding mt-0 bg-gradient-to-b from-background to-background/95 text-foreground content-visibility-auto"
+    >
       <div className="container mx-auto px-4 md:px-6">
-        <div className="mb-12 text-center">
+        <div className="mb-12 text-center gsap-item">
           <h2 className="text-3xl md:text-4xl font-bold heading-accent pb-2 mb-4">{t('aboutMe')}</h2>
           <div className="text-muted-foreground max-w-3xl mx-auto space-y-4">
             <p>{t('aboutDescription1')}</p>
@@ -20,7 +88,7 @@ const AboutSection = () => {
           </div>
         </div>
 
-        <div className="grid gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-4">
+        <div ref={cardsContainerRef} className="grid gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-4">
           <Card className="bg-card/50 border-muted/20 backdrop-blur-sm transition-transform hover:scale-105">
             <CardContent className="flex flex-col items-center p-6 text-center">
               <div className="mb-4 rounded-full bg-blue/10 p-3">
@@ -62,7 +130,7 @@ const AboutSection = () => {
           </Card>
         </div>
 
-        <div className="mt-16 grid md:grid-cols-2 gap-8">
+        <div ref={infoSectionRef} className="mt-16 grid md:grid-cols-2 gap-8">
           <div>
             <h3 className="text-2xl font-bold mb-4 text-foreground">{t('professionalFocus')}</h3>
             <div className="relative">
@@ -70,7 +138,7 @@ const AboutSection = () => {
                 <p className="mb-4">
                   {t('focusDescription1')}
                 </p>
-                <p className={`transform transition-opacity duration-500 ${isExpanded ? 'opacity-100' : 'opacity-0'}`}>
+                <p className={`expanded-text transform ${isExpanded ? '' : 'hidden'}`}>
                   {t('focusDescription2')}
                 </p>
                 {!isExpanded && (
@@ -90,28 +158,28 @@ const AboutSection = () => {
           
           <div>
             <h3 className="text-2xl font-bold mb-4 text-foreground">{t('specializationAreas')}</h3>
-            <ul className="space-y-3 text-muted-foreground">
-              <li className="flex items-center gap-3">
+            <ul className="space-y-3 text-muted-foreground specialization-list">
+              <li className="flex items-center gap-3 specialization-item">
                 <span>💡</span>
                 <span>{t('area1')}</span>
               </li>
-              <li className="flex items-center gap-3">
+              <li className="flex items-center gap-3 specialization-item">
                 <span>⚡</span>
                 <span>{t('area2')}</span>
               </li>
-              <li className="flex items-center gap-3">
+              <li className="flex items-center gap-3 specialization-item">
                 <span>🐳</span>
                 <span>{t('area3')}</span>
               </li>
-              <li className="flex items-center gap-3">
+              <li className="flex items-center gap-3 specialization-item">
                 <span>☁️</span>
                 <span>{t('area4')}</span>
               </li>
-              <li className="flex items-center gap-3">
+              <li className="flex items-center gap-3 specialization-item">
                 <span>🔄</span>
                 <span>{t('area5')}</span>
               </li>
-              <li className="flex items-center gap-3">
+              <li className="flex items-center gap-3 specialization-item">
                 <span>🧠</span>
                 <span>{t('area6')}</span>
               </li>

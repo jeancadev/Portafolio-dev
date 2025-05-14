@@ -1,0 +1,82 @@
+/* Estilos para ScrollSmoother */
+html, body {
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  overscroll-behavior: none;
+}
+
+.smooth-wrapper {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.smooth-content {
+  min-height: 100vh;
+  width: 100%;
+  /* Otras propiedades se gestionan mediante ScrollSmoother */
+}
+
+/* Clases para efectos basados en scroll */
+.float-effect {
+  will-change: transform;
+  animation: none; /* Desactivar la animación CSS anterior */
+}
+
+/* Clase para elementos que deberían moverse a diferente velocidad durante el scroll */
+.parallax {
+  will-change: transform;
+}
+
+.parallax-slow {
+  transform: translateY(var(--parallax-speed, 0));
+  --parallax-speed: 30%;
+}
+
+.parallax-medium {
+  transform: translateY(var(--parallax-speed, 0));
+  --parallax-speed: 20%;
+}
+
+.parallax-fast {
+  transform: translateY(var(--parallax-speed, 0));
+  --parallax-speed: 10%;
+}
+
+/* Animación de flotación mejorada para el avatar */
+@keyframes float {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+  50% {
+    transform: translateY(0) rotate(0deg);
+  }
+  75% {
+    transform: translateY(8px) rotate(-1deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+.avatar-float {
+  animation: float 8s ease-in-out infinite;
+  transition: all 0.3s ease;
+  transform-origin: center center;
+}
+
+/* Clases para controlar la entrada/salida de elementos con GSAP ScrollTrigger */
+.gsap-reveal {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.gsap-reveal.active {
+  opacity: 1;
+  visibility: visible;
+}

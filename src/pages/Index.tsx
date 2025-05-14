@@ -7,6 +7,7 @@ import ProjectsSection from '@/components/ProjectsSection';
 import SkillsSection from '@/components/SkillsSection';
 import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
+import SmoothScroll from '@/components/SmoothScroll';
 
 const Index = () => {
   const [mounted, setMounted] = useState(false);
@@ -105,6 +106,26 @@ const Index = () => {
       } else {
         document.body.classList.remove('show-scroll-button');
       }
+
+      // Asegurarse de que el botón esté visible basado en el scroll
+      const scrollButton = document.querySelector('.scroll-button');
+      if (scrollButton) {
+        if (scrollTop > scrollDistance) {
+          scrollButton.classList.add('visible');
+          scrollButton.classList.remove('invisible');
+          scrollButton.classList.remove('opacity-0');
+          scrollButton.classList.add('opacity-100');
+          scrollButton.classList.remove('translate-y-10');
+          scrollButton.classList.add('translate-y-0');
+        } else {
+          scrollButton.classList.remove('visible');
+          scrollButton.classList.add('invisible');
+          scrollButton.classList.add('opacity-0');
+          scrollButton.classList.remove('opacity-100');
+          scrollButton.classList.add('translate-y-10');
+          scrollButton.classList.remove('translate-y-0');
+        }
+      }
     };
     
     window.addEventListener('scroll', handleScroll);
@@ -123,8 +144,10 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
+      {/* Navbar fuera del SmoothScroll para mantenerlo fijo */}
       <Navbar />
-      <main className="space-y-0">
+      <SmoothScroll>
+        <main className="space-y-0">
         <HeroSection />
         
         <div 
@@ -172,11 +195,29 @@ const Index = () => {
         </div>
       </main>
       <Footer />
+      </SmoothScroll>
       
       {/* Botón para volver arriba con animación mejorada */}
       <button 
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className="fixed bottom-8 right-8 bg-blue/80 hover:bg-blue text-white rounded-full p-3 shadow-lg opacity-0 invisible transform translate-y-10 transition-all duration-300 ease-in-out z-50 group hover:scale-110 active:scale-95 scroll-button view-more-btn"
+        onClick={() => {
+          // Asegurar que el scroll funcione correctamente con o sin ScrollSmoother
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          // También resetear la posición del wrapper de ScrollSmoother si existe
+          const smoothContent = document.querySelector('.smooth-content');
+          if (smoothContent) {
+            // Usar el API de GSAP si está disponible, o fallback al scroll nativo
+            try {
+              const { gsap } = window as any;
+              if (gsap && gsap.to) {
+                gsap.to(window, { scrollTo: 0, duration: 1.5, ease: 'power3.out' });
+              }
+            } catch (e) {
+              // Si falla, usar el método nativo
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+          }
+        }}
+        className="fixed bottom-8 right-8 bg-blue/80 hover:bg-blue text-white rounded-full p-3 shadow-lg opacity-0 invisible transform translate-y-10 transition-all duration-300 ease-in-out z-[9999] group hover:scale-110 active:scale-95 scroll-button view-more-btn"
         aria-label="Volver arriba"
       >
         <svg 
