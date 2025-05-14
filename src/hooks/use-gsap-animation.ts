@@ -5,6 +5,20 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // Register the ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
+// Solución simple: Refrescar ScrollTrigger cuando la página esté completamente cargada
+// Esto asegura que las animaciones se inicialicen correctamente para todas las secciones
+if (typeof window !== 'undefined') {
+  window.addEventListener('load', () => {
+    console.log('Página completamente cargada - Refrescando ScrollTrigger');
+    ScrollTrigger.refresh();
+    
+    // Un segundo refresh con retraso para asegurar que todas las imágenes y recursos estén cargados
+    setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 300);
+  });
+}
+
 type AnimationOptions = {
   trigger?: boolean;
   start?: string;
@@ -31,7 +45,7 @@ export const useGsapAnimation = <T extends HTMLElement>(
   options: AnimationOptions = {}
 ) => {
   const elementRef = useRef<T>(null);
-  const animationRef = useRef<gsap.context.Context | null>(null);
+  const animationRef = useRef<gsap.Context | null>(null);
 
   const {
     trigger = true,

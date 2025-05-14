@@ -46,7 +46,7 @@ const SkillsSection = () => {
             scrollTrigger: {
               trigger: skillCardsRef.current,
               start: 'top 85%',
-              toggleActions: 'play none none none',
+              // Que solo se animen una vez al cargar inicialmente
               once: true
             }
           }
@@ -56,45 +56,50 @@ const SkillsSection = () => {
     
     // Animación para el título de herramientas
     if (toolsTitleRef.current) {
-      gsap.fromTo(toolsTitleRef.current,
-        { opacity: 0, y: 20 },
-        { 
-          opacity: 1, 
-          y: 0,
-          duration: 0.5,
-          scrollTrigger: {
-            trigger: toolsTitleRef.current,
-            start: 'top 80%',
-            toggleActions: 'play none none reverse'
-          }
+      // Establecer estado inicial
+      gsap.set(toolsTitleRef.current, { opacity: 0, y: 20 });
+      
+      // Animar hacia el estado final
+      gsap.to(toolsTitleRef.current, {
+        opacity: 1, 
+        y: 0,
+        duration: 0.5,
+        scrollTrigger: {
+          trigger: toolsTitleRef.current,
+          start: 'top 80%',
+          // toggleActions: play(onEnter) none(onLeave) none(onEnterBack) reverse(onLeaveBack)
+          // Esto hace que la animación se reproduzca cada vez que el elemento entra en la vista
+          // y se revierta cuando sale de la vista hacia arriba
+          toggleActions: 'play none none reverse'
         }
-      );
+      });
     }
     
     // Animación para las etiquetas de herramientas
     if (toolsContainerRef.current) {
       const toolItems = toolsContainerRef.current.querySelectorAll('.tool-item');
       
-      gsap.fromTo(toolItems,
-        { 
-          opacity: 0, 
-          y: 15,
-          scale: 0.8
-        },
-        { 
-          opacity: 1, 
-          y: 0,
-          scale: 1,
-          stagger: 0.05,
-          duration: 0.4,
-          ease: 'power1.out',
-          scrollTrigger: {
-            trigger: toolsContainerRef.current,
-            start: 'top 80%',
-            toggleActions: 'play none none reverse'
-          }
+      // Establecer estado inicial
+      gsap.set(toolItems, { 
+        opacity: 0, 
+        y: 15,
+        scale: 0.8
+      });
+      
+      // Animar hacia el estado final
+      gsap.to(toolItems, { 
+        opacity: 1, 
+        y: 0,
+        scale: 1,
+        stagger: 0.05,
+        duration: 0.4,
+        ease: 'power1.out',
+        scrollTrigger: {
+          trigger: toolsContainerRef.current,
+          start: 'top 80%',
+          toggleActions: 'play none none reverse'
         }
-      );
+      });
     }
     
     return () => {
@@ -166,7 +171,7 @@ const SkillsSection = () => {
               <div className="flex justify-center group-hover:scale-110 transition-transform duration-300">
                 {group.icon}
               </div>
-              <h3 className="text-xl font-bold mb-5 md:mb-6 text-blue">{group.category}</h3>
+              <h3 className="text-xl font-bold mb-5 md:mb-6 text-blue transform transition-all duration-300 group-hover:scale-125 group-hover:tracking-wider">{group.category}</h3>
               <div className="flex flex-wrap justify-center gap-2 md:gap-3">
                 {group.skills.map((skill) => (
                   <div 

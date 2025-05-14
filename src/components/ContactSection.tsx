@@ -37,26 +37,23 @@ const ContactSection = () => {
     // Animación para las tarjetas
     const cards = [formCardRef.current, infoCardRef.current];
     
-    gsap.fromTo(cards,
-      { 
-        y: 50, 
-        opacity: 0,
-        scale: 0.95
-      },
-      { 
-        y: 0, 
-        opacity: 1,
-        scale: 1,
-        stagger: 0.2,
-        duration: 0.7,
-        ease: 'back.out(1.2)',
-        scrollTrigger: {
-          trigger: cards[0],
-          start: 'top 80%',
-          toggleActions: 'play none none reverse'
-        }
+    // Primero establecemos el estado inicial de las tarjetas
+    gsap.set(cards, { y: 50, opacity: 0, scale: 0.95 });
+    
+    gsap.to(cards, { 
+      y: 0, 
+      opacity: 1,
+      scale: 1,
+      stagger: 0.2,
+      duration: 0.7,
+      ease: 'back.out(1.2)',
+      scrollTrigger: {
+        trigger: cards[0],
+        start: 'top 80%',
+        // Cambiado para que la animación se repita cada vez que la sección entra en vista
+        toggleActions: 'play none reset reset'
       }
-    );
+    });
     
     // Animación para los elementos del formulario
     if (formElementsRef.current) {
