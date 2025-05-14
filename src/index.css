@@ -876,6 +876,15 @@ button, a, [role="button"] {
   transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* Oculta completamente el botón de volver arriba cuando el menú está abierto */
+.menu-open .scroll-button {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transform: translateY(20px) !important;
+  pointer-events: none !important;
+  z-index: -1 !important;
+}
+
 .view-more-btn:hover {
   transform: translateY(-2px) translate3d(0, 0, 0);
   box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.3);
