@@ -938,6 +938,69 @@ button, a, [role="button"] {
   }
 }
 
+/* Optimización de la animación de la imagen de perfil */
+.profile-image-animation {
+  opacity: 0;
+  transform: translateX(0) scale(0.98);
+  will-change: opacity, transform;
+  animation: profileOptimized 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: 0.2s; /* Reducido de 0.4s para que aparezca antes */
+  /* Forzar aceleración por hardware de manera más eficiente */
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  /* Prevenir problemas de renderizado */
+  contain: layout paint;
+  /* Optimizar la transición del filtro */
+  filter: blur(0);
+}
+
+@keyframes profileOptimized {
+  0% {
+    opacity: 0;
+    transform: translate3d(15px, 0, 0) scale(0.98);
+    filter: blur(3px);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translate3d(7px, 0, 0) scale(0.99);
+    filter: blur(1px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Asegurar que la imagen mantenga su calidad */
+.profile-image-animation img {
+  /* Prevenir pixelación durante la animación */
+  image-rendering: optimizeQuality;
+  /* Forzar suavizado */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Fallback para dispositivos de bajo rendimiento */
+@media (prefers-reduced-motion), (update: slow) {
+  .profile-image-animation {
+    animation: profileSimple 0.5s ease-out forwards;
+    animation-delay: 0.1s;
+  }
+
+  @keyframes profileSimple {
+    from {
+      opacity: 0;
+      transform: translateX(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+}
+
 /* Animación especial para la imagen de perfil - versión suave sin rebote */
 .profile-image-animation {
   animation: profileSmooth 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
