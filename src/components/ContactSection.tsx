@@ -195,7 +195,7 @@ const ContactSection = () => {
               </div>
               <Button 
                 type="submit" 
-                className="w-full bg-blue hover:bg-blue-dark active:scale-95 transition-all duration-300 hover:shadow-lg hover:shadow-blue/20"
+                className="btn-send w-full"
                 disabled={isLoading}
               >
                 {isLoading ? t('sending') : t('send')}

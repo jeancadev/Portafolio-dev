@@ -216,15 +216,11 @@ const HeroSection = () => {
 
                 <Button 
                   variant="outline" 
-                  className="w-full md:w-auto border-blue text-blue gap-2 
-                           transition-all duration-300 ease-in-out
-                           hover:bg-blue hover:text-white hover:scale-105
-                           hover:shadow-lg hover:shadow-blue/20
-                           active:scale-95 group" 
+                  className="btn-primary w-full md:w-auto group" 
                   asChild
                 >
                   <a href={cvUrl} download>
-                    <Download className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-[-2px] group-hover:scale-110" />
+                    <Download className="btn-icon-hover h-4 w-4" />
                     {t('downloadCV')}
                   </a>
                 </Button>

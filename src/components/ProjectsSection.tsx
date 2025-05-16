@@ -155,14 +155,14 @@ const ProjectsSection = () => {
               </CardContent>
               
               <CardFooter className="flex-none mt-auto">
-                <Button variant="ghost" size="sm" className="w-full text-blue hover:text-blue-light">
+                <Button variant="ghost" size="sm" className="btn-project w-full group">
                   <a 
                     href={project.githubUrl} 
-                    className="flex items-center justify-center gap-2 w-full" 
+                    className="flex items-center justify-center gap-2 w-full text-gradient-hover" 
                     target="_blank" 
                     rel="noopener noreferrer"
                   >
-                    <Github size={16} /> {t('viewCode')}
+                    <Github className="btn-icon-hover" size={16} /> {t('viewCode')}
                   </a>
                 </Button>
               </CardFooter>
@@ -171,14 +171,14 @@ const ProjectsSection = () => {
         </div>
 
         <div ref={ctaButtonRef} className="mt-12 text-center">
-          <Button className="bg-blue hover:bg-blue-dark text-white view-more-btn active:scale-95 transition-all duration-300 hover:shadow-lg hover:shadow-blue/20">
+          <Button className="btn-send group">
             <a 
               href="https://github.com/jeancadev?tab=repositories" 
               target="_blank" 
               rel="noopener noreferrer" 
               className="flex items-center gap-2"
             >
-              <Github size={18} />
+              <Github className="btn-icon-hover" size={18} />
               {t('viewMoreProjects')}
             </a>
           </Button>
