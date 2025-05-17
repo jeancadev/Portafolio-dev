@@ -161,11 +161,12 @@ const HeroSection = () => {
                     <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight flex flex-col items-start gap-2">
                       <TypewriterEffect 
                         text={t('hello')}
-                        delay={60}
+                        delay={70}
                         showCursor={false}
                         startDelay={500}
                         repeat={false}
                         key={`hello-${languageKey}${isHeroVisible ? '-visible' : ''}-1`}
+                        isVisible={isHeroVisible}
                       />
                       <TypewriterEffect 
                         text="Jean Carlos"
@@ -174,6 +175,7 @@ const HeroSection = () => {
                         startDelay={1500}
                         repeat={false}
                         key={`name-${languageKey}${isHeroVisible ? '-visible' : ''}-2`}
+                        isVisible={isHeroVisible}
                       />
                     </h1>
                   </div>
@@ -188,6 +190,7 @@ const HeroSection = () => {
                         startDelay={2500}
                         repeat={false}
                         key={`desc-${isHeroVisible ? 'visible' : 'hidden'}-${languageKey}`}
+                        isVisible={isHeroVisible}
                       />
                     </div>
                   </div>

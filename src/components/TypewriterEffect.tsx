@@ -8,6 +8,7 @@ interface TypewriterEffectProps {
   startDelay?: number;
   cycleKey?: number;
   repeat?: boolean;
+  isVisible?: boolean;
 }
 
 const TypewriterEffect: React.FC<TypewriterEffectProps> = ({ 
@@ -17,7 +18,8 @@ const TypewriterEffect: React.FC<TypewriterEffectProps> = ({
   showCursor = true,
   startDelay = 0,
   cycleKey = 0,
-  repeat = false
+  repeat = false,
+  isVisible = true
 }) => {  const [displayText, setDisplayText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTyping, setIsTyping] = useState(false);
@@ -57,7 +59,8 @@ const TypewriterEffect: React.FC<TypewriterEffectProps> = ({
     }
   }, [startDelay, isTyping]);
   useEffect(() => {
-    if (isTyping && currentIndex < characters.length) {
+    // Solo continuar la animación si el componente es visible
+    if (isTyping && currentIndex < characters.length && isVisible) {
       // Simulación más realista de escritura humana
       const currentChar = characters[currentIndex];
       
@@ -81,7 +84,7 @@ const TypewriterEffect: React.FC<TypewriterEffectProps> = ({
       const timer = setTimeout(handleTyping, typingDelay);
       return () => clearTimeout(timer);
     }
-  }, [currentIndex, characters, delay, isTyping, handleTyping]);
+  }, [currentIndex, characters, delay, isTyping, handleTyping, isVisible]);
 
   return (
     <span className={`${className} relative will-change-contents`}>
