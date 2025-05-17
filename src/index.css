@@ -212,7 +212,7 @@
 
   /* Espaciado especial para primera sección */
   .hero-section-padding {
-    @apply pt-24 pb-12 px-6 md:px-12 lg:px-24; /* Padding inferior ajustado para equilibrar el espacio */
+    @apply pt-20 pb-20 px-6 md:px-12 lg:px-24 md:pb-24;
   }
 
   /* Terminal de macOS */
