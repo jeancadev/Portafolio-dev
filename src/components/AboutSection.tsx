@@ -1,12 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Book, Laptop, Code, Users, ChevronDown } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from 'react-i18next';
 import { useGsapAnimation } from '@/hooks/use-gsap-animation';
 import { gsap } from 'gsap';
+import { cn } from '@/lib/utils';
 
 const AboutSection = () => {
+  const cardRefs = useRef<Array<HTMLDivElement | null>>([]);
+  
+  // Efecto para seguimiento de mouse en las tarjetas
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent, cardEl: HTMLDivElement) => {
+      if (!cardEl) return;
+      const rect = cardEl.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      cardEl.style.setProperty('--x', `${x}px`);
+      cardEl.style.setProperty('--y', `${y}px`);
+    };
+    
+    const cleanupListeners: Function[] = [];
+    
+    cardRefs.current.forEach((card, i) => {
+      if (!card) return;
+      const onMove = (e: MouseEvent) => handleMouseMove(e, card);
+      card.addEventListener('mousemove', onMove);
+      cleanupListeners.push(() => card.removeEventListener('mousemove', onMove));
+    });
+    
+    return () => cleanupListeners.forEach(fn => fn());
+  }, []);
   const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(false);
   
@@ -121,7 +146,7 @@ const AboutSection = () => {
     <section 
       id="about" 
       ref={aboutSectionRef}
-      className="section-padding mt-0 bg-gradient-to-b from-background to-background/95 text-foreground content-visibility-auto"
+      className="section-padding mt-0 bg-gradient-to-b from-background to-background/95 text-foreground content-visibility-auto relative"
     >
       <div className="container mx-auto px-4 md:px-6">
         <div className="mb-12 text-center gsap-item">
@@ -133,44 +158,56 @@ const AboutSection = () => {
           </div>
         </div>
 
-        <div ref={cardsContainerRef} className="grid gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-4">
-          <Card className="bg-card/50 border-muted/20 backdrop-blur-sm transition-transform hover:scale-105">
-            <CardContent className="flex flex-col items-center p-6 text-center">
-              <div className="mb-4 rounded-full bg-blue/10 p-3">
+        <div ref={cardsContainerRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12 perspective-card-container">
+          <Card 
+            ref={(el) => (cardRefs.current[0] = el)}
+            className="premium-card group relative overflow-hidden bg-card/50 border-0 backdrop-blur-sm transition-all duration-500 hover:shadow-[0_0_25px_rgba(56,189,248,0.15)] dark:hover:shadow-[0_0_25px_rgba(56,189,248,0.1)]">
+            <CardContent className="flex flex-col items-center p-6 text-center z-10 relative transition-all duration-500 group-hover:translate-y-[-8px]">
+              <div className="relative mb-4 rounded-full bg-blue/10 p-3 transition-all duration-500 group-hover:bg-blue/20 group-hover:scale-110 overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:opacity-0 before:translate-x-[-100%] group-hover:before:animate-shimmer">
+                <div className="absolute inset-0 bg-gradient-to-r from-sky-400/10 via-blue-500/10 to-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-full"></div>
                 <Code className="h-6 w-6 text-blue" />
               </div>
-              <h3 className="mb-2 font-bold text-foreground">{t('cardDevelopment')}</h3>
-              <p className="text-sm text-muted-foreground">{t('cardDevelopmentDesc')}</p>
+              <h3 className="mb-2 font-bold text-foreground transition-all duration-500 group-hover:text-gradient-hover">{t('cardDevelopment')}</h3>
+              <p className="text-sm text-muted-foreground transition-all duration-500">{t('cardDevelopmentDesc')}</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-card/50 border-muted/20 backdrop-blur-sm transition-transform hover:scale-105">
-            <CardContent className="flex flex-col items-center p-6 text-center">
-              <div className="mb-4 rounded-full bg-blue/10 p-3">
+          <Card 
+            ref={(el) => (cardRefs.current[1] = el)}
+            className="premium-card group relative overflow-hidden bg-card/50 border-0 backdrop-blur-sm transition-all duration-500 hover:shadow-[0_0_25px_rgba(56,189,248,0.15)] dark:hover:shadow-[0_0_25px_rgba(56,189,248,0.1)]">
+            <CardContent className="flex flex-col items-center p-6 text-center z-10 relative transition-all duration-500 group-hover:translate-y-[-8px]">
+              <div className="relative mb-4 rounded-full bg-blue/10 p-3 transition-all duration-500 group-hover:bg-blue/20 group-hover:scale-110 overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:opacity-0 before:translate-x-[-100%] group-hover:before:animate-shimmer">
+                <div className="absolute inset-0 bg-gradient-to-r from-sky-400/10 via-blue-500/10 to-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-full"></div>
                 <Laptop className="h-6 w-6 text-blue" />
               </div>
-              <h3 className="mb-2 font-bold text-foreground">{t('cardTech')}</h3>
-              <p className="text-sm text-muted-foreground">{t('cardTechDesc')}</p>
+              <h3 className="mb-2 font-bold text-foreground transition-all duration-500 group-hover:text-gradient-hover">{t('cardTech')}</h3>
+              <p className="text-sm text-muted-foreground transition-all duration-500">{t('cardTechDesc')}</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-card/50 border-muted/20 backdrop-blur-sm transition-transform hover:scale-105">
-            <CardContent className="flex flex-col items-center p-6 text-center">
-              <div className="mb-4 rounded-full bg-blue/10 p-3">
+          <Card 
+            ref={(el) => (cardRefs.current[2] = el)}
+            className="premium-card group relative overflow-hidden bg-card/50 border-0 backdrop-blur-sm transition-all duration-500 hover:shadow-[0_0_25px_rgba(56,189,248,0.15)] dark:hover:shadow-[0_0_25px_rgba(56,189,248,0.1)]">
+            <CardContent className="flex flex-col items-center p-6 text-center z-10 relative transition-all duration-500 group-hover:translate-y-[-8px]">
+              <div className="relative mb-4 rounded-full bg-blue/10 p-3 transition-all duration-500 group-hover:bg-blue/20 group-hover:scale-110 overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:opacity-0 before:translate-x-[-100%] group-hover:before:animate-shimmer">
+                <div className="absolute inset-0 bg-gradient-to-r from-sky-400/10 via-blue-500/10 to-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-full"></div>
                 <Users className="h-6 w-6 text-blue" />
               </div>
-              <h3 className="mb-2 font-bold text-foreground">{t('cardCollab')}</h3>
-              <p className="text-sm text-muted-foreground">{t('cardCollabDesc')}</p>
+              <h3 className="mb-2 font-bold text-foreground transition-all duration-500 group-hover:text-gradient-hover">{t('cardCollab')}</h3>
+              <p className="text-sm text-muted-foreground transition-all duration-500">{t('cardCollabDesc')}</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-card/50 border-muted/20 backdrop-blur-sm transition-transform hover:scale-105">
-            <CardContent className="flex flex-col items-center p-6 text-center">
-              <div className="mb-4 rounded-full bg-blue/10 p-3">
+          <Card 
+            ref={(el) => (cardRefs.current[3] = el)}
+            className="premium-card group relative overflow-hidden bg-card/50 border-0 backdrop-blur-sm transition-all duration-500 hover:shadow-[0_0_25px_rgba(56,189,248,0.15)] dark:hover:shadow-[0_0_25px_rgba(56,189,248,0.1)]">
+            <CardContent className="flex flex-col items-center p-6 text-center z-10 relative transition-all duration-500 group-hover:translate-y-[-8px]">
+              <div className="relative mb-4 rounded-full bg-blue/10 p-3 transition-all duration-500 group-hover:bg-blue/20 group-hover:scale-110 overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:opacity-0 before:translate-x-[-100%] group-hover:before:animate-shimmer">
+                <div className="absolute inset-0 bg-gradient-to-r from-sky-400/10 via-blue-500/10 to-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-full"></div>
                 <Book className="h-6 w-6 text-blue" />
               </div>
-              <h3 className="mb-2 font-bold text-foreground">{t('cardLearning')}</h3>
-              <p className="text-sm text-muted-foreground">{t('cardLearningDesc')}</p>
+              <h3 className="mb-2 font-bold text-foreground transition-all duration-500 group-hover:text-gradient-hover">{t('cardLearning')}</h3>
+              <p className="text-sm text-muted-foreground transition-all duration-500">{t('cardLearningDesc')}</p>
             </CardContent>
           </Card>
         </div>
@@ -230,6 +267,79 @@ const AboutSection = () => {
           </div>
         </div>
       </div>
+    <style jsx>{`
+        @keyframes shimmer {
+          0% {
+            transform: translateX(-100%);
+            opacity: 0;
+          }
+          20% {
+            opacity: 0.3;
+          }
+          60% {
+            opacity: 0.3;
+          }
+          100% {
+            transform: translateX(100%);
+            opacity: 0;
+          }
+        }
+        
+        .premium-card::before,
+        .premium-card::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          pointer-events: none;
+          transition: all 0.5s ease;
+          opacity: 0;
+        }
+        
+        .premium-card::before {
+          z-index: -2;
+          background: radial-gradient(
+            800px circle at var(--x) var(--y),
+            rgba(56, 189, 248, 0.12),
+            transparent 40%
+          );
+        }
+        
+        .premium-card::after {
+          z-index: -1;
+          border: 1px solid transparent;
+          background: linear-gradient(
+            to bottom right,
+            rgba(56, 189, 248, 0.3),
+            rgba(236, 72, 153, 0.2),
+            rgba(56, 189, 248, 0)
+          ) border-box;
+          mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+          -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+          -webkit-mask-composite: xor;
+          mask-composite: exclude;
+          opacity: 0;
+          transform: scale(1.02);
+        }
+        
+        .premium-card:hover::before,
+        .premium-card:hover::after {
+          opacity: 1;
+        }
+        
+        @keyframes rotate {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+        
+        .animate-shimmer {
+          animation: shimmer 2.5s infinite;
+        }
+      `}</style>
     </section>
   );
 };
