@@ -83,7 +83,7 @@
   }
 
   /* Cursor principal */
-  .cursor-main {
+  /*.cursor-main {
     position: fixed;
     width: 8px;
     height: 8px;
@@ -94,18 +94,18 @@
     box-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
     mix-blend-mode: screen;
     transform: translate(-50%, -50%);
-  }
+  }*/
   
   /* Cursor sobre elementos interactivos */
-  .cursor-main.cursor-active {
+  /*.cursor-main.cursor-active {
     width: 12px;
     height: 12px;
     background-color: #60a5fa;
     box-shadow: 0 0 15px rgba(96, 165, 250, 0.9);
-  }
+  }*/
   
   /* Dots que forman la estela */
-  .cursor-trail-dot {
+  /*.cursor-trail-dot {
     position: fixed;
     width: 6px;
     height: 6px;
@@ -117,7 +117,7 @@
     box-shadow: 0 0 8px rgba(59, 130, 246, 0.7);
     transform: translate(-50%, -50%);
     will-change: left, top, transform, opacity;
-  }
+  }*/
 
   /* Efecto sutil para elementos interactivos */
   a, button, input, select, textarea, [role="button"] {
@@ -1088,4 +1088,3 @@ button, a, [role="button"] {
     filter: blur(0);
   }
 }
-
