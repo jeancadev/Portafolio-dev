@@ -5,6 +5,7 @@
   --terminal-border: rgba(59, 130, 246, 0.2);
   --terminal-header: rgba(30, 30, 30, 0.8);
   --terminal-text: rgb(230, 230, 230);
+  --terminal-max-width: 800px;
 
   /* Variables para modo claro */
   .light & {
@@ -24,7 +25,7 @@
     inset 0 1px 0 0 rgba(59, 130, 246, 0.05);
   backdrop-filter: blur(12px);
   width: 100%;
-  max-width: 800px;
+  max-width: var(--terminal-max-width);
   margin: 0 auto;
   overflow: hidden;
   opacity: 0;
@@ -32,6 +33,13 @@
   animation: terminalEntrance 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   animation-delay: 0.3s;
   color: var(--terminal-text);
+  transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              height 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+              top 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              left 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              right 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              bottom 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .terminal-header {
@@ -72,6 +80,7 @@
   transition: all 0.2s ease;
   border: 0.5px solid rgba(0, 0, 0, 0.1);
   position: relative;
+  cursor: pointer;
 }
 
 .terminal-button::after {
@@ -94,13 +103,50 @@
   background-color: #ff5f56;
   box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.2);
 }
+.terminal-close:hover::before,
+.terminal-close:hover::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.4);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.terminal-close:hover::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
 .terminal-minimize { 
   background-color: #ffbd2e;
   box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.2);
 }
+.terminal-minimize:hover::before {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.4);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .terminal-maximize { 
   background-color: #27c93f;
   box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.2);
+}
+.terminal-maximize:hover::before {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 1px;
 }
 
 .terminal-title {
@@ -166,4 +212,58 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Estilos para terminal maximizada (estilo pop-up) */
+.terminal-maximized {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  max-width: 80% !important;
+  width: 700px !important;
+  height: 500px !important;
+  z-index: 9999 !important;
+  margin: 0 !important;
+  border-radius: 1rem !important;
+  animation: none !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 0 2000px rgba(0, 0, 0, 0.5) !important;
+  opacity: 1 !important;
+}
+
+.terminal-maximized .terminal-body {
+  height: calc(100% - 3.5rem) !important;
+  max-height: calc(100vh - 5rem) !important;
+  overflow-y: auto !important;
+}
+
+/* Mejor contraste para la terminal maximizada */
+.terminal-maximized .terminal-header {
+  background: linear-gradient(180deg, var(--terminal-header) 0%, var(--terminal-header) 90%, var(--terminal-bg) 100%);
+  border-bottom: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+/* Indicador visual en el botón de maximizar cuando está maximizado */
+.terminal-maximized .terminal-maximize:hover::before {
+  width: 6px;
+  height: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-radius: 0;
+  background: transparent;
+}
+
+.terminal-maximized .terminal-maximize:hover::after {
+  content: "";
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) translate(2px, -2px);
+}
+
+/* Estilos para MacOS Dock */
+.mac-os-dock {
+  z-index: 1000;
 }

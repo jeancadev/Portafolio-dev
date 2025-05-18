@@ -154,7 +154,7 @@ const HeroSection = () => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-12">
           <div className="flex-1 text-left">
             <div className="space-y-4 gsap-item">{/* GSAP will animate this */}
-              <Terminal title={`${t('welcome')}@portfolio ~ $`}>
+              <Terminal id="hero-terminal" title="jean@portfolio ~ %">
                 <div className="space-y-6">
                   <div className="flex items-start">
                     <span className="text-blue mr-2">$ </span>
