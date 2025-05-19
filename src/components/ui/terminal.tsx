@@ -37,47 +37,108 @@ const Terminal = ({
     const terminal = terminalRef.current;
     if (!terminal) return;
     
-    // Forzar renderizado antes de la animación
-    gsap.set(terminal, { willChange: 'transform, opacity' });
+    // Deshabilitar interacciones durante la animación
+    terminal.style.pointerEvents = 'none';
     
-    // Animación de cierre más suave
-    gsap.to(terminal, {
-      opacity: 0,
-      scale: 0.98,
-      duration: 0.25,
-      ease: 'power2.inOut',
+    // Forzar renderizado antes de la animación
+    gsap.set(terminal, { 
+      willChange: 'transform, opacity, filter',
+      transformOrigin: 'center center'
+    });
+    
+    // Animación de cierre con efecto de desvanecimiento y escala
+    const tl = gsap.timeline({
       onComplete: () => {
         // Limpiar estilos después de la animación
         gsap.set(terminal, { clearProps: 'all' });
-        setClosedTerminals([...closedTerminals, id]);
+        setClosedTerminals(prev => [...prev, id]);
+        // Restaurar eventos después de la animación
+        terminal.style.pointerEvents = '';
       }
     });
+    
+    tl.to(terminal, {
+      scale: 0.96,
+      duration: 0.15,
+      ease: 'power2.in',
+      onStart: () => {
+        document.body.classList.add('terminal-closing');
+      }
+    })
+    .to(terminal, {
+      scale: 1.02,
+      opacity: 0.8,
+      filter: 'blur(2px)',
+      duration: 0.2,
+      ease: 'power2.out'
+    })
+    .to(terminal, {
+      scale: 0.9,
+      opacity: 0,
+      filter: 'blur(4px)',
+      duration: 0.15,
+      ease: 'power2.in',
+      onComplete: () => {
+        document.body.classList.remove('terminal-closing');
+      }
+    }, '>0.05');
   };
   
   const handleMinimize = () => {
     const terminal = terminalRef.current;
     if (!terminal) return;
     
-    // Forzar renderizado antes de la animación
-    gsap.set(terminal, { willChange: 'transform, opacity' });
+    // Deshabilitar interacciones durante la animación
+    terminal.style.pointerEvents = 'none';
     
-    // Animación de minimizar más suave
-    gsap.to(terminal, {
-      opacity: 0,
-      scale: 0.96,
-      y: 20,
-      duration: 0.25,
-      ease: 'power2.inOut',
+    // Forzar renderizado antes de la animación
+    gsap.set(terminal, { 
+      willChange: 'transform, opacity',
+      transformOrigin: 'bottom center'
+    });
+    
+    // Crear una copia de los estados actuales para usarlos en el callback
+    const currentMaximized = [...maximizedTerminals];
+    const currentMinimized = [...minimizedTerminals];
+    
+    // Animación de minimizar con efecto de compresión
+    const tl = gsap.timeline({
       onComplete: () => {
         // Limpiar estilos después de la animación
         gsap.set(terminal, { clearProps: 'all' });
+        
+        // Actualizar estados después de la animación
         if (isMaximized) {
-          setMaximizedTerminals(maximizedTerminals.filter(termId => termId !== id));
+          setMaximizedTerminals(currentMaximized.filter(termId => termId !== id));
           document.body.classList.remove('terminal-maximized-active');
         }
-        setMinimizedTerminals([...minimizedTerminals, id]);
+        setMinimizedTerminals([...currentMinimized, id]);
+        
+        // Restaurar eventos
+        terminal.style.pointerEvents = '';
       }
     });
+    
+    tl.to(terminal, {
+      scaleY: 0.8,
+      scaleX: 0.96,
+      opacity: 0.9,
+      duration: 0.15,
+      ease: 'power2.in',
+      onStart: () => {
+        document.body.classList.add('terminal-minimizing');
+      }
+    })
+    .to(terminal, {
+      y: 40,
+      scale: 0.9,
+      opacity: 0,
+      duration: 0.2,
+      ease: 'power2.out',
+      onComplete: () => {
+        document.body.classList.remove('terminal-minimizing');
+      }
+    }, '>0.05');
   };
   
   const handleMaximize = () => {
@@ -183,8 +244,17 @@ const Terminal = ({
     };
   }, [isMaximized]);
   
-  // Si está cerrada o minimizada, no mostrar la terminal
-  if (isClosed || isMinimized) return null;
+  // Si está cerrada, no mostrar la terminal
+  if (isClosed) return null;
+  
+  // Si está minimizada, renderizar el componente oculto para mantener el estado
+  if (isMinimized) {
+    return (
+      <div style={{ display: 'none' }}>
+        {children}
+      </div>
+    );
+  }
   
   return (
     <motion.div 

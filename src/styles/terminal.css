@@ -221,8 +221,8 @@
   top: 50% !important;
   left: 50% !important;
   transform: translate(-50%, -50%) scale(0.95) !important;
-  max-width: 900px !important;
-  width: 85vw !important;
+  max-width: 98% !important;
+  width: 95% !important;
   opacity: 0;
   visibility: hidden;
   transform-origin: center center;
@@ -259,6 +259,19 @@
 }
 
 /* Se ha eliminado el efecto de retroceso táctil */
+
+/* Clases para animaciones */
+.terminal-closing,
+.terminal-minimizing {
+  pointer-events: none !important;
+  overflow: hidden !important;
+}
+
+.terminal-closing .terminal-content,
+.terminal-minimizing .terminal-content {
+  transition: none !important;
+  animation: none !important;
+}
 
 /* Efecto de brillo en el borde */
 .terminal {
@@ -320,10 +333,13 @@
   padding: 1.5rem !important;
   /* Ajustes específicos para móviles */
   @media (max-width: 768px) {
-    height: calc(100% - 3rem) !important;
-    max-height: calc(75vh - 4rem) !important;
+    width: 98% !important;
+    max-width: 100% !important;
+    height: calc(100% - 1.5rem) !important;
+    max-height: calc(90vh - 2rem) !important;
     padding: 1rem 1.25rem !important;
-    margin-top: 0 !important;
+    margin: 0 auto !important;
+    border-radius: 10px !important;
   }
 }
 
@@ -340,12 +356,13 @@
 }
 
 /* Ajuste para escritorio */
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .terminal-maximized {
-    left: 58% !important;
-    max-width: 750px !important;
-    width: 70vw !important;
+    height: 90vh !important;
+    max-width: 900px !important;
+    width: 92% !important;
     max-height: 80vh !important;
+    left: 50% !important;
     
     /* Mantener la consistencia de colores */
     background-color: color-mix(in srgb, var(--terminal-bg) 98%, transparent) !important;
@@ -353,10 +370,11 @@
 }
 
 /* Ajuste para pantallas grandes */
-@media (min-width: 1536px) {
+@media (min-width: 1280px) {
   .terminal-maximized {
-    left: 55% !important; /* Ajuste más sutil para pantallas grandes */
-    max-width: 800px !important; /* Un poco más ancho en pantallas grandes */
+    left: 50% !important;
+    max-width: 1000px !important;
+    width: 85% !important;
   }
 }
 

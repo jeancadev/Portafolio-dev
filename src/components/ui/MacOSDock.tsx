@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useAnimation } from 'framer-motion';
+import { useTheme } from 'next-themes';
 import '@/styles/macos-dock.css';
 
 interface DockItem {
@@ -15,34 +16,72 @@ const MacOSDock: React.FC<{
   items: DockItem[];
 }> = ({ items }) => {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+  const controls = useAnimation();
+  const { theme } = useTheme();
   
   // Filtrar solo los elementos minimizados
   const minimizedItems = items.filter(item => item.isMinimized);
   
-  // No mostrar el dock si no hay elementos minimizados
+  // Efecto para animar la entrada/salida del dock
+  useEffect(() => {
+    if (minimizedItems.length > 0) {
+      controls.start({
+        y: 0,
+        opacity: 1,
+        transition: {
+          type: 'spring',
+          stiffness: 300,
+          damping: 25
+        }
+      });
+    } else {
+      controls.start({
+        y: 100,
+        opacity: 0,
+        transition: {
+          duration: 0.2
+        }
+      });
+    }
+  }, [minimizedItems.length, controls]);
+  
+  // No renderizar nada si no hay elementos minimizados
   if (minimizedItems.length === 0) return null;
   
   return (
     <motion.div 
-      className="mac-os-dock"
+      className={`mac-os-dock ${theme === 'dark' ? 'dark' : ''}`}
       initial={{ y: 100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
+      animate={controls}
       exit={{ y: 100, opacity: 0 }}
-      transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+      transition={{ type: 'spring', stiffness: 300, damping: 25 }}
     >
       <div className="mac-os-dock-container">
         {minimizedItems.map((item) => (
           <motion.div
             key={item.id}
-            className="dock-item"
+            className="dock-item group"
             whileHover={{ 
               scale: 1.2, 
               y: -10,
-              transition: { type: 'spring', stiffness: 400, damping: 17 }
+              transition: { 
+                type: 'spring', 
+                stiffness: 400, 
+                damping: 17,
+                duration: 0.2
+              }
+            }}
+            whileTap={{ 
+              scale: 0.95,
+              y: 0,
+              transition: { duration: 0.1 }
             }}
             onHoverStart={() => setHoveredItem(item.id)}
             onHoverEnd={() => setHoveredItem(null)}
-            onClick={item.onRestore}
+            onClick={(e) => {
+              e.stopPropagation();
+              item.onRestore();
+            }}
           >
             <motion.div 
               className="dock-item-icon"
