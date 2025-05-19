@@ -218,37 +218,17 @@
 /* Estilos para terminal maximizada (estilo pop-up) */
 .terminal-maximized {
   position: fixed !important;
-  top: 45% !important; /* Ajustado para que quede más arriba */
+  top: 40% !important; /* Ajustado para que quede más arriba */
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
   max-width: 900px !important; /* Reducido el ancho máximo */
   width: 85vw !important; /* Reducido el ancho */
-  height: 70vh !important; /* Reducida la altura */
-  max-height: 600px !important; /* Reducida la altura máxima */
-  z-index: 999999 !important;
-  /* Ajustes específicos para móviles */
-  @media (max-width: 768px) {
-    top: 45% !important; /* Centrado vertical */
-    width: calc(100vw - 2rem) !important; /* Ancho con margen automático */
-    height: 75vh !important; /* Altura más compacta */
-    max-height: 550px !important;
-    margin: 1rem !important;
-    border-radius: 0.75rem !important;
-    transform: translate(-50%, -45%) !important;
-    left: 50% !important;
-    right: auto !important;
-    position: fixed !important;
-  }
-  margin: 2rem !important; /* Margen para evitar que toque los bordes */
-  border-radius: 1rem !important;
-  animation: none !important;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 0 2000px rgba(0, 0, 0, 0.5) !important;
   opacity: 1 !important;
   backdrop-filter: blur(12px) !important;
   background-color: rgba(15, 15, 15, 0.98) !important;
   padding: env(safe-area-inset-top, 1rem) !important;
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
-  will-change: transform, width, height, opacity !important;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important; /* Transición ligeramente más rápida */
 }
 
 .terminal-maximized .terminal-body {
@@ -271,6 +251,27 @@
 .terminal-maximized .terminal-header {
   background: linear-gradient(180deg, var(--terminal-header) 0%, var(--terminal-header) 90%, var(--terminal-bg) 100%);
   border-bottom: 1px solid rgba(59, 130, 246, 0.3);
+  position: relative;
+  z-index: 1001;
+  backdrop-filter: blur(8px);
+}
+
+/* Ajuste para escritorio */
+@media (min-width: 1024px) {
+  .terminal-maximized {
+    left: 58% !important; /* Mover más a la derecha */
+    max-width: 750px !important; /* Ancho máximo reducido */
+    width: 70vw !important; /* Ancho relativo reducido */
+    max-height: 80vh !important; /* Altura máxima reducida */
+  }
+}
+
+/* Ajuste para pantallas grandes */
+@media (min-width: 1536px) {
+  .terminal-maximized {
+    left: 55% !important; /* Ajuste más sutil para pantallas grandes */
+    max-width: 800px !important; /* Un poco más ancho en pantallas grandes */
+  }
 }
 
 /* Indicador visual en el botón de maximizar cuando está maximizado */

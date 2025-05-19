@@ -34,6 +34,13 @@ const Terminal = ({
   };
   
   const handleMinimize = () => {
+    // Si está maximizada, primero la restauramos
+    if (isMaximized) {
+      setMaximizedTerminals(maximizedTerminals.filter(termId => termId !== id));
+      // Aseguramos que se quite la clase del body
+      document.body.classList.remove('terminal-maximized-active');
+    }
+    // Luego la minimizamos
     setMinimizedTerminals([...minimizedTerminals, id]);
   };
   
@@ -54,23 +61,40 @@ const Terminal = ({
   
   // Actualizar las dimensiones de los elementos cuando se maximize/restaure
   useEffect(() => {
-    document.documentElement.style.setProperty(
-      '--terminal-max-width', 
-      isMaximized ? '95%' : '800px'
-    );
+    const isMobile = window.innerWidth < 768; // Detectar dispositivos móviles
     
-    // Arreglar el problema con la terminal maximizada que no se muestra correctamente
     if (isMaximized) {
-      // Asegurar que la terminal sea visible
-      document.body.style.overflow = 'hidden'; // Prevenir scroll mientras la terminal está maximizada
+      // Asegurar que la terminal sea visible y ocupe el espacio correcto
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.setProperty('--terminal-max-width', '95%');
+      
+      // Agregar clase al body para ocultar la imagen de perfil
+      document.body.classList.add('terminal-maximized-active');
     } else {
-      // Restaurar overflow cuando la terminal no está maximizada
+      // Restaurar estilos cuando la terminal no está maximizada
       document.body.style.overflow = '';
+      document.documentElement.style.setProperty('--terminal-max-width', isMobile ? '95%' : '800px');
+      
+      // Remover clase del body para mostrar la imagen de perfil
+      document.body.classList.remove('terminal-maximized-active');
     }
+    
+    // Manejar cambios en el tamaño de la ventana
+    const handleResize = () => {
+      const currentIsMobile = window.innerWidth < 768;
+      if (isMaximized && currentIsMobile) {
+        // Ajustar estilos específicos para móviles cuando está maximizado
+        document.documentElement.style.setProperty('--terminal-max-width', '95%');
+      }
+    };
+    
+    window.addEventListener('resize', handleResize);
     
     return () => {
       // Limpieza al desmontar
       document.body.style.overflow = '';
+      document.body.classList.remove('terminal-maximized-active');
+      window.removeEventListener('resize', handleResize);
     };
   }, [isMaximized]);
   

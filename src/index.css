@@ -630,6 +630,20 @@
   }
 }
 
+/* Estilos para ocultar la imagen de perfil cuando la terminal está maximizada */
+.terminal-maximized-active .hero-avatar {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: scale(0.8) !important;
+  transition: opacity 0.3s ease, transform 0.3s ease !important;
+}
+
+/* Asegurar que la terminal maximizada esté por encima de otros elementos */
+.terminal-maximized {
+  z-index: 1000 !important;
+}
+
 /* Small but improved animations for iOS/macOS like smoothness */
 @keyframes float {
   0% { transform: translateY(0px); }
