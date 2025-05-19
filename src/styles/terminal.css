@@ -6,6 +6,7 @@
   --terminal-header: rgba(30, 30, 30, 0.8);
   --terminal-text: rgb(230, 230, 230);
   --terminal-max-width: 800px;
+  --terminal-transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Variables para modo claro */
   .light & {
@@ -217,24 +218,53 @@
 /* Estilos para terminal maximizada (estilo pop-up) */
 .terminal-maximized {
   position: fixed !important;
-  top: 50% !important;
+  top: 45% !important; /* Ajustado para que quede más arriba */
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
-  max-width: 80% !important;
-  width: 700px !important;
-  height: 500px !important;
-  z-index: 9999 !important;
-  margin: 0 !important;
+  max-width: 900px !important; /* Reducido el ancho máximo */
+  width: 85vw !important; /* Reducido el ancho */
+  height: 70vh !important; /* Reducida la altura */
+  max-height: 600px !important; /* Reducida la altura máxima */
+  z-index: 999999 !important;
+  /* Ajustes específicos para móviles */
+  @media (max-width: 768px) {
+    top: 45% !important; /* Centrado vertical */
+    width: calc(100vw - 2rem) !important; /* Ancho con margen automático */
+    height: 75vh !important; /* Altura más compacta */
+    max-height: 550px !important;
+    margin: 1rem !important;
+    border-radius: 0.75rem !important;
+    transform: translate(-50%, -45%) !important;
+    left: 50% !important;
+    right: auto !important;
+    position: fixed !important;
+  }
+  margin: 2rem !important; /* Margen para evitar que toque los bordes */
   border-radius: 1rem !important;
   animation: none !important;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 0 2000px rgba(0, 0, 0, 0.5) !important;
   opacity: 1 !important;
+  backdrop-filter: blur(12px) !important;
+  background-color: rgba(15, 15, 15, 0.98) !important;
+  padding: env(safe-area-inset-top, 1rem) !important;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  will-change: transform, width, height, opacity !important;
 }
 
 .terminal-maximized .terminal-body {
-  height: calc(100% - 3.5rem) !important;
-  max-height: calc(100vh - 5rem) !important;
+  height: calc(100% - 3rem) !important;
+  max-height: calc(70vh - 4rem) !important;
   overflow-y: auto !important;
+  transition: var(--terminal-transition) !important;
+  scroll-behavior: smooth !important;
+  padding: 1.5rem !important;
+  /* Ajustes específicos para móviles */
+  @media (max-width: 768px) {
+    height: calc(100% - 3rem) !important;
+    max-height: calc(75vh - 4rem) !important;
+    padding: 1rem 1.25rem !important;
+    margin-top: 0 !important;
+  }
 }
 
 /* Mejor contraste para la terminal maximizada */
