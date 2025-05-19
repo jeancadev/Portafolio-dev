@@ -218,17 +218,33 @@
 /* Estilos para terminal maximizada (estilo pop-up) */
 .terminal-maximized {
   position: fixed !important;
-  top: 40% !important; /* Ajustado para que quede más arriba */
+  top: 40% !important;
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
-  max-width: 900px !important; /* Reducido el ancho máximo */
-  width: 85vw !important; /* Reducido el ancho */
+  max-width: 900px !important;
+  width: 85vw !important;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 0 2000px rgba(0, 0, 0, 0.5) !important;
   opacity: 1 !important;
   backdrop-filter: blur(12px) !important;
-  background-color: rgba(15, 15, 15, 0.98) !important;
+  background-color: var(--terminal-bg) !important;
+  border: 1.5px solid var(--terminal-border) !important;
+  color: var(--terminal-text) !important;
   padding: env(safe-area-inset-top, 1rem) !important;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important; /* Transición ligeramente más rápida */
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  
+  /* Asegurar que el fondo sea opaco cuando está maximizado */
+  background-color: color-mix(in srgb, var(--terminal-bg) 98%, transparent) !important;
+  
+  /* Variables para modo claro/oscuro */
+  .light & {
+    --terminal-bg: color-mix(in srgb, var(--terminal-bg) 98%, white) !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 0 0 2000px rgba(255, 255, 255, 0.7) !important;
+  }
+  
+  .dark & {
+    --terminal-bg: color-mix(in srgb, var(--terminal-bg) 98%, black) !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 0 2000px rgba(0, 0, 0, 0.5) !important;
+  }
 }
 
 .terminal-maximized .terminal-body {
@@ -249,20 +265,26 @@
 
 /* Mejor contraste para la terminal maximizada */
 .terminal-maximized .terminal-header {
-  background: linear-gradient(180deg, var(--terminal-header) 0%, var(--terminal-header) 90%, var(--terminal-bg) 100%);
-  border-bottom: 1px solid rgba(59, 130, 246, 0.3);
+  background: linear-gradient(180deg, var(--terminal-header) 0%, var(--terminal-header) 90%, var(--terminal-bg) 100%) !important;
+  border-bottom: 1px solid var(--terminal-border) !important;
   position: relative;
   z-index: 1001;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px) !important;
+  
+  /* Asegurar que el texto sea legible */
+  color: var(--terminal-text) !important;
 }
 
 /* Ajuste para escritorio */
 @media (min-width: 1024px) {
   .terminal-maximized {
-    left: 58% !important; /* Mover más a la derecha */
-    max-width: 750px !important; /* Ancho máximo reducido */
-    width: 70vw !important; /* Ancho relativo reducido */
-    max-height: 80vh !important; /* Altura máxima reducida */
+    left: 58% !important;
+    max-width: 750px !important;
+    width: 70vw !important;
+    max-height: 80vh !important;
+    
+    /* Mantener la consistencia de colores */
+    background-color: color-mix(in srgb, var(--terminal-bg) 98%, transparent) !important;
   }
 }
 

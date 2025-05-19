@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import '@/styles/terminal.css';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { TerminalStateContext } from '@/contexts/TerminalStateContext';
+import { gsap } from 'gsap';
 
 interface TerminalProps {
   id: string;
@@ -29,61 +30,189 @@ const Terminal = ({
   const isClosed = closedTerminals.includes(id);
   const isMaximized = maximizedTerminals.includes(id);
   
+  const terminalRef = useRef<HTMLDivElement>(null);
+  const wasMaximized = useRef(false);
+  
   const handleClose = () => {
-    setClosedTerminals([...closedTerminals, id]);
+    const terminal = terminalRef.current;
+    if (!terminal) return;
+    
+    // Forzar renderizado antes de la animación
+    gsap.set(terminal, { willChange: 'transform, opacity' });
+    
+    // Animación de cierre más suave
+    gsap.to(terminal, {
+      opacity: 0,
+      scale: 0.98,
+      duration: 0.25,
+      ease: 'power2.inOut',
+      onComplete: () => {
+        // Limpiar estilos después de la animación
+        gsap.set(terminal, { clearProps: 'all' });
+        setClosedTerminals([...closedTerminals, id]);
+      }
+    });
   };
   
   const handleMinimize = () => {
-    // Si está maximizada, primero la restauramos
-    if (isMaximized) {
-      setMaximizedTerminals(maximizedTerminals.filter(termId => termId !== id));
-      // Aseguramos que se quite la clase del body
-      document.body.classList.remove('terminal-maximized-active');
-    }
-    // Luego la minimizamos
-    setMinimizedTerminals([...minimizedTerminals, id]);
+    const terminal = terminalRef.current;
+    if (!terminal) return;
+    
+    // Forzar renderizado antes de la animación
+    gsap.set(terminal, { willChange: 'transform, opacity' });
+    
+    // Animación de minimizar más suave
+    gsap.to(terminal, {
+      opacity: 0,
+      scale: 0.96,
+      y: 20,
+      duration: 0.25,
+      ease: 'power2.inOut',
+      onComplete: () => {
+        // Limpiar estilos después de la animación
+        gsap.set(terminal, { clearProps: 'all' });
+        if (isMaximized) {
+          setMaximizedTerminals(maximizedTerminals.filter(termId => termId !== id));
+          document.body.classList.remove('terminal-maximized-active');
+        }
+        setMinimizedTerminals([...minimizedTerminals, id]);
+      }
+    });
   };
   
   const handleMaximize = () => {
+    const terminal = terminalRef.current;
+    if (!terminal) return;
+    
+    // Forzar renderizado antes de la animación
+    gsap.set(terminal, { willChange: 'transform' });
+    
     if (isMaximized) {
-      // Si ya está maximizada, la restauramos a su tamaño normal
-      setMaximizedTerminals(maximizedTerminals.filter(termId => termId !== id));
+      // Restaurar desde maximizado con animación más suave
+      gsap.fromTo(terminal,
+        { 
+          scale: 0.99,
+          opacity: 0.98 
+        },
+        { 
+          scale: 1,
+          opacity: 1,
+          duration: 0.3,
+          ease: 'power2.inOut',
+          onComplete: () => {
+            gsap.set(terminal, { clearProps: 'all' });
+            setMaximizedTerminals(maximizedTerminals.filter(termId => termId !== id));
+          },
+          onStart: () => {
+            // Asegurar que la terminal tenga la posición correcta antes de animar
+            gsap.set(terminal, { position: 'relative', margin: '0 auto' });
+          }
+        }
+      );
     } else {
-      // Maximizamos la terminal
+      // Maximizar con animación más suave
+      wasMaximized.current = true;
+      
+      // Guardar la posición actual antes de maximizar
+      const rect = terminal.getBoundingClientRect();
+      
       setMaximizedTerminals([...maximizedTerminals, id]);
       
-      // Si estaba minimizada, la restauramos
       if (isMinimized) {
         setMinimizedTerminals(minimizedTerminals.filter(termId => termId !== id));
       }
+      
+      // Pequeña animación de "respiración" al maximizar
+      gsap.fromTo(terminal,
+        { 
+          scale: 0.99,
+          opacity: 0.98 
+        },
+        { 
+          scale: 1, 
+          opacity: 1,
+          duration: 0.35,
+          ease: [0.2, 0, 0, 1],
+          onComplete: () => {
+            gsap.set(terminal, { clearProps: 'all' });
+          }
+        }
+      );
     }
   };
   
   // Actualizar las dimensiones de los elementos cuando se maximize/restaure
   useEffect(() => {
-    const isMobile = window.innerWidth < 768; // Detectar dispositivos móviles
+    const isMobile = window.innerWidth < 768;
+    const terminal = terminalRef.current;
+    
+    if (!terminal) return;
+    
+    // Forzar renderizado antes de la animación
+    gsap.set(terminal, { willChange: 'transform, opacity' });
     
     if (isMaximized) {
       // Asegurar que la terminal sea visible y ocupe el espacio correcto
       document.body.style.overflow = 'hidden';
       document.documentElement.style.setProperty('--terminal-max-width', '95%');
-      
-      // Agregar clase al body para ocultar la imagen de perfil
       document.body.classList.add('terminal-maximized-active');
+      
+      // Pequeño retraso para asegurar que los estilos se apliquen
+      requestAnimationFrame(() => {
+        gsap.fromTo(terminal,
+          { 
+            scale: 0.99,
+            opacity: 0.98,
+            transformOrigin: 'center center'
+          },
+          { 
+            scale: 1, 
+            opacity: 1,
+            duration: 0.35,
+            ease: [0.2, 0, 0, 1],
+            onComplete: () => {
+              gsap.set(terminal, { clearProps: 'all' });
+            }
+          }
+        );
+      });
     } else {
       // Restaurar estilos cuando la terminal no está maximizada
       document.body.style.overflow = '';
       document.documentElement.style.setProperty('--terminal-max-width', isMobile ? '95%' : '800px');
-      
-      // Remover clase del body para mostrar la imagen de perfil
       document.body.classList.remove('terminal-maximized-active');
+      
+      if (wasMaximized.current) {
+        wasMaximized.current = false;
+        
+        // Animación más suave al restaurar
+        requestAnimationFrame(() => {
+          gsap.fromTo(terminal,
+            { 
+              scale: 0.99,
+              opacity: 0.98,
+              transformOrigin: 'center center'
+            },
+            { 
+              scale: 1,
+              opacity: 1,
+              duration: 0.35,
+              ease: [0.2, 0, 0, 1],
+              onComplete: () => {
+                gsap.set(terminal, { clearProps: 'all' });
+              }
+            }
+          );
+        });
+      } else {
+        // Limpiar estilos si no hay animación
+        gsap.set(terminal, { clearProps: 'all' });
+      }
     }
     
-    // Manejar cambios en el tamaño de la ventana
     const handleResize = () => {
       const currentIsMobile = window.innerWidth < 768;
       if (isMaximized && currentIsMobile) {
-        // Ajustar estilos específicos para móviles cuando está maximizado
         document.documentElement.style.setProperty('--terminal-max-width', '95%');
       }
     };
@@ -91,7 +220,6 @@ const Terminal = ({
     window.addEventListener('resize', handleResize);
     
     return () => {
-      // Limpieza al desmontar
       document.body.style.overflow = '';
       document.body.classList.remove('terminal-maximized-active');
       window.removeEventListener('resize', handleResize);
@@ -103,19 +231,18 @@ const Terminal = ({
   
   return (
     <motion.div 
+      ref={terminalRef}
       className={`terminal ${isMaximized ? 'terminal-maximized' : ''}`}
-      layout
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 20, scale: 0.98 }}
       animate={{ 
         opacity: 1, 
         y: 0,
-        scale: isMaximized ? 1 : undefined
+        scale: 1
       }}
-      transition={{ 
-        type: isMaximized ? 'tween' : 'spring', 
-        stiffness: 300, 
-        damping: 30,
-        duration: isMaximized ? 0.3 : undefined
+      transition={{
+        type: 'tween',
+        duration: 0.3,
+        ease: [0.2, 0, 0, 1]
       }}
     >
       <div className="terminal-header backdrop-blur-md bg-gradient-to-b from-card/50 to-card/30 border-b border-blue/20">
@@ -143,10 +270,14 @@ const Terminal = ({
       <motion.div 
         className="terminal-body"
         initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ 
-          delay: 0.2,
-          duration: 0.3
+        animate={{ 
+          opacity: 1, 
+          y: 0,
+          transition: {
+            delay: 0.1,
+            duration: 0.25,
+            ease: [0.2, 0, 0, 1]
+          }
         }}
       >
         <div className="terminal-content">
