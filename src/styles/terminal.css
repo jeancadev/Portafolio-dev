@@ -218,12 +218,60 @@
 /* Estilos para terminal maximizada (estilo pop-up) */
 .terminal-maximized {
   position: fixed !important;
-  top: 40% !important;
+  top: 50% !important;
   left: 50% !important;
-  transform: translate(-50%, -50%) !important;
+  transform: translate(-50%, -50%) scale(0.95) !important;
   max-width: 900px !important;
   width: 85vw !important;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 0 2000px rgba(0, 0, 0, 0.5) !important;
+  opacity: 0;
+  visibility: hidden;
+  transform-origin: center center;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 2000px rgba(0, 0, 0, 0.7) !important;
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  will-change: transform, opacity, box-shadow;
+  background-color: color-mix(in srgb, var(--terminal-bg) 98%, transparent) !important;
+}
+
+/* Clase para cuando la terminal está activa */
+.terminal-maximized.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1) !important;
+  box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.6), 0 0 0 2000px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Efecto de brillo al pasar el ratón sobre botones */
+.terminal-button:hover {
+  filter: brightness(1.2);
+  transform: scale(1.05);
+  transition: all 0.2s ease-out;
+}
+
+/* Efecto de pulso en el botón de cerrar */
+.terminal-close:hover {
+  animation: pulse-red 1.5s infinite;
+}
+
+@keyframes pulse-red {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+/* Efecto de onda al hacer clic */
+@keyframes wave {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.98); }
+  100% { transform: scale(1); }
+}
+
+.terminal:active {
+  animation: wave 0.3s ease-out;
+}
+
+/* Efecto de brillo en el borde */
+.terminal {
+  position: relative;
   opacity: 1 !important;
   backdrop-filter: blur(12px) !important;
   background-color: var(--terminal-bg) !important;
@@ -231,20 +279,45 @@
   color: var(--terminal-text) !important;
   padding: env(safe-area-inset-top, 1rem) !important;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.terminal::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.4), rgba(124, 58, 237, 0.4), rgba(236, 72, 153, 0.4));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.terminal:hover::after {
+  opacity: 1;
+}
+
+.terminal-maximized::after {
+  opacity: 1 !important;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.6), rgba(124, 58, 237, 0.6), rgba(236, 72, 153, 0.6)) !important;
+}
   
-  /* Asegurar que el fondo sea opaco cuando está maximizado */
-  background-color: color-mix(in srgb, var(--terminal-bg) 98%, transparent) !important;
-  
-  /* Variables para modo claro/oscuro */
-  .light & {
-    --terminal-bg: color-mix(in srgb, var(--terminal-bg) 98%, white) !important;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 0 0 2000px rgba(255, 255, 255, 0.7) !important;
-  }
-  
-  .dark & {
-    --terminal-bg: color-mix(in srgb, var(--terminal-bg) 98%, black) !important;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 0 2000px rgba(0, 0, 0, 0.5) !important;
-  }
+/* Variables para modo claro/oscuro */
+.light .terminal {
+  --terminal-bg: color-mix(in srgb, var(--terminal-bg) 98%, white) !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 0 0 2000px rgba(255, 255, 255, 0.7) !important;
+}
+
+.dark .terminal {
+  --terminal-bg: color-mix(in srgb, var(--terminal-bg) 98%, black) !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 0 2000px rgba(0, 0, 0, 0.5) !important;
 }
 
 .terminal-maximized .terminal-body {

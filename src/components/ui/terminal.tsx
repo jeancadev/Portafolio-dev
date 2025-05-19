@@ -85,32 +85,28 @@ const Terminal = ({
     if (!terminal) return;
     
     // Forzar renderizado antes de la animación
-    gsap.set(terminal, { willChange: 'transform' });
+    gsap.set(terminal, { willChange: 'transform, opacity' });
     
     if (isMaximized) {
-      // Restaurar desde maximizado con animación más suave
-      gsap.fromTo(terminal,
-        { 
-          scale: 0.99,
-          opacity: 0.98 
-        },
-        { 
-          scale: 1,
-          opacity: 1,
-          duration: 0.3,
-          ease: 'power2.inOut',
-          onComplete: () => {
-            gsap.set(terminal, { clearProps: 'all' });
-            setMaximizedTerminals(maximizedTerminals.filter(termId => termId !== id));
-          },
-          onStart: () => {
-            // Asegurar que la terminal tenga la posición correcta antes de animar
-            gsap.set(terminal, { position: 'relative', margin: '0 auto' });
-          }
+      // Restaurar desde maximizado con efecto de desvanecimiento suave
+      gsap.to(terminal, {
+        scale: 0.95,
+        opacity: 0,
+        duration: 0.3,
+        ease: 'power2.in',
+        onComplete: () => {
+          gsap.set(terminal, { clearProps: 'all' });
+          setMaximizedTerminals(maximizedTerminals.filter(termId => termId !== id));
+          // Pequeño retraso para restaurar la opacidad después de la animación
+          gsap.to(terminal, { 
+            opacity: 1, 
+            duration: 0.2,
+            ease: 'power2.out'
+          });
         }
-      );
+      });
     } else {
-      // Maximizar con animación más suave
+      // Maximizar con efecto de zoom suave
       wasMaximized.current = true;
       
       // Guardar la posición actual antes de maximizar
@@ -122,17 +118,17 @@ const Terminal = ({
         setMinimizedTerminals(minimizedTerminals.filter(termId => termId !== id));
       }
       
-      // Pequeña animación de "respiración" al maximizar
+      // Animación de expansión suave al maximizar
       gsap.fromTo(terminal,
         { 
-          scale: 0.99,
-          opacity: 0.98 
+          scale: 0.95,
+          opacity: 0.9
         },
         { 
           scale: 1, 
           opacity: 1,
           duration: 0.35,
-          ease: [0.2, 0, 0, 1],
+          ease: 'power2.out',
           onComplete: () => {
             gsap.set(terminal, { clearProps: 'all' });
           }
@@ -148,9 +144,6 @@ const Terminal = ({
     
     if (!terminal) return;
     
-    // Forzar renderizado antes de la animación
-    gsap.set(terminal, { willChange: 'transform, opacity' });
-    
     if (isMaximized) {
       // Asegurar que la terminal sea visible y ocupe el espacio correcto
       document.body.style.overflow = 'hidden';
@@ -159,53 +152,17 @@ const Terminal = ({
       
       // Pequeño retraso para asegurar que los estilos se apliquen
       requestAnimationFrame(() => {
-        gsap.fromTo(terminal,
-          { 
-            scale: 0.99,
-            opacity: 0.98,
-            transformOrigin: 'center center'
-          },
-          { 
-            scale: 1, 
-            opacity: 1,
-            duration: 0.35,
-            ease: [0.2, 0, 0, 1],
-            onComplete: () => {
-              gsap.set(terminal, { clearProps: 'all' });
-            }
-          }
-        );
+        terminal.classList.add('active');
       });
     } else {
       // Restaurar estilos cuando la terminal no está maximizada
       document.body.style.overflow = '';
       document.documentElement.style.setProperty('--terminal-max-width', isMobile ? '95%' : '800px');
       document.body.classList.remove('terminal-maximized-active');
+      wasMaximized.current = false;
       
-      if (wasMaximized.current) {
-        wasMaximized.current = false;
-        
-        // Animación más suave al restaurar
-        requestAnimationFrame(() => {
-          gsap.fromTo(terminal,
-            { 
-              scale: 0.99,
-              opacity: 0.98,
-              transformOrigin: 'center center'
-            },
-            { 
-              scale: 1,
-              opacity: 1,
-              duration: 0.35,
-              ease: [0.2, 0, 0, 1],
-              onComplete: () => {
-                gsap.set(terminal, { clearProps: 'all' });
-              }
-            }
-          );
-        });
-      } else {
-        // Limpiar estilos si no hay animación
+      // Limpiar estilos
+      if (terminal) {
         gsap.set(terminal, { clearProps: 'all' });
       }
     }
