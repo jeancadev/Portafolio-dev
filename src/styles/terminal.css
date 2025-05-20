@@ -359,8 +359,8 @@
 @media (min-width: 768px) {
   .terminal-maximized {
     height: 90vh !important;
-    max-width: 900px !important;
-    width: 92% !important;
+    max-width: 1200px !important;
+    width: 95% !important;
     max-height: 80vh !important;
     left: 50% !important;
     
@@ -373,8 +373,16 @@
 @media (min-width: 1280px) {
   .terminal-maximized {
     left: 50% !important;
-    max-width: 1000px !important;
-    width: 85% !important;
+    max-width: 1400px !important;
+    width: 90% !important;
+  }
+}
+
+/* Ajuste para pantallas muy grandes */
+@media (min-width: 1536px) {
+  .terminal-maximized {
+    max-width: 1600px !important;
+    width: 92% !important;
   }
 }
 
