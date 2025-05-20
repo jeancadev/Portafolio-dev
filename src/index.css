@@ -689,6 +689,62 @@ a:hover, button:hover, [role="button"]:hover {
   @apply transition-transform duration-300 ease-out scale-[1.02];
 }
 
+/* Mejoras para la navegación en móviles */
+@media (max-width: 1023px) {
+  /* Asegurar que el menú sea accesible en móviles en cualquier orientación */
+  .lg\:hidden {
+    display: flex !important;
+  }
+  
+  /* Ajustar el contenedor del menú para móviles */
+  .sheet-content {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  /* Ajustes para la sección Hero en tablets y móviles */
+  .hero-section-padding {
+    padding-top: 6rem !important;
+    padding-bottom: 4rem !important;
+  }
+  
+  /* Ajustar el tamaño de la imagen de perfil en tablets */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .hero-avatar {
+      height: 220px !important;
+      width: 220px !important;
+      margin: 0 auto 2rem !important;
+    }
+    
+    .flex-col.md\:flex-row {
+      flex-direction: column-reverse !important;
+    }
+    
+    .md\:w-2\/5 {
+      width: 100% !important;
+      margin-bottom: 2rem !important;
+    }
+    
+    .md\:w-3\/5 {
+      width: 100% !important;
+    }
+  }
+  
+  /* Ajustes adicionales para móviles en orientación horizontal */
+  @media (max-height: 600px) {
+    .hero-section-padding {
+      padding-top: 5rem !important;
+      padding-bottom: 2rem !important;
+    }
+    
+    .hero-avatar {
+      height: 160px !important;
+      width: 160px !important;
+      margin-bottom: 1.5rem !important;
+    }
+  }
+}
+
 /* Mejoras para la navegación de escritorio */
 .nav-link {
   @apply relative hover:text-blue transition-all duration-300 ease-out after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-0 after:bg-blue after:transition-all after:duration-300 hover:after:w-full;

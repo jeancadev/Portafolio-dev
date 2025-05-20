@@ -148,11 +148,11 @@ const HeroSection = () => {
     <section 
       id="home" 
       ref={heroRef}
-      className="relative min-h-screen flex items-center justify-center hero-section-padding pt-28 bg-background text-foreground"
+      className="relative min-h-screen flex items-center justify-center hero-section-padding pt-20 md:pt-28 bg-background text-foreground"
     >
       <div className="container mx-auto">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-12">
-          <div className="flex-1 text-left">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12 w-full">
+          <div className="flex-1 text-left w-full md:w-3/5">
             <div className="space-y-4 gsap-item">{/* GSAP will animate this */}
               <Terminal id="hero-terminal" title="jean@portfolio ~ %">
                 <div className="space-y-6">
@@ -231,29 +231,32 @@ const HeroSection = () => {
             </div>
           </div>
           
-          <div className="w-full md:w-2/5 flex justify-center md:justify-end">
-            <Avatar className="hero-avatar h-48 w-48 md:h-64 md:w-64 border-2 border-blue 
-                              transition-colors duration-500 ease-in-out 
-                              hover:shadow-xl hover:shadow-blue/20
-                              hover:border-4 transform-gpu will-change-transform">
-              <AvatarImage 
-                ref={imageRef}
-                src="/profile/profile.jpg" 
-                alt="Foto de perfil de Jean Carlos"
-                className="stable-image"
-                loading="eager"
-                fetchPriority="high"
-                decoding="async"
-                style={{
-                  objectFit: 'cover',
-                  width: '100%',
-                  height: '100%',
-                }}
-              />
-              <AvatarFallback>
-                <div className="animate-pulse bg-muted rounded-full w-full h-full" />
-              </AvatarFallback>
-            </Avatar>
+          <div className="w-full md:w-2/5 flex justify-center">
+            <div className="relative">
+              <Avatar className="hero-avatar h-48 w-48 md:h-56 lg:h-64 md:w-56 lg:w-64 border-2 border-blue 
+                                transition-colors duration-500 ease-in-out 
+                                hover:shadow-xl hover:shadow-blue/20
+                                hover:border-4 transform-gpu will-change-transform">
+                <AvatarImage 
+                  ref={imageRef}
+                  src="/profile/profile.jpg" 
+                  alt="Foto de perfil de Jean Carlos"
+                  className="stable-image"
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
+                  style={{
+                    objectFit: 'cover',
+                    width: '100%',
+                    height: '100%',
+                  }}
+                />
+                <AvatarFallback>
+                  <div className="animate-pulse bg-muted rounded-full w-full h-full" />
+                </AvatarFallback>
+              </Avatar>
+              <div className="absolute -z-10 inset-0 bg-blue/10 rounded-full blur-2xl scale-90 opacity-70 animate-pulse"></div>
+            </div>
           </div>
         </div>
       </div>

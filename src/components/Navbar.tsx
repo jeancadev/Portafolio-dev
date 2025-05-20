@@ -237,7 +237,7 @@ const Navbar = () => {
           </a>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-6">
+          <div className="hidden lg:flex items-center gap-6">
             {menuItems.map((item) => {
               const isActive = activeSection === item.href.replace('#', '');
               return (
@@ -270,7 +270,7 @@ const Navbar = () => {
                 size="icon" 
                 onClick={() => setIsOpen(!isOpen)}
                 className={cn(
-                  "relative md:hidden group overflow-hidden hover:bg-foreground/5 transition-all duration-500",
+                  "relative lg:hidden group overflow-hidden hover:bg-foreground/5 transition-all duration-500",
                   "before:absolute before:inset-0 before:rounded-full before:border before:border-foreground/20",
                   "before:scale-75 before:opacity-0 hover:before:scale-100 hover:before:opacity-100",
                   "before:transition-all before:duration-500",
