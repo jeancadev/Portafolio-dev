@@ -130,6 +130,7 @@ const Navbar = () => {
   const { theme, setTheme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const isNavigatingRef = React.useRef(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -148,31 +149,49 @@ const Navbar = () => {
       const scrollPosition = window.scrollY;
       setIsScrolled(scrollPosition > 0);
       
+      // Si el usuario está navegando por clic, no actualizamos la sección activa
+      if (isNavigatingRef.current) return;
+      
       const sections = ['home', 'about', 'projects', 'skills', 'contact'];
       const viewportHeight = window.innerHeight;
-      const viewportCenter = viewportHeight / 2;
+      const viewportMiddle = viewportHeight / 2;
       
-      if (scrollPosition < 50) {
+      // Si estamos cerca de la parte superior, establecer como 'home'
+      if (scrollPosition < 100) {
         setActiveSection('home');
         return;
       }
       
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i];
-        const element = document.getElementById(section);
-        
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if ((rect.top <= viewportCenter && rect.bottom >= viewportCenter) || 
-              (rect.top <= 100 && rect.top > 0)) {
-            setActiveSection(section);
-            return;
-          }
-        }
-      }
-      
+      // Si estamos cerca de la parte inferior, establecer como 'contact'
       if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
         setActiveSection('contact');
+        return;
+      }
+      
+      // Buscar la sección más cercana al centro de la ventana
+      let closestSection = activeSection;
+      let minDistance = Infinity;
+      
+      sections.forEach(section => {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          const elementMiddle = rect.top + (rect.height / 2);
+          const distance = Math.abs(viewportMiddle - elementMiddle);
+          
+          // Si el elemento está visible en la ventana
+          if (rect.top <= viewportHeight * 0.7 && rect.bottom >= viewportHeight * 0.3) {
+            if (distance < minDistance) {
+              minDistance = distance;
+              closestSection = section;
+            }
+          }
+        }
+      });
+      
+      // Actualizar solo si la sección cambió
+      if (closestSection !== activeSection) {
+        setActiveSection(closestSection);
       }
     };
 
@@ -186,22 +205,34 @@ const Navbar = () => {
     
     if (href) {
       const section = href.replace('#', '');
-      setActiveSection(section);
+      
+      // 1. Marcar que estamos navegando por clic
+      isNavigatingRef.current = true;
+      
+      // 2. Cerrar el menú móvil si está abierto
       setIsOpen(false);
       
-      setTimeout(() => {
-        const element = document.querySelector(href);
-        if (element) {
-          const offset = 80;
-          const elementPosition = element.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.pageYOffset - offset;
+      // 3. Actualizar la sección activa inmediatamente
+      setActiveSection(section);
+      
+      // 4. Desplazamiento suave a la sección
+      const element = document.getElementById(section);
+      if (element) {
+        const offset = 80;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - offset;
 
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-          });
-        }
-      }, 100);
+        // 5. Realizar el scroll suave
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+        
+        // 6. Restablecer la bandera después de un tiempo
+        setTimeout(() => {
+          isNavigatingRef.current = false;
+        }, 1000);
+      }
     }
   };
 
