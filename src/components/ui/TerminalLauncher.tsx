@@ -13,9 +13,7 @@ const TerminalLauncher: React.FC<TerminalLauncherProps> = ({
 }) => {
   const { 
     closedTerminals, 
-    setClosedTerminals,
-    minimizedTerminals,
-    setMinimizedTerminals
+    reopenTerminal
   } = useContext(TerminalStateContext);
 
   const isClosed = closedTerminals.includes(terminalId);
@@ -23,13 +21,7 @@ const TerminalLauncher: React.FC<TerminalLauncherProps> = ({
   if (!isClosed) return null;
   
   const handleReopen = () => {
-    // Eliminar la terminal de la lista de cerradas
-    setClosedTerminals(closedTerminals.filter(id => id !== terminalId));
-    
-    // Asegurarnos de que no esté minimizada
-    if (minimizedTerminals.includes(terminalId)) {
-      setMinimizedTerminals(minimizedTerminals.filter(id => id !== terminalId));
-    }
+    reopenTerminal(terminalId);
   };
   
   // Definir clases para posicionar el botón
@@ -45,14 +37,25 @@ const TerminalLauncher: React.FC<TerminalLauncherProps> = ({
       className={`fixed ${positionClasses[position]} z-50`}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
-      transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+      transition={{ 
+        type: 'spring', 
+        stiffness: 200, 
+        damping: 20,
+        duration: 0.4
+      }}
     >
       <motion.button
         className="terminal-launcher-btn bg-gradient-to-b from-blue-500 to-blue-600 
                    p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300
                    border border-blue-400 flex items-center justify-center"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
+        whileHover={{ 
+          scale: 1.05,
+          transition: { duration: 0.2 }
+        }}
+        whileTap={{ 
+          scale: 0.95,
+          transition: { duration: 0.1 }
+        }}
         onClick={handleReopen}
         aria-label="Abrir Terminal"
         title="Abrir Terminal"

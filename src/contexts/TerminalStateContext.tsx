@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useState, useEffect, ReactNode, useCallback } from 'react';
 
 interface TerminalStateContextProps {
   minimizedTerminals: string[];
@@ -8,6 +8,7 @@ interface TerminalStateContextProps {
   maximizedTerminals: string[];
   setMaximizedTerminals: React.Dispatch<React.SetStateAction<string[]>>;
   restoreTerminal: (id: string) => void;
+  reopenTerminal: (id: string) => void;
 }
 
 // Valor por defecto del contexto
@@ -19,6 +20,7 @@ const defaultContext: TerminalStateContextProps = {
   maximizedTerminals: [],
   setMaximizedTerminals: () => {},
   restoreTerminal: () => {},
+  reopenTerminal: () => {},
 };
 
 export const TerminalStateContext = createContext<TerminalStateContextProps>(defaultContext);
@@ -32,10 +34,18 @@ export const TerminalStateProvider: React.FC<TerminalStateProviderProps> = ({ ch
   const [closedTerminals, setClosedTerminals] = useState<string[]>([]);
   const [maximizedTerminals, setMaximizedTerminals] = useState<string[]>([]);
 
-  // Función para restaurar una terminal minimizada
-  const restoreTerminal = (id: string) => {
+  // Función para restaurar una terminal minimizada con transición suave
+  const restoreTerminal = useCallback((id: string) => {
     setMinimizedTerminals(prev => prev.filter(termId => termId !== id));
-  };
+  }, []);
+
+  // Función para reabrir una terminal cerrada con transición suave
+  const reopenTerminal = useCallback((id: string) => {
+    setClosedTerminals(prev => prev.filter(termId => termId !== id));
+    
+    // Asegurarse de que no esté minimizada
+    setMinimizedTerminals(prev => prev.filter(termId => termId !== id));
+  }, []);
 
   return (
     <TerminalStateContext.Provider
@@ -47,6 +57,7 @@ export const TerminalStateProvider: React.FC<TerminalStateProviderProps> = ({ ch
         maximizedTerminals,
         setMaximizedTerminals,
         restoreTerminal,
+        reopenTerminal,
       }}
     >
       {children}
