@@ -143,34 +143,28 @@ const Terminal = ({
     });
     
     if (isMaximized) {
-      // Restaurar desde maximizado - efecto inverso de la expansión
-      terminal.classList.add('terminal-restoring');
-      
+      // Restaurar desde maximizado, ahora usando animación CSS
       const restoreDuration = isMobile ? 0.5 : isTablet ? 0.55 : 0.5;
       
-      // Animación inversa de la expansión
-      gsap.to(terminal, {
-        scale: 0.9,
-        opacity: 0.8,
-        duration: restoreDuration,
-        ease: 'power1.out',
-        onComplete: () => {
-          gsap.set(terminal, { clearProps: 'all' });
-          setMaximizedTerminals(maximizedTerminals.filter(termId => termId !== id));
+      // Aplicar la duración de la animación vía style y añadir la clase que la activa
+      terminal.style.animationDuration = `${restoreDuration}s`;
+      terminal.classList.add('terminal-restoring');
+      
+      // Usar delayedCall para ejecutar la lógica de limpieza después de que la animación CSS termine
+      gsap.delayedCall(restoreDuration, () => {
+        // Limpiar clases y estados
+        terminal.classList.remove('terminal-maximized', 'terminal-restoring', 'active');
+        setMaximizedTerminals(prev => prev.filter(termId => termId !== id));
+        
+        if (wasMaximized.current) {
           document.body.classList.remove('terminal-maximized-active');
-          terminal.classList.remove('terminal-restoring');
-          
-          // Restaurar al estado normal
-          gsap.to(terminal, { 
-            opacity: 1, 
-            scale: 1,
-            duration: 0.3,
-            ease: 'power1.out',
-            onComplete: () => {
-              isAnimating.current = false;
-            }
-          });
+          wasMaximized.current = false;
         }
+        
+        // Resetear estilos y estado de animación
+        gsap.set(terminal, { clearProps: 'all' });
+        terminal.style.pointerEvents = '';
+        isAnimating.current = false;
       });
     } else {
       // Maximizar con animación suave

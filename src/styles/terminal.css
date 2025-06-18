@@ -267,19 +267,22 @@
   }
 }
 
-/* Animación de restauración - efecto inverso de la expansión */
+/* Animación de restauración - efecto de contracción y desvanecimiento */
 .terminal-restoring {
-  animation: terminalRestore 0.5s ease-out forwards;
+  animation-name: terminalRestore;
+  animation-fill-mode: forwards;
+  /* La duración se controla desde JS para consistencia */
+  animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
 }
 
 @keyframes terminalRestore {
-  0% {
+  from {
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
   }
-  100% {
-    transform: translate(-50%, -50%) scale(0.9);
-    opacity: 0.8;
+  to {
+    transform: translate(-50%, calc(-50% + 50px)) scale(0.9);
+    opacity: 0;
   }
 }
 
@@ -488,9 +491,7 @@
     animation: terminalExpand 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   }
 
-  .terminal-restoring {
-    animation: terminalRestore 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  }
+
 
   /* Mejorar la interacción con la foto de perfil en móviles */
   .terminal-maximized-active .hero-avatar {
@@ -514,9 +515,7 @@
     animation: terminalExpand 0.55s ease-out forwards;
   }
 
-  .terminal-restoring {
-    animation: terminalRestore 0.55s ease-out forwards;
-  }
+
 }
 
 /* Mejorar la transición del contenido cuando la terminal se maximiza/restaura */
