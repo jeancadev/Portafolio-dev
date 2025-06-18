@@ -643,7 +643,7 @@
 /* Animación de entrada suave para la foto de perfil cuando se restaura la terminal */
 .terminal-restoring ~ .hero-avatar,
 .terminal-restoring ~ * .hero-avatar {
-  animation: profileRestore 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation: profileRestore 0.5s ease-out forwards;
 }
 
 @keyframes profileRestore {
@@ -662,7 +662,7 @@
 /* Animación de salida suave para la foto de perfil cuando se maximiza la terminal */
 .terminal-expanding ~ .hero-avatar,
 .terminal-expanding ~ * .hero-avatar {
-  animation: profileHide 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation: profileHide 0.5s ease-out forwards;
 }
 
 @keyframes profileHide {
@@ -1197,18 +1197,18 @@ button, a, [role="button"] {
 @media (max-width: 768px) {
   .terminal-maximized-active .hero-avatar {
     transform: scale(0.8) translateY(5px) !important;
-    transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-                transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    transition: opacity 0.4s ease-out, 
+                transform 0.4s ease-out !important;
   }
 
   .terminal-restoring ~ .hero-avatar,
   .terminal-restoring ~ * .hero-avatar {
-    animation: profileRestore 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation: profileRestore 0.5s ease-out forwards;
   }
 
   .terminal-expanding ~ .hero-avatar,
   .terminal-expanding ~ * .hero-avatar {
-    animation: profileHide 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation: profileHide 0.5s ease-out forwards;
   }
 }
 
@@ -1216,11 +1216,11 @@ button, a, [role="button"] {
 @media (min-width: 769px) and (max-width: 1024px) {
   .terminal-restoring ~ .hero-avatar,
   .terminal-restoring ~ * .hero-avatar {
-    animation: profileRestore 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation: profileRestore 0.55s ease-out forwards;
   }
 
   .terminal-expanding ~ .hero-avatar,
   .terminal-expanding ~ * .hero-avatar {
-    animation: profileHide 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation: profileHide 0.55s ease-out forwards;
   }
 }

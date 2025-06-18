@@ -143,28 +143,29 @@ const Terminal = ({
     });
     
     if (isMaximized) {
-      // Restaurar desde maximizado con animación suave
+      // Restaurar desde maximizado - efecto inverso de la expansión
       terminal.classList.add('terminal-restoring');
       
-      const restoreDuration = isMobile ? 0.4 : isTablet ? 0.45 : 0.4;
+      const restoreDuration = isMobile ? 0.5 : isTablet ? 0.55 : 0.5;
       
+      // Animación inversa de la expansión
       gsap.to(terminal, {
         scale: 0.9,
-        opacity: 0,
+        opacity: 0.8,
         duration: restoreDuration,
-        ease: 'power2.out',
+        ease: 'power1.out',
         onComplete: () => {
           gsap.set(terminal, { clearProps: 'all' });
           setMaximizedTerminals(maximizedTerminals.filter(termId => termId !== id));
           document.body.classList.remove('terminal-maximized-active');
           terminal.classList.remove('terminal-restoring');
           
-          // Restaurar opacidad suavemente
+          // Restaurar al estado normal
           gsap.to(terminal, { 
             opacity: 1, 
             scale: 1,
             duration: 0.3,
-            ease: 'power2.out',
+            ease: 'power1.out',
             onComplete: () => {
               isAnimating.current = false;
             }
@@ -181,7 +182,7 @@ const Terminal = ({
         setMinimizedTerminals(minimizedTerminals.filter(termId => termId !== id));
       }
       
-      // Animación de expansión más suave sin rebote
+      // Animación de expansión
       terminal.classList.add('terminal-expanding');
       
       const expandDuration = isMobile ? 0.5 : isTablet ? 0.55 : 0.5;
@@ -195,7 +196,7 @@ const Terminal = ({
           scale: 1, 
           opacity: 1,
           duration: expandDuration,
-          ease: 'power2.out',
+          ease: 'power1.out',
           onComplete: () => {
             gsap.set(terminal, { clearProps: 'all' });
             terminal.classList.remove('terminal-expanding');
