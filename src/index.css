@@ -632,16 +632,50 @@
 
 /* Estilos para ocultar la imagen de perfil cuando la terminal está maximizada */
 .terminal-maximized-active .hero-avatar {
-  display: none !important;
   opacity: 0 !important;
   pointer-events: none !important;
-  transform: scale(0.8) !important;
-  transition: opacity 0.3s ease, transform 0.3s ease !important;
+  transform: scale(0.85) translateY(10px) !important;
+  transition: opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+              transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  filter: blur(2px) !important;
 }
 
-/* Asegurar que la terminal maximizada esté por encima de otros elementos */
-.terminal-maximized {
-  z-index: 1000 !important;
+/* Animación de entrada suave para la foto de perfil cuando se restaura la terminal */
+.terminal-restoring ~ .hero-avatar,
+.terminal-restoring ~ * .hero-avatar {
+  animation: profileRestore 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes profileRestore {
+  0% {
+    opacity: 0;
+    transform: scale(0.85) translateY(10px);
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* Animación de salida suave para la foto de perfil cuando se maximiza la terminal */
+.terminal-expanding ~ .hero-avatar,
+.terminal-expanding ~ * .hero-avatar {
+  animation: profileHide 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes profileHide {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.85) translateY(10px);
+    filter: blur(2px);
+  }
 }
 
 /* Small but improved animations for iOS/macOS like smoothness */
@@ -1156,5 +1190,37 @@ button, a, [role="button"] {
     opacity: 1;
     transform: rotate(0) scale(1);
     filter: blur(0);
+  }
+}
+
+/* Mejoras responsive para la foto de perfil */
+@media (max-width: 768px) {
+  .terminal-maximized-active .hero-avatar {
+    transform: scale(0.8) translateY(5px) !important;
+    transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  }
+
+  .terminal-restoring ~ .hero-avatar,
+  .terminal-restoring ~ * .hero-avatar {
+    animation: profileRestore 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+
+  .terminal-expanding ~ .hero-avatar,
+  .terminal-expanding ~ * .hero-avatar {
+    animation: profileHide 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+}
+
+/* Ajustes para tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .terminal-restoring ~ .hero-avatar,
+  .terminal-restoring ~ * .hero-avatar {
+    animation: profileRestore 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+
+  .terminal-expanding ~ .hero-avatar,
+  .terminal-expanding ~ * .hero-avatar {
+    animation: profileHide 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   }
 }

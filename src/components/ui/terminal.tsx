@@ -46,7 +46,7 @@ const Terminal = ({
     
     // Configurar la animación de cierre más suave
     gsap.set(terminal, { 
-      willChange: 'transform, opacity',
+      willChange: 'transform, opacity, scale',
       transformOrigin: 'center center'
     });
     
@@ -59,17 +59,17 @@ const Terminal = ({
       }
     });
     
-    // Animación de cierre más fluida
+    // Animación de cierre más fluida con rebote suave
     tl.to(terminal, {
       scale: 0.95,
-      opacity: 0.7,
-      duration: 0.2,
+      opacity: 0.8,
+      duration: 0.3,
       ease: 'power2.out'
     })
     .to(terminal, {
       scale: 0.85,
       opacity: 0,
-      duration: 0.15,
+      duration: 0.25,
       ease: 'power2.in'
     });
   };
@@ -86,7 +86,7 @@ const Terminal = ({
     
     // Configurar la animación de minimizar más suave
     gsap.set(terminal, { 
-      willChange: 'transform, opacity',
+      willChange: 'transform, opacity, scale',
       transformOrigin: 'center center'
     });
     
@@ -109,19 +109,19 @@ const Terminal = ({
       }
     });
     
-    // Animación de minimizar más fluida
+    // Animación de minimizar más fluida con rebote suave
     tl.to(terminal, {
-      scale: 0.9,
-      opacity: 0.8,
-      y: 20,
-      duration: 0.25,
+      scale: 0.92,
+      opacity: 0.85,
+      y: 15,
+      duration: 0.3,
       ease: 'power2.out'
     })
     .to(terminal, {
       scale: 0.8,
       opacity: 0,
-      y: 40,
-      duration: 0.2,
+      y: 30,
+      duration: 0.25,
       ease: 'power2.in'
     });
   };
@@ -133,24 +133,37 @@ const Terminal = ({
     const terminal = terminalRef.current;
     if (!terminal) return;
     
-    gsap.set(terminal, { willChange: 'transform, opacity' });
+    // Detectar si es móvil para usar animaciones más suaves
+    const isMobile = window.innerWidth <= 768;
+    const isTablet = window.innerWidth > 768 && window.innerWidth <= 1024;
+    
+    gsap.set(terminal, { 
+      willChange: 'transform, opacity, scale',
+      transformOrigin: 'center center'
+    });
     
     if (isMaximized) {
       // Restaurar desde maximizado con animación suave
+      terminal.classList.add('terminal-restoring');
+      
+      const restoreDuration = isMobile ? 0.4 : isTablet ? 0.45 : 0.4;
+      
       gsap.to(terminal, {
-        scale: 0.95,
-        opacity: 0.8,
-        duration: 0.25,
+        scale: 0.9,
+        opacity: 0,
+        duration: restoreDuration,
         ease: 'power2.out',
         onComplete: () => {
           gsap.set(terminal, { clearProps: 'all' });
           setMaximizedTerminals(maximizedTerminals.filter(termId => termId !== id));
           document.body.classList.remove('terminal-maximized-active');
+          terminal.classList.remove('terminal-restoring');
           
           // Restaurar opacidad suavemente
           gsap.to(terminal, { 
             opacity: 1, 
-            duration: 0.2,
+            scale: 1,
+            duration: 0.3,
             ease: 'power2.out',
             onComplete: () => {
               isAnimating.current = false;
@@ -168,7 +181,11 @@ const Terminal = ({
         setMinimizedTerminals(minimizedTerminals.filter(termId => termId !== id));
       }
       
-      // Animación de expansión más suave
+      // Animación de expansión más suave sin rebote
+      terminal.classList.add('terminal-expanding');
+      
+      const expandDuration = isMobile ? 0.5 : isTablet ? 0.55 : 0.5;
+      
       gsap.fromTo(terminal,
         { 
           scale: 0.9,
@@ -177,10 +194,11 @@ const Terminal = ({
         { 
           scale: 1, 
           opacity: 1,
-          duration: 0.3,
+          duration: expandDuration,
           ease: 'power2.out',
           onComplete: () => {
             gsap.set(terminal, { clearProps: 'all' });
+            terminal.classList.remove('terminal-expanding');
             isAnimating.current = false;
           }
         }
@@ -254,7 +272,7 @@ const Terminal = ({
       }}
       transition={{
         type: 'tween',
-        duration: 0.4,
+        duration: 0.6,
         ease: [0.25, 0.46, 0.45, 0.94]
       }}
     >
@@ -287,8 +305,8 @@ const Terminal = ({
           opacity: 1, 
           y: 0,
           transition: {
-            delay: 0.1,
-            duration: 0.3,
+            delay: 0.15,
+            duration: 0.4,
             ease: [0.25, 0.46, 0.45, 0.94]
           }
         }}
