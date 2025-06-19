@@ -101,29 +101,12 @@ const Index = () => {
       const scrollDistance = window.innerHeight * 0.3;
       
       // Solo mostrar el botón cuando se ha desplazado cierta distancia
-      if (scrollTop > scrollDistance) {
-        document.body.classList.add('show-scroll-button');
-      } else {
-        document.body.classList.remove('show-scroll-button');
-      }
-
-      // Asegurarse de que el botón esté visible basado en el scroll
       const scrollButton = document.querySelector('.scroll-button');
       if (scrollButton) {
         if (scrollTop > scrollDistance) {
-          scrollButton.classList.add('visible');
-          scrollButton.classList.remove('invisible');
-          scrollButton.classList.remove('opacity-0');
-          scrollButton.classList.add('opacity-100');
-          scrollButton.classList.remove('translate-y-10');
-          scrollButton.classList.add('translate-y-0');
+          scrollButton.classList.add('scroll-button-visible');
         } else {
-          scrollButton.classList.remove('visible');
-          scrollButton.classList.add('invisible');
-          scrollButton.classList.add('opacity-0');
-          scrollButton.classList.remove('opacity-100');
-          scrollButton.classList.add('translate-y-10');
-          scrollButton.classList.remove('translate-y-0');
+          scrollButton.classList.remove('scroll-button-visible');
         }
       }
     };
@@ -217,7 +200,7 @@ const Index = () => {
             }
           }
         }}
-        className="fixed bottom-8 right-8 bg-blue/80 hover:bg-blue text-white rounded-full p-3 shadow-lg opacity-0 invisible transform translate-y-10 transition-all duration-300 ease-in-out z-[9999] group hover:scale-110 active:scale-95 scroll-button view-more-btn"
+        className="fixed bottom-8 right-8 bg-blue/80 hover:bg-blue text-white rounded-full p-3 shadow-lg z-[9999] group hover:scale-110 active:scale-95 scroll-button view-more-btn"
         aria-label="Volver arriba"
       >
         <svg 

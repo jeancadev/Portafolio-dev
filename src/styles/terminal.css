@@ -34,16 +34,8 @@
   animation: terminalEntrance 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   animation-delay: 0.2s;
   color: var(--terminal-text);
-  transition: max-width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-              height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              bottom 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              scale 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  will-change: transform, opacity, scale;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity, scale, height, max-width;
   transform-origin: center center;
 }
 
@@ -253,13 +245,13 @@
 
 /* Animación de expansión más suave */
 .terminal-expanding {
-  animation: terminalExpand 0.5s ease-out forwards;
+  animation: terminalMaximize 0.5s ease-out forwards;
 }
 
-@keyframes terminalExpand {
+@keyframes terminalMaximize {
   0% {
-    transform: translate(-50%, -50%) scale(0.9);
-    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(0.95);
+    opacity: 0;
   }
   100% {
     transform: translate(-50%, -50%) scale(1);
@@ -267,26 +259,38 @@
   }
 }
 
-/* Animación de restauración - efecto de contracción y desvanecimiento */
-.terminal-restoring {
-  animation-name: terminalRestore;
-  animation-fill-mode: forwards;
-  /* La duración se controla desde JS para consistencia */
-  animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
+@keyframes terminalClose {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0.9) translateY(-20px);
+    opacity: 0;
+  }
+}
+
+@keyframes terminalMinimize {
+  from {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0.4) translateY(200px);
+    opacity: 0;
+  }
 }
 
 @keyframes terminalRestore {
   0% {
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
-  }
-  90% {
-    transform: translate(-50%, calc(-50% + 45px)) scale(0.91);
-    opacity: 1;
+    visibility: visible;
   }
   100% {
-    transform: translate(-50%, calc(-50% + 50px)) scale(0.9);
+    transform: translate(-50%, -50%) scale(0.95);
     opacity: 0;
+    visibility: hidden;
   }
 }
 
