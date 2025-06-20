@@ -173,6 +173,7 @@
   flex-grow: 1;
   overflow-y: auto; /* Permitir scroll vertical */
   min-height: 0; /* Necesario para que flexbox funcione correctamente */
+  scroll-behavior: smooth;
 }
 
 .terminal-body::before {
@@ -439,6 +440,26 @@
     
     /* Mantener la consistencia de colores */
     background-color: color-mix(in srgb, var(--terminal-bg) 98%, transparent) !important;
+  }
+}
+
+/* --- Responsive Adjustments for Terminal Height --- */
+
+/* For tablets */
+@media (max-width: 768px) {
+  .terminal {
+    height: auto; /* Permitir que la altura se ajuste al contenido */
+    max-height: 70vh; /* Máximo 70% de la altura de la pantalla */
+    min-height: 280px;
+  }
+}
+
+/* For mobile phones */
+@media (max-width: 480px) {
+  .terminal {
+    height: auto;
+    max-height: 75vh; /* Máximo 75% de la altura de la pantalla */
+    min-height: 240px;
   }
 }
 

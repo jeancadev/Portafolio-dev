@@ -33,7 +33,7 @@ const SmoothScroll: React.FC<SmoothScrollProps> = ({ children }) => {
       smootherInstance = ScrollSmoother.create({
         wrapper: smoothWrapperRef.current,
         content: smoothContentRef.current,
-        smooth: isMobile ? 0.5 : 1.2, // Less smoothing on mobile
+        smooth: isMobile ? 0.8 : 2, // Aumentado para un efecto más pronunciado
         effects: true,
         normalizeScroll: true,
         smoothTouch: 0.1, // Light smoothing for touch devices

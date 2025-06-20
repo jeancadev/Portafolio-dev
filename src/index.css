@@ -79,7 +79,6 @@
   }
 
   html {
-    @apply scroll-smooth;
   }
 
   /* Cursor principal */

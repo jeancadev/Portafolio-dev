@@ -93,8 +93,7 @@ const Index = () => {
     
     setMounted(true);
     
-    // Añadir estilos para el comportamiento de scroll suave a toda la página
-    document.documentElement.style.scrollBehavior = 'smooth';
+
     
     const handleScroll = () => {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
