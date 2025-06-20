@@ -28,7 +28,10 @@
   width: 100%;
   max-width: var(--terminal-max-width);
   margin: 0 auto;
-  overflow: hidden;
+  height: 360px; /* Altura fija para la terminal */
+  min-height: 300px; /* Altura mínima */
+  display: flex;
+  flex-direction: column;
   opacity: 0;
   transform: translateY(20px);
   animation: terminalEntrance 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
@@ -167,6 +170,9 @@
   line-height: 1.6;
   position: relative;
   z-index: 1;
+  flex-grow: 1;
+  overflow-y: auto; /* Permitir scroll vertical */
+  min-height: 0; /* Necesario para que flexbox funcione correctamente */
 }
 
 .terminal-body::before {
@@ -229,7 +235,7 @@
   visibility: hidden;
   transform-origin: center center;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 2000px rgba(0, 0, 0, 0.7) !important;
-  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
   will-change: transform, opacity, box-shadow, scale;
   background-color: color-mix(in srgb, var(--terminal-bg) 98%, transparent) !important;
   z-index: 1000 !important;
