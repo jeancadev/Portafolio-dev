@@ -1,0 +1,282 @@
+/* Mini Terminal - Versión decorativa ligera */
+
+.mini-terminal {
+  /* Reutilizamos las variables del terminal principal */
+  --mini-terminal-bg: rgba(15, 15, 15, 0.85);
+  --mini-terminal-border: rgba(59, 130, 246, 0.25);
+  --mini-terminal-header: rgba(30, 30, 30, 0.9);
+  --mini-terminal-text: rgb(230, 230, 230);
+  --mini-terminal-prompt: #22c55e;
+  --mini-terminal-command: #60a5fa;
+
+  background-color: var(--mini-terminal-bg);
+  border: 1px solid var(--mini-terminal-border);
+  border-radius: 0.75rem;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.15),
+    0 2px 4px -2px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(59, 130, 246, 0.08);
+  backdrop-filter: blur(12px);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+/* Modo claro */
+:root.light .mini-terminal,
+.light .mini-terminal {
+  --mini-terminal-bg: rgba(255, 255, 255, 0.9);
+  --mini-terminal-border: rgba(59, 130, 246, 0.2);
+  --mini-terminal-header: rgba(245, 245, 245, 0.95);
+  --mini-terminal-text: rgb(30, 30, 30);
+  --mini-terminal-prompt: #16a34a;
+  --mini-terminal-command: #2563eb;
+}
+
+/* Efecto glow en hover */
+.mini-terminal::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(135deg, 
+    rgba(59, 130, 246, 0.4), 
+    rgba(124, 58, 237, 0.3), 
+    rgba(236, 72, 153, 0.3)
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.mini-terminal:hover::after {
+  opacity: 1;
+}
+
+.mini-terminal:hover {
+  box-shadow:
+    0 8px 25px -5px rgba(59, 130, 246, 0.15),
+    0 4px 10px -4px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(59, 130, 246, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Header */
+.mini-terminal-header {
+  background: linear-gradient(180deg, var(--mini-terminal-header) 0%, var(--mini-terminal-bg) 100%);
+  padding: 0.6rem 1rem;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--mini-terminal-border);
+  position: relative;
+}
+
+.mini-terminal-header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(59, 130, 246, 0.15) 50%,
+    transparent 100%
+  );
+}
+
+/* Botones decorativos */
+.mini-terminal-buttons {
+  display: flex;
+  gap: 0.4rem;
+  margin-right: 0.75rem;
+}
+
+.mini-terminal-button {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.mini-terminal-button:hover {
+  transform: scale(1.1);
+  filter: brightness(1.15);
+}
+
+.mini-terminal-close {
+  background-color: #ff5f56;
+  box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.15);
+}
+
+.mini-terminal-minimize {
+  background-color: #ffbd2e;
+  box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.15);
+}
+
+.mini-terminal-maximize {
+  background-color: #27c93f;
+  box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.15);
+}
+
+/* Título */
+.mini-terminal-title {
+  flex: 1;
+  text-align: center;
+  color: var(--mini-terminal-text);
+  opacity: 0.6;
+  font-size: 0.75rem;
+  font-family: ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
+  letter-spacing: 0.02em;
+}
+
+/* Body */
+.mini-terminal-body {
+  padding: 1rem 1.25rem;
+  font-family: ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: var(--mini-terminal-text);
+  min-height: 80px;
+}
+
+/* Comando */
+.mini-terminal-command {
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.mini-terminal-prompt {
+  color: var(--mini-terminal-prompt);
+  font-weight: 600;
+}
+
+.mini-terminal-command-text {
+  color: var(--mini-terminal-command);
+}
+
+/* Cursor parpadeante */
+.mini-terminal-cursor {
+  color: var(--mini-terminal-prompt);
+  opacity: 0;
+  transition: opacity 0.1s ease;
+  margin-left: 2px;
+}
+
+.mini-terminal-cursor.visible {
+  opacity: 1;
+}
+
+/* Línea del cursor final */
+.mini-terminal-cursor-line {
+  margin-top: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Contenido */
+.mini-terminal-content {
+  color: var(--mini-terminal-text);
+  opacity: 0.9;
+}
+
+.mini-terminal-content p {
+  margin-bottom: 0.5rem;
+}
+
+.mini-terminal-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* Variante Tree */
+.mini-terminal-tree .tree-content {
+  padding-left: 0.25rem;
+}
+
+.tree-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+  transition: all 0.2s ease;
+}
+
+.tree-item:hover {
+  background: rgba(59, 130, 246, 0.05);
+  border-radius: 4px;
+  padding-left: 0.5rem;
+  margin-left: -0.25rem;
+}
+
+.tree-branch {
+  color: rgba(59, 130, 246, 0.6);
+  font-weight: 500;
+  min-width: 24px;
+}
+
+.tree-icon {
+  font-size: 1rem;
+}
+
+.tree-label {
+  color: var(--mini-terminal-text);
+  opacity: 0.85;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .mini-terminal-body {
+    padding: 0.875rem 1rem;
+    font-size: 0.8125rem;
+  }
+
+  .mini-terminal-title {
+    font-size: 0.7rem;
+  }
+
+  .mini-terminal-button {
+    width: 9px;
+    height: 9px;
+  }
+}
+
+@media (max-width: 480px) {
+  .mini-terminal-body {
+    padding: 0.75rem 0.875rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* Animación de entrada para items del tree */
+@keyframes treeItemFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.tree-item {
+  animation: treeItemFadeIn 0.4s ease forwards;
+}
+
+.tree-item:nth-child(1) { animation-delay: 0.1s; }
+.tree-item:nth-child(2) { animation-delay: 0.15s; }
+.tree-item:nth-child(3) { animation-delay: 0.2s; }
+.tree-item:nth-child(4) { animation-delay: 0.25s; }
+.tree-item:nth-child(5) { animation-delay: 0.3s; }
+.tree-item:nth-child(6) { animation-delay: 0.35s; }

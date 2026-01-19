@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useGsapAnimation } from '@/hooks/use-gsap-animation';
 import { gsap } from 'gsap';
 import { cn } from '@/lib/utils';
+import MiniTerminal from '@/components/ui/MiniTerminal';
 
 const AboutSection = () => {
   const cardRefs = useRef<Array<HTMLDivElement | null>>([]);
@@ -213,57 +214,82 @@ const AboutSection = () => {
         </div>
 
         <div ref={infoSectionRef} className="mt-16 grid md:grid-cols-2 gap-8">
+          {/* Mi Enfoque Profesional - Mini Terminal */}
           <div>
             <h3 className="text-2xl font-bold mb-4 text-foreground">{t('professionalFocus')}</h3>
-            <div className="relative">
-              <div className={`text-muted-foreground overflow-hidden transition-all duration-500 ease-in-out ${!isExpanded ? 'max-h-28' : 'max-h-[500px]'}`}>
-                <p className="mb-4">
-                  {t('focusDescription1')}
-                </p>
-                <p className="expanded-text">
-                  {t('focusDescription2')}
-                </p>
-                <div className="text-gradient absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background to-transparent transition-opacity duration-300" style={{ opacity: isExpanded ? 0 : 1 }} />
+            <MiniTerminal
+              title="enfoque@portfolio ~ %"
+              command="cat mi_enfoque.txt"
+              typewriter={true}
+              typewriterDelay={40}
+            >
+              <div className="relative">
+                <div className={`overflow-hidden transition-all duration-500 ease-in-out ${!isExpanded ? 'max-h-24' : 'max-h-[500px]'}`}>
+                  <p className="mb-3 leading-relaxed">
+                    {t('focusDescription1')}
+                  </p>
+                  <p className="expanded-text leading-relaxed">
+                    {t('focusDescription2')}
+                  </p>
+                </div>
+                {!isExpanded && (
+                  <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[rgba(15,15,15,0.95)] to-transparent dark:from-[rgba(15,15,15,0.95)] light:from-[rgba(255,255,255,0.95)] transition-opacity duration-300" />
+                )}
               </div>
-              <Button
-                variant="ghost"
-                className="btn-project mt-2 w-full group"
-                onClick={() => setIsExpanded(!isExpanded)}
-              >
-                <span className="text-gradient-hover">{isExpanded ? t('readLess') : t('readMore')}</span>
-                <ChevronDown className={`ml-2 h-4 w-4 btn-icon-hover ${isExpanded ? 'rotate-180' : ''}`} />
-              </Button>
-            </div>
+            </MiniTerminal>
+            <Button
+              variant="ghost"
+              className="btn-project mt-3 w-full group"
+              onClick={() => setIsExpanded(!isExpanded)}
+            >
+              <span className="text-gradient-hover">{isExpanded ? t('readLess') : t('readMore')}</span>
+              <ChevronDown className={`ml-2 h-4 w-4 btn-icon-hover transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} />
+            </Button>
           </div>
           
+          {/* Áreas de Especialización - Mini Terminal Tree */}
           <div>
             <h3 className="text-2xl font-bold mb-4 text-foreground">{t('specializationAreas')}</h3>
-            <ul className="space-y-3 text-muted-foreground specialization-list">
-              <li className="flex items-center gap-3 specialization-item">
-                <span>💡</span>
-                <span>{t('area1')}</span>
-              </li>
-              <li className="flex items-center gap-3 specialization-item">
-                <span>⚡</span>
-                <span>{t('area2')}</span>
-              </li>
-              <li className="flex items-center gap-3 specialization-item">
-                <span>🐳</span>
-                <span>{t('area3')}</span>
-              </li>
-              <li className="flex items-center gap-3 specialization-item">
-                <span>☁️</span>
-                <span>{t('area4')}</span>
-              </li>
-              <li className="flex items-center gap-3 specialization-item">
-                <span>🔄</span>
-                <span>{t('area5')}</span>
-              </li>
-              <li className="flex items-center gap-3 specialization-item">
-                <span>🧠</span>
-                <span>{t('area6')}</span>
-              </li>
-            </ul>
+            <MiniTerminal
+              title="skills@portfolio ~ %"
+              command="tree --areas"
+              variant="tree"
+              typewriter={true}
+              typewriterDelay={35}
+            >
+              <div className="specialization-list">
+                <div className="tree-item">
+                  <span className="tree-branch">├──</span>
+                  <span className="tree-icon">💡</span>
+                  <span className="tree-label">{t('area1')}</span>
+                </div>
+                <div className="tree-item">
+                  <span className="tree-branch">├──</span>
+                  <span className="tree-icon">⚡</span>
+                  <span className="tree-label">{t('area2')}</span>
+                </div>
+                <div className="tree-item">
+                  <span className="tree-branch">├──</span>
+                  <span className="tree-icon">🐳</span>
+                  <span className="tree-label">{t('area3')}</span>
+                </div>
+                <div className="tree-item">
+                  <span className="tree-branch">├──</span>
+                  <span className="tree-icon">☁️</span>
+                  <span className="tree-label">{t('area4')}</span>
+                </div>
+                <div className="tree-item">
+                  <span className="tree-branch">├──</span>
+                  <span className="tree-icon">🔄</span>
+                  <span className="tree-label">{t('area5')}</span>
+                </div>
+                <div className="tree-item">
+                  <span className="tree-branch">└──</span>
+                  <span className="tree-icon">🧠</span>
+                  <span className="tree-label">{t('area6')}</span>
+                </div>
+              </div>
+            </MiniTerminal>
           </div>
         </div>
       </div>
