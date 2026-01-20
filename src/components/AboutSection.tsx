@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Book, Laptop, Code, Users, ChevronDown } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { useTranslation } from 'react-i18next';
 import { useGsapAnimation } from '@/hooks/use-gsap-animation';
 import { gsap } from 'gsap';
@@ -238,14 +237,13 @@ const AboutSection = () => {
                 )}
               </div>
             </MiniTerminal>
-            <Button
-              variant="ghost"
-              className="btn-project mt-3 w-full group"
+            <button
+              className="btn-read-more group"
               onClick={() => setIsExpanded(!isExpanded)}
             >
-              <span className="text-gradient-hover">{isExpanded ? t('readLess') : t('readMore')}</span>
-              <ChevronDown className={`ml-2 h-4 w-4 btn-icon-hover transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} />
-            </Button>
+              <span className="btn-read-more-text">{isExpanded ? t('readLess') : t('readMore')}</span>
+              <ChevronDown className={`btn-read-more-icon ${isExpanded ? 'rotated' : ''}`} />
+            </button>
           </div>
           
           {/* Áreas de Especialización - Mini Terminal Tree */}
