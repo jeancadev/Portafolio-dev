@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import { Github } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { useTranslation } from 'react-i18next';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -155,16 +154,15 @@ const ProjectsSection = () => {
               </CardContent>
               
               <CardFooter className="flex-none mt-auto">
-                <Button variant="ghost" size="sm" className="btn-project w-full group">
-                  <a 
-                    href={project.githubUrl} 
-                    className="flex items-center justify-center gap-2 w-full text-gradient-hover" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                  >
-                    <Github className="btn-icon-hover" size={16} /> {t('viewCode')}
-                  </a>
-                </Button>
+                <a 
+                  href={project.githubUrl} 
+                  className="btn-view-code group" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  <Github className="btn-view-code-icon" size={15} />
+                  <span className="btn-view-code-text">{t('viewCode')}</span>
+                </a>
               </CardFooter>
             </Card>
           ))}
