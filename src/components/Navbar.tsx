@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import ThemeToggle from './ThemeToggle';
 import LanguageToggle from './LanguageToggle';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetClose } from '@/components/ui/sheet';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { MenuContext } from '@/context/MenuContext';
@@ -326,24 +326,25 @@ const Navbar = () => {
                 )}
               >
                 {/* Botón de cierre con el icono hamburguesa animado */}
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  onClick={() => setIsOpen(false)}
-                  className={cn(
-                    "absolute right-4 top-4 group overflow-hidden hover:bg-foreground/5 transition-all duration-500",
-                    "before:absolute before:inset-0 before:rounded-full before:border before:border-foreground/20",
-                    "before:scale-75 before:opacity-0 hover:before:scale-100 hover:before:opacity-100",
-                    "before:transition-all before:duration-500",
-                    "after:absolute after:inset-0 after:rounded-full after:border-2 after:border-blue/20",
-                    "after:scale-90 after:opacity-0 hover:after:scale-110 hover:after:opacity-100",
-                    "after:transition-all after:duration-700 after:ease-in-out",
-                    "bg-foreground/5"
-                  )}
-                >
-                  <HamburgerIcon isOpen={true} />
-                  <span className="sr-only">Cerrar menú</span>
-                </Button>
+                <SheetClose asChild>
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className={cn(
+                      "absolute right-4 top-4 z-50 group overflow-hidden hover:bg-foreground/5 transition-all duration-500",
+                      "before:absolute before:inset-0 before:rounded-full before:border before:border-foreground/20",
+                      "before:scale-75 before:opacity-0 hover:before:scale-100 hover:before:opacity-100",
+                      "before:transition-all before:duration-500",
+                      "after:absolute after:inset-0 after:rounded-full after:border-2 after:border-blue/20",
+                      "after:scale-90 after:opacity-0 hover:after:scale-110 hover:after:opacity-100",
+                      "after:transition-all after:duration-700 after:ease-in-out",
+                      "bg-foreground/5"
+                    )}
+                  >
+                    <HamburgerIcon isOpen={true} />
+                    <span className="sr-only">Cerrar menú</span>
+                  </Button>
+                </SheetClose>
                 
                 {/* Ornamento de diseño - gradientes premium */}
                 <div className="absolute top-0 right-0 w-40 h-40 rounded-full bg-gradient-to-b from-blue/10 to-purple-500/5 blur-3xl opacity-50"></div>
