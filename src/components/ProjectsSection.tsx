@@ -169,17 +169,15 @@ const ProjectsSection = () => {
         </div>
 
         <div ref={ctaButtonRef} className="mt-12 text-center">
-          <Button className="btn-send group">
-            <a 
-              href="https://github.com/jeancadev?tab=repositories" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="flex items-center gap-2"
-            >
-              <Github className="btn-icon-hover" size={18} />
-              {t('viewMoreProjects')}
-            </a>
-          </Button>
+          <a 
+            href="https://github.com/jeancadev?tab=repositories" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="btn-send inline-flex items-center gap-2 px-6 py-3 rounded-lg"
+          >
+            <Github className="btn-icon-hover" size={18} />
+            {t('viewMoreProjects')}
+          </a>
         </div>
       </div>
     </section>
