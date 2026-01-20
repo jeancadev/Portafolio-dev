@@ -222,6 +222,7 @@ const AboutSection = () => {
               command="cat mi_enfoque.txt"
               typewriter={true}
               typewriterDelay={40}
+              enableEntranceAnimation={false}
             >
               <div className="relative">
                 <div className={`overflow-hidden transition-all duration-500 ease-in-out ${!isExpanded ? 'max-h-24' : 'max-h-[500px]'}`}>
@@ -256,6 +257,7 @@ const AboutSection = () => {
               variant="tree"
               typewriter={true}
               typewriterDelay={35}
+              enableEntranceAnimation={false}
             >
               <div className="specialization-list">
                 <div className="tree-item">

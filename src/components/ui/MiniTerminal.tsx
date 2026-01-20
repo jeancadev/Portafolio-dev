@@ -10,6 +10,7 @@ interface MiniTerminalProps {
   typewriter?: boolean;
   typewriterDelay?: number;
   className?: string;
+  enableEntranceAnimation?: boolean;
 }
 
 const MiniTerminal: React.FC<MiniTerminalProps> = ({
@@ -19,7 +20,8 @@ const MiniTerminal: React.FC<MiniTerminalProps> = ({
   variant = 'text',
   typewriter = false,
   typewriterDelay = 50,
-  className = ''
+  className = '',
+  enableEntranceAnimation = true
 }) => {
   const [displayedCommand, setDisplayedCommand] = useState('');
   const [showContent, setShowContent] = useState(!typewriter);
@@ -59,14 +61,19 @@ const MiniTerminal: React.FC<MiniTerminalProps> = ({
     return () => clearInterval(cursorInterval);
   }, []);
 
+  // Configuración de animación
+  const animationProps = enableEntranceAnimation ? {
+    initial: { opacity: 0, y: 20 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: "-50px" },
+    transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }
+  } : {};
+
   return (
     <motion.div
       ref={terminalRef}
       className={`mini-terminal ${variant === 'tree' ? 'mini-terminal-tree' : ''} ${className}`}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+      {...animationProps}
     >
       {/* Header estilo macOS */}
       <div className="mini-terminal-header">
