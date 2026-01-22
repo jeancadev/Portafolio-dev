@@ -252,13 +252,18 @@ const Navbar = () => {
     <MenuContext.Provider value={{ isMenuOpen: isOpen }}>
       <header 
         className={cn(
-          "fixed top-0 w-full z-50 transition-all duration-500 ease-in-out border-b border-neutral-200/10",
+          "fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-in-out",
+          "rounded-full max-w-fit",
+          // Borde adaptativo para modo claro y oscuro
+          "border border-neutral-500/15 dark:border-neutral-200/10",
+          // Sombra adaptativa
+          "shadow-lg shadow-black/5 dark:shadow-black/20",
           isScrolled 
-            ? 'bg-background/65 backdrop-blur-2xl shadow-lg py-2' 
-            : 'bg-background/50 backdrop-blur-xl py-4'
+            ? 'bg-background/70 dark:bg-background/65 backdrop-blur-2xl py-2 px-6 lg:px-8' 
+            : 'bg-background/60 dark:bg-background/50 backdrop-blur-xl py-3 px-8 lg:px-10'
         )}
       >
-        <nav className="container mx-auto px-6 flex items-center justify-between">
+        <nav className="flex items-center justify-between gap-4 lg:gap-8">
           <a 
             href="#home" 
             onClick={handleNavClick}
@@ -277,7 +282,7 @@ const Navbar = () => {
                   href={item.href}
                   onClick={handleNavClick}
                   className={cn(
-                    "relative text-sm font-medium transition-all duration-500 ease-out px-3 py-2 rounded-md",
+                    "relative text-sm font-medium transition-all duration-500 ease-out px-3 py-2 rounded-md whitespace-nowrap",
                     isActive 
                       ? "text-foreground after:w-full" 
                       : "text-foreground/75 hover:text-foreground after:w-0 hover:after:w-full",

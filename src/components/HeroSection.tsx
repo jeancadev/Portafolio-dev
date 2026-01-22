@@ -148,7 +148,7 @@ const HeroSection = () => {
     <section 
       id="home" 
       ref={heroRef}
-      className="relative min-h-screen flex items-center justify-center hero-section-padding pt-20 md:pt-28 bg-background text-foreground"
+      className="relative min-h-screen flex items-center justify-center hero-section-padding pt-28 md:pt-32 lg:pt-36 bg-background text-foreground"
     >
       <div className="container mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12 w-full">
