@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useTheme } from 'next-themes';
 import { cn } from "@/lib/utils";
 import ThemeToggle from './ThemeToggle';
@@ -130,7 +130,31 @@ const Navbar = () => {
   const { theme, setTheme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
-  const isNavigatingRef = React.useRef(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const headerRef = useRef<HTMLElement>(null);
+  const isNavigatingRef = useRef(false);
+
+  useEffect(() => {
+    if (!headerRef.current) return;
+
+    const updateDimensions = () => {
+      if (headerRef.current) {
+        const { offsetWidth, offsetHeight } = headerRef.current;
+        setDimensions({ width: offsetWidth, height: offsetHeight });
+      }
+    };
+
+    updateDimensions();
+
+    const resizeObserver = new ResizeObserver(() => {
+      updateDimensions();
+    });
+
+    resizeObserver.observe(headerRef.current);
+
+    return () => resizeObserver.disconnect();
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -148,6 +172,11 @@ const Navbar = () => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
       setIsScrolled(scrollPosition > 0);
+
+      // Calcular progreso de scroll
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = totalHeight > 0 ? (scrollPosition / totalHeight) * 100 : 0;
+      setScrollProgress(progress);
       
       // Si el usuario está navegando por clic, no actualizamos la sección activa
       if (isNavigatingRef.current) return;
@@ -251,19 +280,51 @@ const Navbar = () => {
   return (
     <MenuContext.Provider value={{ isMenuOpen: isOpen }}>
       <header 
+        ref={headerRef}
         className={cn(
           "fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-in-out",
           "rounded-full max-w-fit",
-          // Borde adaptativo para modo claro y oscuro
-          "border border-neutral-500/15 dark:border-neutral-200/10",
+          // Borde base (más sutil porque la línea de progreso irá encima)
+          "border border-neutral-500/10 dark:border-neutral-200/5",
           // Sombra adaptativa
           "shadow-lg shadow-black/5 dark:shadow-black/20",
           isScrolled 
-            ? 'bg-background/70 dark:bg-background/65 backdrop-blur-2xl py-2 px-6 lg:px-8' 
-            : 'bg-background/60 dark:bg-background/50 backdrop-blur-xl py-3 px-8 lg:px-10'
+            ? 'bg-background/80 dark:bg-background/70 backdrop-blur-lg py-2 px-6 lg:px-8' 
+            : 'bg-background/70 dark:bg-background/60 backdrop-blur-md py-3 px-8 lg:px-10'
         )}
       >
-        <nav className="flex items-center justify-between gap-4 lg:gap-8">
+        {/* Anillo de progreso SVG */}
+        {dimensions.width > 0 && (
+          <svg 
+            className="absolute inset-0 w-full h-full pointer-events-none rounded-full overflow-visible"
+            style={{ padding: 0 }}
+          >
+            <defs>
+              <linearGradient id="nav-progress-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#3b82f6" />
+                <stop offset="50%" stopColor="#8b5cf6" />
+                <stop offset="100%" stopColor="#ec4899" />
+              </linearGradient>
+            </defs>
+            <rect 
+              x="1.5" 
+              y="1.5" 
+              width={dimensions.width - 3} 
+              height={dimensions.height - 3} 
+              rx={(dimensions.height - 3) / 2}
+              fill="none" 
+              stroke="url(#nav-progress-gradient)" 
+              strokeWidth="3" 
+              pathLength="100"
+              strokeDasharray="100"
+              strokeDashoffset={100 - scrollProgress}
+              strokeLinecap="round"
+              className="transition-[stroke-dashoffset] duration-100 ease-linear"
+            />
+          </svg>
+        )}
+
+        <nav className="flex items-center justify-between gap-4 lg:gap-8 relative z-10">
           <a 
             href="#home" 
             onClick={handleNavClick}
