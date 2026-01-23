@@ -293,11 +293,18 @@ const Navbar = () => {
             : 'bg-background/70 dark:bg-background/60 backdrop-blur-md py-3 px-8 lg:px-10'
         )}
       >
-        {/* Anillo de progreso SVG */}
+        {/* Anillo de progreso SVG - Perfectamente alineado con la píldora */}
         {dimensions.width > 0 && (
           <svg 
-            className="absolute inset-0 w-full h-full pointer-events-none rounded-full overflow-visible"
-            style={{ padding: 0 }}
+            className="absolute pointer-events-none overflow-visible"
+            style={{ 
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%'
+            }}
+            viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
+            preserveAspectRatio="none"
           >
             <defs>
               <linearGradient id="nav-progress-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -311,7 +318,8 @@ const Navbar = () => {
               y="1.5" 
               width={dimensions.width - 3} 
               height={dimensions.height - 3} 
-              rx={(dimensions.height - 3) / 2}
+              rx={Math.min((dimensions.height - 3) / 2, (dimensions.width - 3) / 2)}
+              ry={Math.min((dimensions.height - 3) / 2, (dimensions.width - 3) / 2)}
               fill="none" 
               stroke="url(#nav-progress-gradient)" 
               strokeWidth="3" 
@@ -319,6 +327,7 @@ const Navbar = () => {
               strokeDasharray="100"
               strokeDashoffset={100 - scrollProgress}
               strokeLinecap="round"
+              vectorEffect="non-scaling-stroke"
               className="transition-[stroke-dashoffset] duration-100 ease-linear"
             />
           </svg>
