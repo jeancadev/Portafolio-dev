@@ -284,8 +284,8 @@ const Navbar = () => {
         className={cn(
           "fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-in-out",
           "rounded-full max-w-fit",
-          // Borde base (más sutil porque la línea de progreso irá encima)
-          "border border-neutral-500/10 dark:border-neutral-200/5",
+          // Borde base visible para definir la forma de la píldora
+          "border border-neutral-400/25 dark:border-neutral-300/20",
           // Sombra adaptativa
           "shadow-lg shadow-black/5 dark:shadow-black/20",
           isScrolled 
