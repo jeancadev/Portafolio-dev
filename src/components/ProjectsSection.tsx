@@ -25,14 +25,25 @@ const ProjectsSection = () => {
     // Registrar ScrollTrigger
     gsap.registerPlugin(ScrollTrigger);
     
-    // Primero, asegurarse de que las ventanas estén ocultas
     const windowCards = projectsContainerRef.current.querySelectorAll('.project-window-card');
-    gsap.set(windowCards, { y: 50, opacity: 0, scale: 0.95 });
+    const isMobile = window.innerWidth < 768;
     
-    // Crear un pequeño retraso antes de iniciar la animación
-    setTimeout(() => {
-      // Animación de entrada para cada ventana con desplazamiento escalonado
-      gsap.to(windowCards, 
+    if (isMobile) {
+      // En dispositivos móviles, establecer el estado final directamente
+      // para evitar problemas de rendimiento con ScrollTrigger
+      gsap.set(windowCards, { 
+        y: 0, 
+        opacity: 1,
+        scale: 1
+      });
+    } else {
+      // En dispositivos de escritorio, mantener la animación con ScrollTrigger
+      gsap.fromTo(windowCards,
+        { 
+          y: 50, 
+          opacity: 0,
+          scale: 0.95
+        },
         { 
           y: 0, 
           opacity: 1,
@@ -43,31 +54,34 @@ const ProjectsSection = () => {
           scrollTrigger: {
             trigger: projectsContainerRef.current,
             start: 'top 85%',
-            toggleActions: 'play none none none',
-            once: true
-          }
-        }
-      );
-    }, 300);
-    
-    // Animación para el botón CTA
-    if (ctaButtonRef.current) {
-      gsap.fromTo(ctaButtonRef.current,
-        { y: 30, opacity: 0, scale: 0.9 },
-        { 
-          y: 0, 
-          opacity: 1, 
-          scale: 1,
-          duration: 0.6,
-          ease: 'back.out(1.7)',
-          delay: 0.6,
-          scrollTrigger: {
-            trigger: ctaButtonRef.current,
-            start: 'top 85%',
             toggleActions: 'play none none reverse'
           }
         }
       );
+    }
+    
+    // Animación para el botón CTA
+    if (ctaButtonRef.current) {
+      if (isMobile) {
+        gsap.set(ctaButtonRef.current, { y: 0, opacity: 1, scale: 1 });
+      } else {
+        gsap.fromTo(ctaButtonRef.current,
+          { y: 30, opacity: 0, scale: 0.9 },
+          { 
+            y: 0, 
+            opacity: 1, 
+            scale: 1,
+            duration: 0.6,
+            ease: 'back.out(1.7)',
+            delay: 0.3,
+            scrollTrigger: {
+              trigger: ctaButtonRef.current,
+              start: 'top 90%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+      }
     }
     
     return () => {
