@@ -78,7 +78,46 @@
     overflow-x: hidden;
   }
 
-  html {}
+  /* ===== Transiciones globales para cambio de tema fluido ===== */
+  html {
+    /* Transición suave para el cambio de colores del tema */
+    transition: color 0.4s ease, background-color 0.4s ease;
+  }
+
+  /* Transiciones para todos los elementos que usen variables de color */
+  *,
+  *::before,
+  *::after {
+    transition:
+      background-color 0.4s ease,
+      border-color 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+
+  /* Excluir elementos que no deben tener transición de color de fondo */
+  .no-theme-transition,
+  .no-theme-transition *,
+  video,
+  iframe,
+  canvas,
+  img {
+    transition: none !important;
+  }
+
+  /* Mantener transiciones rápidas para elementos interactivos */
+  a,
+  button,
+  input,
+  select,
+  textarea,
+  [role="button"] {
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease,
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
 
   /* Cursor principal */
   /*.cursor-main {
@@ -792,7 +831,244 @@
   .text-gradient-hover:hover {
     background-position: 0%;
   }
+
+  /* ===== macOS Window Styles for Projects ===== */
+  .macos-window {
+    position: relative;
+    width: 100%;
+    background: hsl(var(--card) / 0.8);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow:
+      0 25px 50px -12px rgba(0, 0, 0, 0.4),
+      0 0 0 1px hsl(var(--border) / 0.5),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .macos-window:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow:
+      0 35px 60px -15px rgba(0, 0, 0, 0.5),
+      0 0 0 1px hsl(var(--blue) / 0.4),
+      0 0 40px -10px hsl(var(--blue) / 0.2),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+  }
+
+  /* Barra de título */
+  .macos-window-titlebar {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    background: linear-gradient(180deg,
+        hsl(var(--muted) / 0.8) 0%,
+        hsl(var(--muted) / 0.6) 100%);
+    border-bottom: 1px solid hsl(var(--border) / 0.3);
+  }
+
+  /* Botones de semáforo */
+  .macos-window-buttons {
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+  }
+
+  .macos-btn {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+
+  .macos-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .macos-btn-close {
+    background: linear-gradient(135deg, #ff5f56 0%, #e0443e 100%);
+    box-shadow: inset 0 -1px 1px rgba(0, 0, 0, 0.15);
+  }
+
+  .macos-btn-minimize {
+    background: linear-gradient(135deg, #ffbd2e 0%, #dea123 100%);
+    box-shadow: inset 0 -1px 1px rgba(0, 0, 0, 0.15);
+  }
+
+  .macos-btn-maximize {
+    background: linear-gradient(135deg, #27c93f 0%, #1aab29 100%);
+    box-shadow: inset 0 -1px 1px rgba(0, 0, 0, 0.15);
+  }
+
+  .macos-window:hover .macos-btn-close::after {
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), transparent 60%);
+    opacity: 1;
+  }
+
+  .macos-window:hover .macos-btn-minimize::after {
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), transparent 60%);
+    opacity: 1;
+  }
+
+  .macos-window:hover .macos-btn-maximize::after {
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), transparent 60%);
+    opacity: 1;
+  }
+
+  /* Título de la ventana */
+  .macos-window-title {
+    flex: 1;
+    text-align: center;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: hsl(var(--muted-foreground));
+    font-family: ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
+    margin-right: 52px;
+    /* Compensar espacio de botones */
+  }
+
+  /* Contenido de la ventana */
+  .macos-window-content {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    background: #0d0d0d;
+    overflow: hidden;
+  }
+
+  .macos-window-content img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .macos-window:hover .macos-window-content img {
+    transform: scale(1.05);
+  }
+
+  /* ===== Project Overlay Styles ===== */
+  .project-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.25rem;
+    background: linear-gradient(to top,
+        rgba(0, 0, 0, 0.95) 0%,
+        rgba(0, 0, 0, 0.75) 35%,
+        rgba(0, 0, 0, 0.3) 65%,
+        transparent 100%);
+    backdrop-filter: blur(6px);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .macos-window:hover .project-overlay {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .project-overlay-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .project-overlay-description {
+    font-size: 0.8125rem;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .project-overlay-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+  }
+
+  .project-overlay-tag {
+    font-size: 0.6875rem;
+    padding: 0.25rem 0.5rem;
+    background: rgba(59, 130, 246, 0.25);
+    border: 1px solid rgba(59, 130, 246, 0.4);
+    border-radius: 9999px;
+    color: rgba(147, 197, 253, 1);
+    backdrop-filter: blur(4px);
+    transition: all 0.2s ease;
+  }
+
+  .project-overlay-tag:hover {
+    background: rgba(59, 130, 246, 0.4);
+    border-color: rgba(59, 130, 246, 0.6);
+    transform: translateY(-1px);
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .macos-window {
+      border-radius: 8px;
+    }
+
+    .macos-window-titlebar {
+      padding: 10px 12px;
+    }
+
+    .macos-window-buttons {
+      gap: 6px;
+    }
+
+    .macos-btn {
+      width: 10px;
+      height: 10px;
+    }
+
+    .macos-window-title {
+      font-size: 0.75rem;
+      margin-right: 44px;
+    }
+
+    /* En móvil, mostrar overlay siempre (touch-friendly) */
+    .project-overlay {
+      opacity: 1;
+      transform: translateY(0);
+      background: linear-gradient(to top,
+          rgba(0, 0, 0, 0.9) 0%,
+          rgba(0, 0, 0, 0.5) 50%,
+          transparent 100%);
+    }
+
+    .project-overlay-title {
+      font-size: 1rem;
+    }
+
+    .project-overlay-description {
+      font-size: 0.75rem;
+      -webkit-line-clamp: 2;
+    }
+
+    .project-overlay-tag {
+      font-size: 0.625rem;
+      padding: 0.1875rem 0.375rem;
+    }
+  }
 }
+
 
 /* Estilos para ocultar la imagen de perfil cuando la terminal está maximizada */
 .terminal-maximized-active .hero-avatar {

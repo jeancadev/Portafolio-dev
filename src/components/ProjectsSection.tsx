@@ -1,18 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import { Github } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { useTranslation } from 'react-i18next';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useGsapAnimation } from '@/hooks/use-gsap-animation';
+import MacOSWindow from '@/components/ui/LaptopFrame';
 
 const ProjectsSection = () => {
   const { t } = useTranslation();
   
-  // Referencias para las animaciones - definimos la sección como visible por defecto
+  // Referencias para las animaciones
   const sectionRef = useRef<HTMLElement>(null);
-  
   const projectsContainerRef = useRef<HTMLDivElement>(null);
   const ctaButtonRef = useRef<HTMLDivElement>(null);
   
@@ -28,14 +25,14 @@ const ProjectsSection = () => {
     // Registrar ScrollTrigger
     gsap.registerPlugin(ScrollTrigger);
     
-    // Primero, asegurarse de que las tarjetas estén ocultas
-    const projectCards = projectsContainerRef.current.querySelectorAll('.project-card');
-    gsap.set(projectCards, { y: 50, opacity: 0, scale: 0.95 });
+    // Primero, asegurarse de que las ventanas estén ocultas
+    const windowCards = projectsContainerRef.current.querySelectorAll('.project-window-card');
+    gsap.set(windowCards, { y: 50, opacity: 0, scale: 0.95 });
     
     // Crear un pequeño retraso antes de iniciar la animación
     setTimeout(() => {
-      // Animación de entrada para cada tarjeta con desplazamiento escalonado
-      gsap.to(projectCards, 
+      // Animación de entrada para cada ventana con desplazamiento escalonado
+      gsap.to(windowCards, 
         { 
           y: 0, 
           opacity: 1,
@@ -119,52 +116,45 @@ const ProjectsSection = () => {
           </p>
         </div>
 
-        <div ref={projectsContainerRef} className="grid gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div ref={projectsContainerRef} className="grid gap-8 md:gap-10 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
-            <Card key={project.id} className="project-card flex flex-col h-full group backdrop-blur-sm border border-muted/20 bg-card/30 transition-all duration-300 hover:shadow-xl hover:shadow-blue/10">
-              <div className="relative h-[200px] md:h-[250px] overflow-hidden">
+            <div key={project.id} className="project-window-card flex flex-col">
+              {/* Ventana macOS con proyecto */}
+              <MacOSWindow title={project.title}>
+                {/* Imagen del proyecto */}
                 <img 
                   src={project.image} 
                   alt={project.title}
-                  className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-70"></div>
-              </div>
-              
-              <CardHeader className="flex-none">
-                <CardTitle className="text-xl mb-2">{project.title}</CardTitle>
-                <CardDescription className="text-sm text-muted-foreground line-clamp-3 md:line-clamp-4">
-                  {project.description}
-                </CardDescription>
-              </CardHeader>
-              
-              <CardContent className="flex-grow">
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <Badge 
-                      key={tag} 
-                      variant="outline" 
-                      className="bg-blue/10 text-blue border-blue/20 text-xs py-1"
-                    >
-                      {tag}
-                    </Badge>
-                  ))}
+                
+                {/* Overlay con detalles del proyecto */}
+                <div className="project-overlay">
+                  <h3 className="project-overlay-title">{project.title}</h3>
+                  <p className="project-overlay-description">{project.description}</p>
+                  <div className="project-overlay-tags">
+                    {project.tags.map((tag) => (
+                      <span key={tag} className="project-overlay-tag">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </CardContent>
+              </MacOSWindow>
               
-              <CardFooter className="flex-none mt-auto">
+              {/* Botón de GitHub debajo de la ventana */}
+              <div className="mt-4 flex justify-center">
                 <a 
                   href={project.githubUrl} 
-                  className="btn-view-code group" 
+                  className="btn-view-code inline-flex items-center gap-2 px-4 py-2" 
                   target="_blank" 
                   rel="noopener noreferrer"
                 >
-                  <Github className="btn-view-code-icon" size={15} />
+                  <Github className="btn-view-code-icon" size={16} />
                   <span className="btn-view-code-text">{t('viewCode')}</span>
                 </a>
-              </CardFooter>
-            </Card>
+              </div>
+            </div>
           ))}
         </div>
 
