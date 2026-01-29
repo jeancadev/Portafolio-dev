@@ -144,7 +144,6 @@ const ProjectsSection = () => {
                 
                 {/* Overlay con detalles del proyecto */}
                 <div className="project-overlay">
-                  <h3 className="project-overlay-title">{project.title}</h3>
                   <p className="project-overlay-description">{project.description}</p>
                   <div className="project-overlay-tags">
                     {project.tags.map((tag) => (

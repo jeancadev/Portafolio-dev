@@ -962,11 +962,12 @@
     justify-content: flex-end;
     padding: 1.25rem;
     background: linear-gradient(to top,
-        rgba(0, 0, 0, 0.95) 0%,
-        rgba(0, 0, 0, 0.75) 35%,
-        rgba(0, 0, 0, 0.3) 65%,
+        rgba(0, 0, 0, 1) 0%,
+        rgba(0, 0, 0, 0.9) 30%,
+        rgba(0, 0, 0, 0.6) 55%,
+        rgba(0, 0, 0, 0.3) 75%,
         transparent 100%);
-    backdrop-filter: blur(6px);
+    backdrop-filter: blur(8px);
     opacity: 0;
     transform: translateY(10px);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -980,20 +981,26 @@
   .project-overlay-title {
     font-size: 1.125rem;
     font-weight: 700;
-    color: white;
+    color: #ffffff;
     margin-bottom: 0.5rem;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    text-shadow:
+      0 2px 4px rgba(0, 0, 0, 0.8),
+      0 4px 8px rgba(0, 0, 0, 0.6),
+      0 0 20px rgba(0, 0, 0, 0.9);
   }
 
   .project-overlay-description {
     font-size: 0.8125rem;
-    color: rgba(255, 255, 255, 0.9);
+    color: #f0f0f0;
     line-height: 1.5;
     margin-bottom: 0.75rem;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    text-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.8),
+      0 2px 6px rgba(0, 0, 0, 0.6);
   }
 
   .project-overlay-tags {
@@ -1005,17 +1012,18 @@
   .project-overlay-tag {
     font-size: 0.6875rem;
     padding: 0.25rem 0.5rem;
-    background: rgba(59, 130, 246, 0.25);
-    border: 1px solid rgba(59, 130, 246, 0.4);
+    background: rgba(59, 130, 246, 0.35);
+    border: 1px solid rgba(59, 130, 246, 0.6);
     border-radius: 9999px;
-    color: rgba(147, 197, 253, 1);
+    color: #93c5fd;
     backdrop-filter: blur(4px);
     transition: all 0.2s ease;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
   }
 
   .project-overlay-tag:hover {
-    background: rgba(59, 130, 246, 0.4);
-    border-color: rgba(59, 130, 246, 0.6);
+    background: rgba(59, 130, 246, 0.5);
+    border-color: rgba(59, 130, 246, 0.8);
     transform: translateY(-1px);
   }
 
