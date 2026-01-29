@@ -1095,7 +1095,7 @@
 
     .project-overlay-description {
       font-size: 0.75rem;
-      -webkit-line-clamp: 2;
+      -webkit-line-clamp: 6;
     }
 
     .project-overlay-tag {
