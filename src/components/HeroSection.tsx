@@ -17,14 +17,14 @@ const HeroSection = () => {
   const [languageKey, setLanguageKey] = useState(0);
   const imageRef = useRef<HTMLImageElement>(null);
   
-  // Use GSAP animation hook for the hero section
+  // Use GSAP animation hook for the hero section with blur-in effect
   const heroRef = useGsapAnimation<HTMLElement>({
     trigger: true,
     start: 'top 80%',
     end: 'bottom 20%',
-    duration: 0.8,
-    from: { opacity: 0, y: 30 },
-    to: { opacity: 1, y: 0 },
+    duration: 1,
+    from: { opacity: 0, y: 40, filter: 'blur(10px)' },
+    to: { opacity: 1, y: 0, filter: 'blur(0px)' },
     ease: 'power3.out'
   });
   

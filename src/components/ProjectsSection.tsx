@@ -37,20 +37,22 @@ const ProjectsSection = () => {
         scale: 1
       });
     } else {
-      // En dispositivos de escritorio, mantener la animación con ScrollTrigger
+      // En dispositivos de escritorio, animación con blur-in effect
       gsap.fromTo(windowCards,
         { 
-          y: 50, 
+          y: 60, 
           opacity: 0,
-          scale: 0.95
+          scale: 0.92,
+          filter: 'blur(10px)'
         },
         { 
           y: 0, 
           opacity: 1,
           scale: 1,
+          filter: 'blur(0px)',
           stagger: 0.15,
-          duration: 0.8,
-          ease: 'power2.out',
+          duration: 0.9,
+          ease: 'power3.out',
           scrollTrigger: {
             trigger: projectsContainerRef.current,
             start: 'top 85%',
@@ -66,13 +68,14 @@ const ProjectsSection = () => {
         gsap.set(ctaButtonRef.current, { y: 0, opacity: 1, scale: 1 });
       } else {
         gsap.fromTo(ctaButtonRef.current,
-          { y: 30, opacity: 0, scale: 0.9 },
+          { y: 30, opacity: 0, scale: 0.9, filter: 'blur(8px)' },
           { 
             y: 0, 
             opacity: 1, 
             scale: 1,
-            duration: 0.6,
-            ease: 'back.out(1.7)',
+            filter: 'blur(0px)',
+            duration: 0.7,
+            ease: 'power3.out',
             delay: 0.3,
             scrollTrigger: {
               trigger: ctaButtonRef.current,
@@ -132,7 +135,7 @@ const ProjectsSection = () => {
 
         <div ref={projectsContainerRef} className="grid gap-8 md:gap-10 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
-            <div key={project.id} className="project-window-card flex flex-col">
+            <div key={project.id} className="project-window-card gsap-hidden flex flex-col">
               {/* Ventana macOS con proyecto */}
               <MacOSWindow title={project.title}>
                 {/* Imagen del proyecto */}

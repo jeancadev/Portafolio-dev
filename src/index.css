@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Clase para ocultar elementos antes de que GSAP los anime */
+/* GSAP sobrescribirá estos estilos cuando ejecute las animaciones */
+.gsap-hidden {
+  opacity: 0;
+  transform: translateY(60px) scale(0.92);
+  filter: blur(10px);
+}
+
 @layer base {
   :root {
     /* Light mode colors */

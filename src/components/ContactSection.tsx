@@ -16,13 +16,13 @@ const ContactSection = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
   
-  // Referencias para animaciones GSAP
+  // Referencias para animaciones GSAP con blur-in effect
   const sectionRef = useGsapAnimation<HTMLElement>({
     trigger: true,
     start: 'top 75%',
-    duration: 0.8,
-    from: { opacity: 0, y: 40 },
-    to: { opacity: 1, y: 0 }
+    duration: 1,
+    from: { opacity: 0, y: 50, filter: 'blur(10px)' },
+    to: { opacity: 1, y: 0, filter: 'blur(0px)' }
   });
   
   const formCardRef = useRef<HTMLDivElement>(null);
@@ -47,20 +47,22 @@ const ContactSection = () => {
         scale: 1
       });
     } else {
-      // En dispositivos de escritorio, mantener la animación con ScrollTrigger
+      // En dispositivos de escritorio, animación con blur-in effect
       gsap.fromTo(cards,
         { 
-          y: 50, 
+          y: 60, 
           opacity: 0,
-          scale: 0.95
+          scale: 0.92,
+          filter: 'blur(10px)'
         },
         { 
           y: 0, 
           opacity: 1,
           scale: 1,
+          filter: 'blur(0px)',
           stagger: 0.2,
-          duration: 0.7,
-          ease: 'back.out(1.2)',
+          duration: 0.9,
+          ease: 'power3.out',
           scrollTrigger: {
             trigger: cards[0],
             start: 'top 80%',
@@ -74,10 +76,11 @@ const ContactSection = () => {
       const inputs = formElementsRef.current.querySelectorAll('input, textarea, button');
       
       gsap.fromTo(inputs,
-        { y: 20, opacity: 0 },
+        { y: 20, opacity: 0, filter: 'blur(5px)' },
         { 
           y: 0, 
           opacity: 1,
+          filter: 'blur(0px)',
           stagger: 0.1,
           duration: 0.5,
           ease: 'power2.out',
@@ -167,7 +170,7 @@ const ContactSection = () => {
         <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           <Card 
             ref={formCardRef}
-            className="p-6 backdrop-blur-sm border border-muted/20 bg-card/30 transition-all duration-300 hover:shadow-xl hover:shadow-blue/10">
+            className="gsap-hidden p-6 backdrop-blur-sm border border-muted/20 bg-card/30 transition-all duration-300 hover:shadow-xl hover:shadow-blue/10">
             <form ref={formElementsRef} onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <Input 
@@ -205,7 +208,7 @@ const ContactSection = () => {
 
           <Card 
             ref={infoCardRef}
-            className="p-6 backdrop-blur-sm border border-muted/20 bg-card/30 transition-all duration-300 hover:shadow-xl hover:shadow-blue/10">
+            className="gsap-hidden p-6 backdrop-blur-sm border border-muted/20 bg-card/30 transition-all duration-300 hover:shadow-xl hover:shadow-blue/10">
             <div className="space-y-4">
               <h3 className="text-xl font-semibold mb-4">{t('contactInfo')}</h3>
               <div className="space-y-6">

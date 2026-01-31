@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
@@ -8,6 +8,8 @@ import SkillsSection from '@/components/SkillsSection';
 import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
 import SmoothScroll from '@/components/SmoothScroll';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 const Index = () => {
   const [mounted, setMounted] = useState(false);
@@ -36,6 +38,56 @@ const Index = () => {
     triggerOnce: true,
     rootMargin: '-50px'
   });
+
+  // Refresh robusto de ScrollTrigger después del montaje de todos los componentes
+  // Esto soluciona el problema de animaciones que no cargan correctamente en la primera visita
+  useLayoutEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+    
+    // Refresh inmediato después del render
+    const refreshScrollTrigger = () => {
+      ScrollTrigger.refresh();
+    };
+    
+    // Primer refresh inmediato
+    refreshScrollTrigger();
+    
+    // Segundo refresh después de que el DOM se estabilice
+    const timer1 = setTimeout(refreshScrollTrigger, 100);
+    
+    // Tercer refresh para imágenes lazy-loaded
+    const timer2 = setTimeout(refreshScrollTrigger, 500);
+    
+    // Cuarto refresh final para cualquier recurso tardío
+    const timer3 = setTimeout(refreshScrollTrigger, 1000);
+    
+    // También refrescar cuando todas las imágenes carguen
+    const images = document.querySelectorAll('img');
+    let loadedCount = 0;
+    const totalImages = images.length;
+    
+    const onImageLoad = () => {
+      loadedCount++;
+      if (loadedCount === totalImages) {
+        refreshScrollTrigger();
+      }
+    };
+    
+    images.forEach(img => {
+      if (img.complete) {
+        loadedCount++;
+      } else {
+        img.addEventListener('load', onImageLoad);
+      }
+    });
+    
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      clearTimeout(timer3);
+      images.forEach(img => img.removeEventListener('load', onImageLoad));
+    };
+  }, []);
 
   useEffect(() => {
     const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;

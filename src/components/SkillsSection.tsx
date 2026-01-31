@@ -30,28 +30,29 @@ const SkillsSection = () => {
     if (skillCardsRef.current) {
       const skillCards = skillCardsRef.current.querySelectorAll('.skill-card');
       
-      // Primero, asegurarse de que las tarjetas estén inicialmente ocultas
-      gsap.set(skillCards, { y: 60, opacity: 0, scale: 0.9 });
-      
-      // Crear un pequeño retraso antes de iniciar la animación
-      setTimeout(() => {
-        gsap.to(skillCards, 
-          { 
-            y: 0, 
-            opacity: 1,
-            scale: 1,
-            stagger: 0.2,
-            duration: 0.8,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: skillCardsRef.current,
-              start: 'top 85%',
-              // Que solo se animen una vez al cargar inicialmente
-              once: true
-            }
+      // Animación con blur-in que persiste al hacer scroll
+      gsap.fromTo(skillCards,
+        { 
+          y: 60, 
+          opacity: 0, 
+          scale: 0.9, 
+          filter: 'blur(10px)' 
+        },
+        { 
+          y: 0, 
+          opacity: 1,
+          scale: 1,
+          filter: 'blur(0px)',
+          stagger: 0.15,
+          duration: 0.9,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: skillCardsRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none reverse'
           }
-        );
-      }, 300);
+        }
+      );
     }
     
     // Animación para el título de herramientas
@@ -79,21 +80,23 @@ const SkillsSection = () => {
     if (toolsContainerRef.current) {
       const toolItems = toolsContainerRef.current.querySelectorAll('.tool-item');
       
-      // Establecer estado inicial
+      // Establecer estado inicial con blur
       gsap.set(toolItems, { 
         opacity: 0, 
-        y: 15,
-        scale: 0.8
+        y: 20,
+        scale: 0.85,
+        filter: 'blur(6px)'
       });
       
-      // Animar hacia el estado final
+      // Animar hacia el estado final con blur-in
       gsap.to(toolItems, { 
         opacity: 1, 
         y: 0,
         scale: 1,
-        stagger: 0.05,
-        duration: 0.4,
-        ease: 'power1.out',
+        filter: 'blur(0px)',
+        stagger: 0.04,
+        duration: 0.5,
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: toolsContainerRef.current,
           start: 'top 80%',
@@ -164,7 +167,7 @@ const SkillsSection = () => {
           {skillGroups.map((group) => (
             <div 
               key={group.category} 
-              className="skill-card bg-card/30 border border-muted/20 rounded-lg p-5 md:p-6 backdrop-blur-sm text-center
+              className="skill-card gsap-hidden bg-card/30 border border-muted/20 rounded-lg p-5 md:p-6 backdrop-blur-sm text-center
                        transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue/10
                        hover:border-blue/30 group"
             >
