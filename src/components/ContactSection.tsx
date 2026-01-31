@@ -38,39 +38,29 @@ const ContactSection = () => {
     const cards = [formCardRef.current, infoCardRef.current];
     const isMobile = window.innerWidth < 768;
     
-    if (isMobile) {
-      // En dispositivos móviles, simplemente establecer el estado final sin ScrollTrigger
-      // para evitar problemas con el teclado virtual
-      gsap.set(cards, { 
+    // Animación con blur-in effect para todas las pantallas
+    gsap.fromTo(cards,
+      { 
+        y: 60, 
+        opacity: 0,
+        scale: 0.92,
+        filter: 'blur(10px)'
+      },
+      { 
         y: 0, 
         opacity: 1,
-        scale: 1
-      });
-    } else {
-      // En dispositivos de escritorio, animación con blur-in effect
-      gsap.fromTo(cards,
-        { 
-          y: 60, 
-          opacity: 0,
-          scale: 0.92,
-          filter: 'blur(10px)'
-        },
-        { 
-          y: 0, 
-          opacity: 1,
-          scale: 1,
-          filter: 'blur(0px)',
-          stagger: 0.2,
-          duration: 0.9,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: cards[0],
-            start: 'top 80%',
-            toggleActions: 'play none reset reset'
-          }
+        scale: 1,
+        filter: 'blur(0px)',
+        stagger: 0.2,
+        duration: 0.9,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: cards[0],
+          start: 'top 85%',
+          toggleActions: 'play none none reverse'
         }
-      );
-    }
+      }
+    );
     // Animación para los elementos del formulario
     if (formElementsRef.current) {
       const inputs = formElementsRef.current.querySelectorAll('input, textarea, button');

@@ -30,7 +30,7 @@ const SkillsSection = () => {
     if (skillCardsRef.current) {
       const skillCards = skillCardsRef.current.querySelectorAll('.skill-card');
       
-      // Animación con blur-in que persiste al hacer scroll
+      // Animación con blur-in para todas las pantallas
       gsap.fromTo(skillCards,
         { 
           y: 60, 
