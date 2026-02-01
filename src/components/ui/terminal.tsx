@@ -143,28 +143,33 @@ const Terminal = ({
     });
     
     if (isMaximized) {
-      // Restaurar desde maximizado, ahora usando animación CSS
-      const restoreDuration = isMobile ? 0.5 : isTablet ? 0.55 : 0.5;
+      // Restaurar desde maximizado con GSAP para animación más fluida
+      const restoreDuration = isMobile ? 0.45 : isTablet ? 0.5 : 0.45;
       
-      // Aplicar la duración de la animación vía style y añadir la clase que la activa
-      terminal.style.animationDuration = `${restoreDuration}s`;
+      // Animar el overlay (::before) primero desvaneciendo
       terminal.classList.add('terminal-restoring');
       
-      // Usar delayedCall para ejecutar la lógica de limpieza después de que la animación CSS termine
-      gsap.delayedCall(restoreDuration, () => {
-        // Limpiar clases y estados
-        terminal.classList.remove('terminal-maximized', 'terminal-restoring', 'active');
-        setMaximizedTerminals(prev => prev.filter(termId => termId !== id));
-        
-        if (wasMaximized.current) {
-          document.body.classList.remove('terminal-maximized-active');
-          wasMaximized.current = false;
+      // Animación fluida de restauración con GSAP
+      gsap.to(terminal, {
+        scale: 0.95,
+        opacity: 0,
+        duration: restoreDuration,
+        ease: 'power2.inOut',
+        onComplete: () => {
+          // Limpiar clases y estados
+          terminal.classList.remove('terminal-maximized', 'terminal-restoring', 'active');
+          setMaximizedTerminals(prev => prev.filter(termId => termId !== id));
+          
+          if (wasMaximized.current) {
+            document.body.classList.remove('terminal-maximized-active');
+            wasMaximized.current = false;
+          }
+          
+          // Resetear estilos y estado de animación
+          gsap.set(terminal, { clearProps: 'all' });
+          terminal.style.pointerEvents = '';
+          isAnimating.current = false;
         }
-        
-        // Resetear estilos y estado de animación
-        gsap.set(terminal, { clearProps: 'all' });
-        terminal.style.pointerEvents = '';
-        isAnimating.current = false;
       });
     } else {
       // Maximizar con animación suave

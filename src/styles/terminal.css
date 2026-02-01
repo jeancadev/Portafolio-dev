@@ -273,11 +273,39 @@
   opacity: 0;
   visibility: hidden;
   transform-origin: center center;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 2000px rgba(0, 0, 0, 0.7) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
   transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
   will-change: transform, opacity, box-shadow, scale;
   background-color: color-mix(in srgb, var(--terminal-bg) 98%, transparent) !important;
   z-index: 1000 !important;
+}
+
+/* Overlay con blur para ocultar contenido de fondo */
+.terminal-maximized::before {
+  content: '';
+  position: fixed;
+  top: -50vh;
+  left: -50vw;
+  width: 200vw;
+  height: 200vh;
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.terminal-maximized.active::before {
+  opacity: 1;
+}
+
+/* Animación de salida suave del overlay al restaurar - mantener visible más tiempo */
+.terminal-restoring::before {
+  opacity: 0 !important;
+  transition: opacity 0.3s ease-out 0.2s !important;
+  /* delay de 0.2s antes de desvanecer */
 }
 
 /* Clase para cuando la terminal está activa */
@@ -285,7 +313,7 @@
   opacity: 1;
   visibility: visible;
   transform: translate(-50%, -50%) scale(1) !important;
-  box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.6), 0 0 0 2000px rgba(0, 0, 0, 0.7) !important;
+  box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.6) !important;
 }
 
 /* Animación de expansión más suave */
