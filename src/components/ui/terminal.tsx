@@ -143,11 +143,18 @@ const Terminal = ({
     });
     
     if (isMaximized) {
-      // Restaurar desde maximizado con animación premium y fluida
-      const restoreDuration = isMobile ? 0.55 : isTablet ? 0.6 : 0.55;
+      // Restaurar desde maximizado con GSAP para animación más fluida
+      const restoreDuration = isMobile ? 0.45 : isTablet ? 0.5 : 0.45;
       
-      // Timeline coordinada para restauración suave
-      const restoreTl = gsap.timeline({
+      // Animar el overlay (::before) primero desvaneciendo
+      terminal.classList.add('terminal-restoring');
+      
+      // Animación fluida de restauración con GSAP
+      gsap.to(terminal, {
+        scale: 0.95,
+        opacity: 0,
+        duration: restoreDuration,
+        ease: 'power2.inOut',
         onComplete: () => {
           // Limpiar clases y estados
           terminal.classList.remove('terminal-maximized', 'terminal-restoring', 'active');
@@ -164,28 +171,8 @@ const Terminal = ({
           isAnimating.current = false;
         }
       });
-      
-      // Animar el overlay primero con clase
-      terminal.classList.add('terminal-restoring');
-      
-      // Animación suave de restauración con curva premium
-      restoreTl.to(terminal, {
-        scale: 0.92,
-        opacity: 0.6,
-        filter: 'blur(2px)',
-        duration: restoreDuration * 0.5,
-        ease: 'power3.out'
-      })
-      .to(terminal, {
-        scale: 0.85,
-        opacity: 0,
-        filter: 'blur(4px)',
-        duration: restoreDuration * 0.5,
-        ease: 'power2.in'
-      });
-      
     } else {
-      // Maximizar con animación premium y fluida
+      // Maximizar con animación suave
       wasMaximized.current = true;
       
       setMaximizedTerminals([...maximizedTerminals, id]);
@@ -194,43 +181,28 @@ const Terminal = ({
         setMinimizedTerminals(minimizedTerminals.filter(termId => termId !== id));
       }
       
-      // Animación de expansión premium
+      // Animación de expansión
       terminal.classList.add('terminal-expanding');
       
-      const expandDuration = isMobile ? 0.6 : isTablet ? 0.65 : 0.6;
+      const expandDuration = isMobile ? 0.5 : isTablet ? 0.55 : 0.5;
       
-      // Timeline coordinada para expansión suave
-      const expandTl = gsap.timeline({
-        onComplete: () => {
-          gsap.set(terminal, { clearProps: 'filter' });
-          terminal.classList.remove('terminal-expanding');
-          isAnimating.current = false;
-        }
-      });
-      
-      // Primera fase: preparación con ligera compresión
-      expandTl.fromTo(terminal,
+      gsap.fromTo(terminal,
         { 
-          scale: 0.85,
-          opacity: 0,
-          filter: 'blur(4px)'
+          scale: 0.9,
+          opacity: 0.8
         },
         { 
-          scale: 0.95,
-          opacity: 0.8,
-          filter: 'blur(1px)',
-          duration: expandDuration * 0.4,
-          ease: 'power2.out'
+          scale: 1, 
+          opacity: 1,
+          duration: expandDuration,
+          ease: 'power1.out',
+          onComplete: () => {
+            gsap.set(terminal, { clearProps: 'all' });
+            terminal.classList.remove('terminal-expanding');
+            isAnimating.current = false;
+          }
         }
-      )
-      // Segunda fase: expansión final con rebote suave
-      .to(terminal, {
-        scale: 1, 
-        opacity: 1,
-        filter: 'blur(0px)',
-        duration: expandDuration * 0.6,
-        ease: 'back.out(1.2)'
-      });
+      );
     }
   };
   
