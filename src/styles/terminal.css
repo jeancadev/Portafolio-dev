@@ -630,7 +630,16 @@
     transform: scale(0.8) translateY(5px) !important;
     transition: opacity 0.4s ease-out,
       transform 0.4s ease-out !important;
+    opacity: 0;
+    /* Hide avatar on mobile maximize */
   }
+}
+
+/* Ocultar elementos hermanos cuando la terminal está maximizada para evitar overlap visual */
+.terminal-maximized-active .gsap-item:not(:has(.terminal-maximized)) {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
 }
 
 /* Ajustes para tablets */

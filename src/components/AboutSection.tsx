@@ -6,6 +6,7 @@ import { useGsapAnimation } from '@/hooks/use-gsap-animation';
 import { gsap } from 'gsap';
 import { cn } from '@/lib/utils';
 import MiniTerminal from '@/components/ui/MiniTerminal';
+import ScrollRevealText from '@/components/ui/ScrollRevealText';
 
 const AboutSection = () => {
   const cardRefs = useRef<Array<HTMLDivElement | null>>([]);
@@ -118,22 +119,22 @@ const AboutSection = () => {
           duration: 0.3
         }, '-=0.4');
     } else if (expandedTextElement) {
-      // Animar el cierre del texto
+      // Animar el cierre del texto - Optimizado para fluidez
       expandTl
         .to(expandedTextElement, { 
           opacity: 0, 
-          y: -10,
-          duration: 0.3
+          duration: 0.3,
+          ease: 'power2.inOut'
         })
         .to(expandedTextElement, { 
           height: 0, 
-          duration: 0.4,
-          ease: 'power3.inOut'
-        }, '-=0.2')
+          duration: 0.5,
+          ease: 'power2.inOut'
+        }, '-=0.2') // Start shrinking while fading out
         .to(gradientElement, {
           opacity: 1,
-          duration: 0.3
-        }, '-=0.4')
+          duration: 0.4
+        }, '-=0.3')
         .set(expandedTextElement, { display: 'none' });
     }
     
@@ -151,10 +152,10 @@ const AboutSection = () => {
       <div className="container mx-auto px-4 md:px-6">
         <div className="mb-12 text-center gsap-item">
           <h2 className="text-3xl md:text-4xl font-bold heading-accent pb-2 mb-4">{t('aboutMe')}</h2>
-          <div className="text-muted-foreground max-w-3xl mx-auto space-y-4">
-            <p>{t('aboutDescription1')}</p>
-            <p>{t('aboutDescription2')}</p>
-            <p>{t('aboutDescription3')}</p>
+          <div className="max-w-3xl mx-auto space-y-4 text-muted-foreground text-lg">
+            <ScrollRevealText>{t('aboutDescription1')}</ScrollRevealText>
+            <ScrollRevealText delay={0.5}>{t('aboutDescription2')}</ScrollRevealText>
+            <ScrollRevealText delay={1.0}>{t('aboutDescription3')}</ScrollRevealText>
           </div>
         </div>
 
@@ -371,4 +372,3 @@ const AboutSection = () => {
 };
 
 export default AboutSection;
-

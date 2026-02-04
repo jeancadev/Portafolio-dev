@@ -4,11 +4,11 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useToast } from '@/hooks/use-toast';
 import TypewriterEffect from './TypewriterEffect';
+import { TerminalStateContext } from '@/contexts/TerminalStateContext';
 import Terminal from '@/components/ui/terminal';
 import { useTranslation } from 'react-i18next';
 import { useGsapAnimation } from '@/hooks/use-gsap-animation';
 import { gsap } from 'gsap';
-
 const HeroSection = () => {
   const { toast } = useToast();
   const [copied, setCopied] = useState(false);
@@ -16,6 +16,10 @@ const HeroSection = () => {
   const { t, i18n } = useTranslation();
   const [languageKey, setLanguageKey] = useState(0);
   const imageRef = useRef<HTMLImageElement>(null);
+  
+  // Consumir el contexto de la terminal para saber si está maximizada
+  const { maximizedTerminals } = React.useContext(TerminalStateContext);
+  const isAnyTerminalMaximized = maximizedTerminals.length > 0;
   
   // Use GSAP animation hook for the hero section with blur-in effect
   const heroRef = useGsapAnimation<HTMLElement>({
@@ -154,50 +158,52 @@ const HeroSection = () => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12 w-full">
           <div className="flex-1 text-left w-full md:w-3/5">
             <div className="space-y-4 gsap-item">{/* GSAP will animate this */}
-              <Terminal id="hero-terminal" title="jean@portfolio ~ %">
-                <div className="space-y-6">
-                  <div className="flex items-start">
-                    <span className="text-blue mr-2">$ </span>
-                    <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight flex flex-col items-start gap-2">
-                      <TypewriterEffect 
-                        text={t('hello')}
-                        delay={70}
-                        showCursor={false}
-                        startDelay={500}
-                        repeat={false}
-                        key={`hello-${languageKey}${isHeroVisible ? '-visible' : ''}-1`}
-                        isVisible={isHeroVisible}
-                      />
-                      <TypewriterEffect 
-                        text="Jean Carlos"
-                        delay={70}
-                        showCursor={false}
-                        startDelay={1500}
-                        repeat={false}
-                        key={`name-${languageKey}${isHeroVisible ? '-visible' : ''}-2`}
-                        isVisible={isHeroVisible}
-                      />
-                    </h1>
-                  </div>
-                  
-                  <div className="flex items-start">
-                    <span className="text-blue mr-2">$ </span>
-                    <div className="text-sm md:text-base lg:text-lg text-muted-foreground max-w-xl leading-relaxed text-left">
-                      <TypewriterEffect 
-                        text={t('description')}
-                        delay={40}
-                        showCursor={true}
-                        startDelay={2500}
-                        repeat={false}
-                        key={`desc-${isHeroVisible ? 'visible' : 'hidden'}-${languageKey}`}
-                        isVisible={isHeroVisible}
-                      />
+              <div className="min-h-[350px] md:min-h-[380px] w-full relative transition-all duration-300">
+                <Terminal id="hero-terminal" title="jean@portfolio ~ %">
+                  <div className="space-y-6">
+                    <div className="flex items-start">
+                      <span className="text-blue mr-2">$ </span>
+                      <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight flex flex-col items-start gap-2">
+                        <TypewriterEffect 
+                          text={t('hello')}
+                          delay={70}
+                          showCursor={false}
+                          startDelay={500}
+                          repeat={false}
+                          key={`hello-${languageKey}${isHeroVisible ? '-visible' : ''}-1`}
+                          isVisible={isHeroVisible}
+                        />
+                        <TypewriterEffect 
+                          text="Jean Carlos"
+                          delay={70}
+                          showCursor={false}
+                          startDelay={1500}
+                          repeat={false}
+                          key={`name-${languageKey}${isHeroVisible ? '-visible' : ''}-2`}
+                          isVisible={isHeroVisible}
+                        />
+                      </h1>
+                    </div>
+                    
+                    <div className="flex items-start">
+                      <span className="text-blue mr-2">$ </span>
+                      <div className="text-sm md:text-base lg:text-lg text-muted-foreground max-w-xl leading-relaxed text-left">
+                        <TypewriterEffect 
+                          text={t('description')}
+                          delay={40}
+                          showCursor={true}
+                          startDelay={2500}
+                          repeat={false}
+                          key={`desc-${isHeroVisible ? 'visible' : 'hidden'}-${languageKey}`}
+                          isVisible={isHeroVisible}
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Terminal>
+                </Terminal>
+              </div>
               
-              <div className="flex flex-col md:flex-row items-center gap-4 mt-8 gsap-item">
+              <div className={`flex flex-col md:flex-row items-center gap-4 mt-8 gsap-item transition-opacity duration-500 ${isAnyTerminalMaximized ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
                 <div className="w-full md:w-auto">
                   <div className="flex items-center justify-center md:justify-start gap-2 px-4 py-2 rounded-md bg-card/30 border border-muted/20">
                     <span className="text-sm md:text-base text-muted-foreground">
@@ -231,7 +237,7 @@ const HeroSection = () => {
             </div>
           </div>
           
-          <div className="w-full md:w-2/5 flex justify-center">
+          <div className={`w-full md:w-2/5 flex justify-center transition-opacity duration-500 ${isAnyTerminalMaximized ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
             <div className="relative">
               <Avatar className="hero-avatar h-48 w-48 md:h-56 lg:h-64 md:w-56 lg:w-64 border-2 border-blue 
                                 transition-colors duration-500 ease-in-out 
