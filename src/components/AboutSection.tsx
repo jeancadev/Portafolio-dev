@@ -162,7 +162,7 @@ const AboutSection = () => {
         <div ref={cardsContainerRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12 perspective-card-container">
           <Card 
             ref={(el) => (cardRefs.current[0] = el)}
-            className="premium-card group relative overflow-hidden bg-card/50 border-0 backdrop-blur-sm transition-all duration-500 hover:shadow-[0_0_25px_rgba(56,189,248,0.15)] dark:hover:shadow-[0_0_25px_rgba(56,189,248,0.1)]">
+            className="premium-card group relative overflow-hidden bg-card/50 border-0 transition-all duration-500 shadow-[0_10px_30px_rgba(0,0,0,0.18)] dark:shadow-[0_12px_34px_rgba(0,0,0,0.45)] hover:shadow-[0_0_25px_rgba(56,189,248,0.15)] dark:hover:shadow-[0_0_25px_rgba(56,189,248,0.1)]">
             <CardContent className="flex flex-col items-center p-6 text-center z-10 relative transition-all duration-500 group-hover:translate-y-[-8px]">
               <div className="relative mb-4 rounded-full bg-blue/10 p-3 transition-all duration-500 group-hover:bg-blue/20 group-hover:scale-110 overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:opacity-0 before:translate-x-[-100%] group-hover:before:animate-shimmer">
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-400/10 via-blue/10 to-fuchsia-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-full"></div>
@@ -175,7 +175,7 @@ const AboutSection = () => {
 
           <Card 
             ref={(el) => (cardRefs.current[1] = el)}
-            className="premium-card group relative overflow-hidden bg-card/50 border-0 backdrop-blur-sm transition-all duration-500 hover:shadow-[0_0_25px_rgba(56,189,248,0.15)] dark:hover:shadow-[0_0_25px_rgba(56,189,248,0.1)]">
+            className="premium-card group relative overflow-hidden bg-card/50 border-0 transition-all duration-500 shadow-[0_10px_30px_rgba(0,0,0,0.18)] dark:shadow-[0_12px_34px_rgba(0,0,0,0.45)] hover:shadow-[0_0_25px_rgba(56,189,248,0.15)] dark:hover:shadow-[0_0_25px_rgba(56,189,248,0.1)]">
             <CardContent className="flex flex-col items-center p-6 text-center z-10 relative transition-all duration-500 group-hover:translate-y-[-8px]">
               <div className="relative mb-4 rounded-full bg-blue/10 p-3 transition-all duration-500 group-hover:bg-blue/20 group-hover:scale-110 overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:opacity-0 before:translate-x-[-100%] group-hover:before:animate-shimmer">
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-400/10 via-blue/10 to-fuchsia-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-full"></div>
@@ -188,7 +188,7 @@ const AboutSection = () => {
 
           <Card 
             ref={(el) => (cardRefs.current[2] = el)}
-            className="premium-card group relative overflow-hidden bg-card/50 border-0 backdrop-blur-sm transition-all duration-500 hover:shadow-[0_0_25px_rgba(56,189,248,0.15)] dark:hover:shadow-[0_0_25px_rgba(56,189,248,0.1)]">
+            className="premium-card group relative overflow-hidden bg-card/50 border-0 transition-all duration-500 shadow-[0_10px_30px_rgba(0,0,0,0.18)] dark:shadow-[0_12px_34px_rgba(0,0,0,0.45)] hover:shadow-[0_0_25px_rgba(56,189,248,0.15)] dark:hover:shadow-[0_0_25px_rgba(56,189,248,0.1)]">
             <CardContent className="flex flex-col items-center p-6 text-center z-10 relative transition-all duration-500 group-hover:translate-y-[-8px]">
               <div className="relative mb-4 rounded-full bg-blue/10 p-3 transition-all duration-500 group-hover:bg-blue/20 group-hover:scale-110 overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:opacity-0 before:translate-x-[-100%] group-hover:before:animate-shimmer">
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-400/10 via-blue/10 to-fuchsia-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-full"></div>
@@ -201,7 +201,7 @@ const AboutSection = () => {
 
           <Card 
             ref={(el) => (cardRefs.current[3] = el)}
-            className="premium-card group relative overflow-hidden bg-card/50 border-0 backdrop-blur-sm transition-all duration-500 hover:shadow-[0_0_25px_rgba(56,189,248,0.15)] dark:hover:shadow-[0_0_25px_rgba(56,189,248,0.1)]">
+            className="premium-card group relative overflow-hidden bg-card/50 border-0 transition-all duration-500 shadow-[0_10px_30px_rgba(0,0,0,0.18)] dark:shadow-[0_12px_34px_rgba(0,0,0,0.45)] hover:shadow-[0_0_25px_rgba(56,189,248,0.15)] dark:hover:shadow-[0_0_25px_rgba(56,189,248,0.1)]">
             <CardContent className="flex flex-col items-center p-6 text-center z-10 relative transition-all duration-500 group-hover:translate-y-[-8px]">
               <div className="relative mb-4 rounded-full bg-blue/10 p-3 transition-all duration-500 group-hover:bg-blue/20 group-hover:scale-110 overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:opacity-0 before:translate-x-[-100%] group-hover:before:animate-shimmer">
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-400/10 via-blue/10 to-fuchsia-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-full"></div>

@@ -277,7 +277,7 @@ const Terminal = ({
           ease: [0.25, 0.46, 0.45, 0.94]
         }}
       >
-        <div className="terminal-header backdrop-blur-md bg-gradient-to-b from-card/50 to-card/30 border-b border-blue/20">
+        <div className="terminal-header bg-gradient-to-b from-card/50 to-card/30 border-b border-blue/20 shadow-[0_6px_16px_rgba(0,0,0,0.25)]">
           <div className="terminal-buttons">
             <div 
               className="terminal-button terminal-close hover:scale-110 transition-transform cursor-pointer"

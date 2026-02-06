@@ -21,12 +21,11 @@
   background-color: var(--terminal-bg);
   border: 1.5px solid var(--terminal-border);
   border-radius: 0.75rem;
+  overflow: hidden;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2),
-  0 2px 4px -2px rgba(0, 0, 0, 0.1),
-  0 0 0 1px rgba(124, 58, 237, 0.1),
-  inset 0 1px 0 0 rgba(124, 58, 237, 0.05);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  0 8px 18px -6px rgba(0, 0, 0, 0.2),
+  0 0 0 1px rgba(124, 58, 237, 0.12),
+  inset 0 1px 0 0 rgba(255, 255, 255, 0.04);
   width: 100%;
   max-width: var(--terminal-max-width);
   margin: 0 auto;
@@ -77,6 +76,8 @@
   align-items: center;
   border-bottom: 1px solid var(--terminal-border);
   position: relative;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
 }
 
 .terminal-header::after {
@@ -312,8 +313,6 @@
   width: 200vw;
   height: 200vh;
   background: var(--terminal-overlay);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   z-index: -1;
   opacity: 0;
   transition: opacity 0.4s ease;
@@ -467,8 +466,6 @@
 .terminal {
   position: relative;
   opacity: 1 !important;
-  backdrop-filter: blur(20px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
   background-color: var(--terminal-bg) !important;
   border: 1.5px solid var(--terminal-border) !important;
   color: var(--terminal-text) !important;
@@ -507,12 +504,20 @@
 /* Variables para modo claro/oscuro */
 .light .terminal {
   --terminal-bg: color-mix(in srgb, var(--terminal-bg) 98%, white) !important;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1) !important;
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.18),
+    0 6px 16px rgba(0, 0, 0, 0.12),
+    0 0 0 1px rgba(124, 58, 237, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
 }
 
 .dark .terminal {
   --terminal-bg: color-mix(in srgb, var(--terminal-bg) 98%, black) !important;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3) !important;
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.55),
+    0 10px 24px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(124, 58, 237, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
 }
 
 .terminal-maximized .terminal-body {
@@ -541,7 +546,6 @@
   border-bottom: 1px solid var(--terminal-border) !important;
   position: relative;
   z-index: 1001;
-  backdrop-filter: blur(8px) !important;
 
   /* Asegurar que el texto sea legible */
   color: var(--terminal-text) !important;
@@ -664,6 +668,16 @@
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;
+}
+
+/* Ocultar acciones del hero cuando la terminal estÃ¡ maximizada */
+.terminal-maximized-active .hero-actions {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden;
+  transform: translateY(8px) scale(0.98);
+  filter: blur(2px);
+  transition: opacity 0.35s ease, transform 0.35s ease, filter 0.35s ease;
 }
 
 /* Ajustes para tablets */

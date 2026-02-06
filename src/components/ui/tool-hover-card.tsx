@@ -288,7 +288,7 @@ export function ToolHoverCard({ tool, children }: ToolHoverCardProps) {
         </div>
       </HoverCardTrigger>
       <HoverCardContent
-        className="hover-card-content z-50 w-[280px] sm:w-80 rounded-xl bg-card/95 backdrop-blur-sm border border-blue/20 
+        className="hover-card-content z-50 w-[280px] sm:w-80 rounded-xl bg-card/95 border border-blue/20 shadow-[0_12px_28px_rgba(0,0,0,0.22)] dark:shadow-[0_14px_34px_rgba(0,0,0,0.55)] 
                  shadow-xl shadow-blue/10 p-4 max-w-[90vw] transition-none"
         side={isMobile ? "bottom" : "top"}
         align={isMobile ? "center" : "center"}

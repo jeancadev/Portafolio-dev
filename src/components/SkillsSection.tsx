@@ -167,8 +167,8 @@ const SkillsSection = () => {
           {skillGroups.map((group) => (
             <div 
               key={group.category} 
-              className="skill-card gsap-hidden bg-card/25 border border-muted/15 rounded-xl p-5 md:p-6 backdrop-blur-xl text-center
-                       transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue/10
+              className="skill-card gsap-hidden bg-card/25 border border-muted/15 rounded-xl p-5 md:p-6 text-center
+                       transition-all duration-300 shadow-[0_12px_28px_rgba(0,0,0,0.18)] dark:shadow-[0_14px_34px_rgba(0,0,0,0.5)] hover:scale-105 hover:shadow-xl hover:shadow-blue/10
                        hover:border-blue/30 group"
             >
               <div className="flex justify-center group-hover:scale-110 transition-transform duration-300">
@@ -177,10 +177,10 @@ const SkillsSection = () => {
               <h3 className="text-xl font-bold mb-5 md:mb-6 text-blue transform transition-all duration-300 group-hover:scale-125 group-hover:tracking-wider">{group.category}</h3>
               <div className="flex flex-wrap justify-center gap-2 md:gap-3">
                 {group.skills.map((skill) => (
-                  <div 
+                <div 
                     key={skill} 
                     className="px-3 py-1.5 md:px-4 md:py-2 bg-card/50 border border-blue/20 rounded-full 
-                             text-xs md:text-sm transition-all hover:bg-blue/20 hover:scale-105"
+                             text-xs md:text-sm transition-all hover:bg-blue/20 hover:scale-105 shadow-[0_4px_12px_rgba(0,0,0,0.15)] dark:shadow-[0_6px_16px_rgba(0,0,0,0.45)]"
                   >
                     {skill}
                   </div>
@@ -194,8 +194,8 @@ const SkillsSection = () => {
           <h3 ref={toolsTitleRef} className="text-xl md:text-2xl font-bold mb-5 md:mb-6 text-center text-foreground">{t('tools')}</h3>
           <div ref={toolsContainerRef} className="flex flex-wrap justify-center gap-3 md:gap-4">            {["VS Code", "Visual Studio", "Cursor", "Git", "GitHub", "GitHub Copilot", "ChatGPT", "Docker", "AWS", "Jest", "Cypress", "Figma", "Gitlab CI", "Azure", "Claude", "Gemini"].map(tech => (
               <ToolHoverCard key={tech} tool={tech}>
-                <div className="tool-item px-3 py-1.5 sm:px-4 sm:py-2 bg-card/25 backdrop-blur-lg border border-muted/15 rounded-full text-xs sm:text-sm 
-                            transition-all duration-300 hover:scale-110 active:scale-95 hover:bg-blue/15 
+                <div className="tool-item px-3 py-1.5 sm:px-4 sm:py-2 bg-card/25 border border-muted/15 rounded-full text-xs sm:text-sm 
+                            transition-all duration-300 shadow-[0_6px_16px_rgba(0,0,0,0.18)] dark:shadow-[0_8px_20px_rgba(0,0,0,0.45)] hover:scale-110 active:scale-95 hover:bg-blue/15 
                             hover:border-blue/30 hover:text-blue hover:shadow-lg touch-manipulation"
                 >
                   {tech}

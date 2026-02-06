@@ -349,7 +349,6 @@
   /* Terminal de macOS */
   .macos-terminal {
     background-color: hsl(var(--card) / 0.4);
-    backdrop-filter: blur(12px);
     border: 1.5px solid hsl(var(--blue) / 0.2);
     box-shadow:
       0 4px 6px -1px rgba(0, 0, 0, 0.2),
@@ -459,7 +458,7 @@
   }
 
   .project-card {
-    @apply relative overflow-hidden rounded-lg border border-muted/20 bg-card/30 backdrop-blur-sm transition-all duration-500 ease-out hover:shadow-lg hover:shadow-blue/10 hover:translate-y-[-5px];
+    @apply relative overflow-hidden rounded-lg border border-muted/20 bg-card/30 transition-all duration-500 ease-out shadow-[0_12px_26px_rgba(0,0,0,0.18)] dark:shadow-[0_14px_30px_rgba(0,0,0,0.45)] hover:shadow-lg hover:shadow-blue/10 hover:translate-y-[-5px];
   }
 
   .heading-accent {
@@ -468,17 +467,17 @@
 
   /* iOS/macOS inspired glassmorphism styles */
   .glass-nav {
-    @apply backdrop-blur-xl border border-border shadow-lg px-3 py-1;
+    @apply border border-border shadow-lg px-3 py-1;
     background-color: hsl(var(--card) / 0.7);
   }
 
   .glass-card {
-    @apply backdrop-blur-xl border border-border rounded-xl shadow-lg;
+    @apply border border-border rounded-xl shadow-lg;
     background-color: hsl(var(--card) / 0.5);
   }
 
   .glass-button {
-    @apply backdrop-blur-md border border-border rounded-full transition-all duration-300;
+    @apply border border-border rounded-full transition-all duration-300 shadow-[0_8px_20px_rgba(0,0,0,0.2)] dark:shadow-[0_10px_24px_rgba(0,0,0,0.5)];
     background-color: hsl(var(--card) / 0.5);
   }
 
@@ -654,8 +653,8 @@
 
   /* Terminal de macOS */
   .macos-terminal {
-    @apply bg-card/30 backdrop-blur-sm border border-muted/20 rounded-lg;
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.2);
+    @apply bg-card/30 border border-muted/20 rounded-lg;
+    box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.28);
     width: 100%;
     max-width: 800px;
     overflow: hidden;
@@ -911,8 +910,6 @@
     position: relative;
     width: 100%;
     background: hsl(var(--card) / 0.65);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-radius: 10px;
     overflow: hidden;
     border: 1px solid hsl(var(--border) / 0.3);
@@ -921,8 +918,7 @@
       0 0 0 1px hsl(var(--border) / 0.2),
       inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-      box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-      backdrop-filter 0.3s ease;
+      box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .macos-window:hover {
@@ -942,8 +938,6 @@
     background: linear-gradient(180deg,
         hsl(var(--muted) / 0.7) 0%,
         hsl(var(--muted) / 0.4) 100%);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid hsl(var(--border) / 0.2);
   }
 
@@ -1047,7 +1041,6 @@
         rgba(0, 0, 0, 0.6) 55%,
         rgba(0, 0, 0, 0.3) 75%,
         transparent 100%);
-    backdrop-filter: blur(8px);
     opacity: 0;
     transform: translateY(10px);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1096,9 +1089,9 @@
     border: 1px solid rgba(124, 58, 237, 0.6);
     border-radius: 9999px;
     color: #c4b5fd;
-    backdrop-filter: blur(4px);
     transition: all 0.2s ease;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
   }
 
   .project-overlay-tag:hover {
@@ -1204,6 +1197,15 @@
   filter: blur(2px) !important;
 }
 
+/* Ocultar acciones del hero cuando la terminal estÃ¡ maximizada */
+.terminal-maximized-active .hero-actions {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateY(8px) scale(0.98) !important;
+  transition: opacity 0.35s ease, transform 0.35s ease !important;
+  filter: blur(2px) !important;
+}
+
 /* AnimaciÃ³n de entrada suave para la foto de perfil cuando se restaura la terminal */
 .terminal-restoring~.hero-avatar,
 .terminal-restoring~* .hero-avatar {
@@ -1228,6 +1230,46 @@
 .terminal-expanding~.hero-avatar,
 .terminal-expanding~* .hero-avatar {
   animation: profileHide 0.5s ease-out forwards;
+}
+
+/* AnimaciÃ³n de entrada suave para las acciones del hero al restaurar */
+.terminal-restoring~.hero-actions,
+.terminal-restoring~* .hero-actions {
+  animation: heroActionsRestore 0.4s ease-out forwards;
+}
+
+@keyframes heroActionsRestore {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+    filter: blur(2px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* AnimaciÃ³n de salida suave para las acciones del hero al maximizar */
+.terminal-expanding~.hero-actions,
+.terminal-expanding~* .hero-actions {
+  animation: heroActionsHide 0.4s ease-out forwards;
+}
+
+@keyframes heroActionsHide {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+    filter: blur(2px);
+  }
 }
 
 @keyframes profileHide {

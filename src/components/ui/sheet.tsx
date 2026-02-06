@@ -56,7 +56,7 @@ const SheetContent = React.forwardRef<
   SheetContentProps
 >(({ side = "right", className, children, hideCloseButton = false, ...props }, ref) => (
   <SheetPortal>
-    <SheetOverlay className="transition-all duration-500 ease-out backdrop-blur-sm" />
+    <SheetOverlay className="transition-all duration-500 ease-out" />
     <SheetPrimitive.Content
       ref={ref}
       className={cn(sheetVariants({ side }), 
