@@ -154,7 +154,7 @@ const SkillsSection = () => {
     <section 
       id="skills" 
       ref={sectionRef}
-      className="section-padding bg-gradient-to-b from-background/95 to-background text-foreground">
+      className="section-padding text-foreground">
       <div className="container mx-auto px-4">
         <div className="mb-12 text-center">
           <h2 className="text-3xl md:text-4xl font-bold heading-accent pb-2 mb-4">{t('mySkills')}</h2>

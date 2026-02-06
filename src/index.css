@@ -42,6 +42,10 @@
     --ring: 221.2 83.2% 53.3%;
 
     --radius: 0.5rem;
+    --page-gradient:
+      radial-gradient(1200px circle at 10% -10%, rgba(59, 130, 246, 0.10), transparent 60%),
+      radial-gradient(900px circle at 90% 10%, rgba(14, 116, 144, 0.06), transparent 55%),
+      linear-gradient(180deg, #f7f9fc 0%, #eef2f8 100%);
   }
 
   .dark {
@@ -73,6 +77,10 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
+    --page-gradient:
+      radial-gradient(1200px circle at 10% -10%, rgba(59, 130, 246, 0.18), transparent 60%),
+      radial-gradient(900px circle at 90% 10%, rgba(14, 116, 144, 0.12), transparent 55%),
+      linear-gradient(180deg, #0a0d14 0%, #06070b 100%);
   }
 
   * {
@@ -80,10 +88,34 @@
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply text-foreground antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
     position: relative;
     overflow-x: hidden;
+    background-color: hsl(var(--background));
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-color: hsl(var(--background));
+    background-image: var(--page-gradient);
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
+  .smooth-wrapper,
+  .smooth-content {
+    background: transparent;
   }
 
   /* ===== Transiciones globales para cambio de tema fluido ===== */
@@ -1700,7 +1732,6 @@ a,
   transform: translateY(0);
 }
 
-/* Mejora en espaciado entre secciones */
 .section-spacing {
   margin-bottom: 5rem;
   /* Aumentado de 4rem a 5rem */

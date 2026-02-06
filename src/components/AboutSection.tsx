@@ -147,7 +147,7 @@ const AboutSection = () => {
     <section 
       id="about" 
       ref={aboutSectionRef}
-      className="section-padding mt-0 bg-gradient-to-b from-background to-background/95 text-foreground content-visibility-auto relative"
+      className="section-padding mt-0 text-foreground content-visibility-auto relative"
     >
       <div className="container mx-auto px-4 md:px-6">
         <div className="mb-12 text-center gsap-item">
