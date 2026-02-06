@@ -160,7 +160,7 @@ const ContactSection = () => {
         <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           <Card 
             ref={formCardRef}
-            className="gsap-hidden p-6 backdrop-blur-sm border border-muted/20 bg-card/30 transition-all duration-300 hover:shadow-xl hover:shadow-blue/10">
+            className="gsap-hidden p-6 backdrop-blur-xl border border-muted/15 bg-card/25 rounded-xl transition-all duration-300 hover:shadow-xl hover:shadow-blue/10 hover:bg-card/35">
             <form ref={formElementsRef} onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <Input 
@@ -198,7 +198,7 @@ const ContactSection = () => {
 
           <Card 
             ref={infoCardRef}
-            className="gsap-hidden p-6 backdrop-blur-sm border border-muted/20 bg-card/30 transition-all duration-300 hover:shadow-xl hover:shadow-blue/10">
+            className="gsap-hidden p-6 backdrop-blur-xl border border-muted/15 bg-card/25 rounded-xl transition-all duration-300 hover:shadow-xl hover:shadow-blue/10 hover:bg-card/35">
             <div className="space-y-4">
               <h3 className="text-xl font-semibold mb-4">{t('contactInfo')}</h3>
               <div className="space-y-6">

@@ -261,61 +261,63 @@ const Terminal = ({
   }
   
   return (
-    <motion.div 
-      ref={terminalRef}
-      className={`terminal ${isMaximized ? 'terminal-maximized' : ''}`}
-      initial={{ opacity: 0, y: 20, scale: 0.95 }}
-      animate={{ 
-        opacity: 1, 
-        y: 0,
-        scale: 1
-      }}
-      transition={{
-        type: 'tween',
-        duration: 0.6,
-        ease: [0.25, 0.46, 0.45, 0.94]
-      }}
-    >
-      <div className="terminal-header backdrop-blur-md bg-gradient-to-b from-card/50 to-card/30 border-b border-blue/20">
-        <div className="terminal-buttons">
-          <div 
-            className="terminal-button terminal-close hover:scale-110 transition-transform cursor-pointer"
-            onClick={handleClose}
-            title="Cerrar"
-          />
-          <div 
-            className="terminal-button terminal-minimize hover:scale-110 transition-transform cursor-pointer" 
-            onClick={handleMinimize}
-            title="Minimizar"
-          />
-          <div 
-            className="terminal-button terminal-maximize hover:scale-110 transition-transform cursor-pointer" 
-            onClick={handleMaximize}
-            title={isMaximized ? "Restaurar" : "Maximizar"}
-          />
-        </div>
-        <div className="terminal-title text-blue-foreground/70">
-          {title}
-        </div>
-      </div>
+    <div className="terminal-slot">
       <motion.div 
-        className="terminal-body"
-        initial={{ opacity: 0, y: 10 }}
+        ref={terminalRef}
+        className={`terminal ${isMaximized ? 'terminal-maximized' : ''}`}
+        initial={{ opacity: 0, y: 20, scale: 0.95 }}
         animate={{ 
           opacity: 1, 
           y: 0,
-          transition: {
-            delay: 0.15,
-            duration: 0.4,
-            ease: [0.25, 0.46, 0.45, 0.94]
-          }
+          scale: 1
+        }}
+        transition={{
+          type: 'tween',
+          duration: 0.6,
+          ease: [0.25, 0.46, 0.45, 0.94]
         }}
       >
-        <div className="terminal-content">
-          {children}
+        <div className="terminal-header backdrop-blur-md bg-gradient-to-b from-card/50 to-card/30 border-b border-blue/20">
+          <div className="terminal-buttons">
+            <div 
+              className="terminal-button terminal-close hover:scale-110 transition-transform cursor-pointer"
+              onClick={handleClose}
+              title="Cerrar"
+            />
+            <div 
+              className="terminal-button terminal-minimize hover:scale-110 transition-transform cursor-pointer" 
+              onClick={handleMinimize}
+              title="Minimizar"
+            />
+            <div 
+              className="terminal-button terminal-maximize hover:scale-110 transition-transform cursor-pointer" 
+              onClick={handleMaximize}
+              title={isMaximized ? "Restaurar" : "Maximizar"}
+            />
+          </div>
+          <div className="terminal-title text-blue-foreground/70">
+            {title}
+          </div>
         </div>
+        <motion.div 
+          className="terminal-body"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ 
+            opacity: 1, 
+            y: 0,
+            transition: {
+              delay: 0.15,
+              duration: 0.4,
+              ease: [0.25, 0.46, 0.45, 0.94]
+            }
+          }}
+        >
+          <div className="terminal-content">
+            {children}
+          </div>
+        </motion.div>
       </motion.div>
-    </motion.div>
+    </div>
   );
 };
 

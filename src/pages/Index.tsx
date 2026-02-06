@@ -178,6 +178,20 @@ const Index = () => {
 
   return (
     <div className="min-h-screen text-foreground transition-colors duration-300">
+      {/* Video de fondo animado */}
+      <div className="video-background">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="video-bg"
+        >
+          <source src="/krumzi-video.mp4" type="video/mp4" />
+        </video>
+        <div className="video-overlay"></div>
+      </div>
+      
       {/* Navbar fuera del SmoothScroll para mantenerlo fijo */}
       <Navbar />
       <SmoothScroll>
