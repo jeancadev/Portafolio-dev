@@ -1,8 +1,8 @@
-/* Terminal de macOS */
+﻿/* Terminal de macOS */
 .terminal {
   /* Variables para modo oscuro (por defecto) */
   --terminal-bg: rgba(15, 15, 15, 0.75);
-  --terminal-border: rgba(59, 130, 246, 0.2);
+  --terminal-border: rgba(124, 58, 237, 0.2);
   --terminal-header: rgba(30, 30, 30, 0.8);
   --terminal-text: rgb(230, 230, 230);
   --terminal-overlay: rgba(0, 0, 0, 0);
@@ -12,7 +12,7 @@
   /* Variables para modo claro */
   .light & {
     --terminal-bg: rgba(255, 255, 255, 0.75);
-    --terminal-border: rgba(59, 130, 246, 0.2);
+    --terminal-border: rgba(124, 58, 237, 0.2);
     --terminal-header: rgba(240, 240, 240, 0.8);
     --terminal-text: rgb(30, 30, 30);
     --terminal-overlay: rgba(255, 255, 255, 0);
@@ -23,8 +23,8 @@
   border-radius: 0.75rem;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2),
   0 2px 4px -2px rgba(0, 0, 0, 0.1),
-  0 0 0 1px rgba(59, 130, 246, 0.1),
-  inset 0 1px 0 0 rgba(59, 130, 246, 0.05);
+  0 0 0 1px rgba(124, 58, 237, 0.1),
+  inset 0 1px 0 0 rgba(124, 58, 237, 0.05);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   width: 100%;
@@ -33,7 +33,7 @@
   height: 360px;
   /* Altura fija para la terminal */
   min-height: 300px;
-  /* Altura mínima */
+  /* Altura mÃ­nima */
   display: flex;
   flex-direction: column;
   opacity: 0;
@@ -88,7 +88,7 @@
   height: 1px;
   background: linear-gradient(90deg,
       transparent 0%,
-      rgba(59, 130, 246, 0.1) 50%,
+      rgba(124, 58, 237, 0.1) 50%,
       transparent 100%);
 }
 
@@ -245,7 +245,7 @@
   right: 0;
   bottom: 0;
   background: radial-gradient(circle at center,
-      rgba(59, 130, 246, 0.03) 0%,
+      rgba(124, 58, 237, 0.03) 0%,
       transparent 70%);
   z-index: -1;
 }
@@ -324,13 +324,13 @@
   opacity: 1;
 }
 
-/* Animación de salida suave del overlay al restaurar */
+/* AnimaciÃ³n de salida suave del overlay al restaurar */
 .terminal-restoring::before {
   opacity: 0 !important;
   transition: opacity 0.4s ease-out !important;
 }
 
-/* Clase para cuando la terminal está activa */
+/* Clase para cuando la terminal estÃ¡ activa */
 .terminal-maximized.active {
   opacity: 1;
   visibility: visible;
@@ -338,7 +338,7 @@
   box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.6) !important;
 }
 
-/* Animación de expansión más suave */
+/* AnimaciÃ³n de expansiÃ³n mÃ¡s suave */
 .terminal-expanding {
   animation: terminalMaximize 0.5s ease-out forwards;
 }
@@ -393,7 +393,7 @@
   }
 }
 
-/* Efecto de pulso en el botón de cerrar */
+/* Efecto de pulso en el botÃ³n de cerrar */
 .terminal-close:hover {
   animation: pulse-red 1.5s infinite;
 }
@@ -412,7 +412,7 @@
   }
 }
 
-/* Efecto de pulso en el botón de minimizar */
+/* Efecto de pulso en el botÃ³n de minimizar */
 .terminal-minimize:hover {
   animation: pulse-yellow 1.5s infinite;
 }
@@ -431,7 +431,7 @@
   }
 }
 
-/* Efecto de pulso en el botón de maximizar */
+/* Efecto de pulso en el botÃ³n de maximizar */
 .terminal-maximize:hover {
   animation: pulse-green 1.5s infinite;
 }
@@ -485,7 +485,7 @@
   bottom: 0;
   border-radius: inherit;
   padding: 2px;
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.4), rgba(124, 58, 237, 0.4), rgba(236, 72, 153, 0.4));
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.4), rgba(124, 58, 237, 0.4), rgba(236, 72, 153, 0.4));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -501,7 +501,7 @@
 
 .terminal-maximized::after {
   opacity: 1 !important;
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.6), rgba(124, 58, 237, 0.6), rgba(236, 72, 153, 0.6)) !important;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.6), rgba(124, 58, 237, 0.6), rgba(236, 72, 153, 0.6)) !important;
 }
 
 /* Variables para modo claro/oscuro */
@@ -523,7 +523,7 @@
   scroll-behavior: smooth !important;
   padding: 1.5rem !important;
 
-  /* Ajustes específicos para móviles */
+  /* Ajustes especÃ­ficos para mÃ³viles */
   @media (max-width: 768px) {
     width: 98% !important;
     max-width: 100% !important;
@@ -569,7 +569,7 @@
     height: auto;
     /* Permitir que la altura se ajuste al contenido */
     max-height: 70vh;
-    /* Máximo 70% de la altura de la pantalla */
+    /* MÃ¡ximo 70% de la altura de la pantalla */
     min-height: 280px;
   }
 }
@@ -579,7 +579,7 @@
   .terminal {
     height: auto;
     max-height: 75vh;
-    /* Máximo 75% de la altura de la pantalla */
+    /* MÃ¡ximo 75% de la altura de la pantalla */
     min-height: 240px;
   }
 }
@@ -601,7 +601,7 @@
   }
 }
 
-/* Indicador visual en el botón de maximizar cuando está maximizado */
+/* Indicador visual en el botÃ³n de maximizar cuando estÃ¡ maximizado */
 .terminal-maximized .terminal-maximize:hover::before {
   width: 6px;
   height: 6px;
@@ -626,7 +626,7 @@
   z-index: 1000;
 }
 
-/* Ajustes específicos para móviles */
+/* Ajustes especÃ­ficos para mÃ³viles */
 @media (max-width: 768px) {
   .terminal {
     --terminal-transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -649,7 +649,7 @@
 
 
 
-  /* Mejorar la interacción con la foto de perfil en móviles */
+  /* Mejorar la interacciÃ³n con la foto de perfil en mÃ³viles */
   .terminal-maximized-active .hero-avatar {
     transform: scale(0.8) translateY(5px) !important;
     transition: opacity 0.4s ease-out,
@@ -659,7 +659,7 @@
   }
 }
 
-/* Ocultar elementos hermanos cuando la terminal está maximizada para evitar overlap visual */
+/* Ocultar elementos hermanos cuando la terminal estÃ¡ maximizada para evitar overlap visual */
 .terminal-maximized-active .gsap-item:not(:has(.terminal-maximized)) {
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -683,9 +683,10 @@
 
 }
 
-/* Mejorar la transición del contenido cuando la terminal se maximiza/restaura */
+/* Mejorar la transiciÃ³n del contenido cuando la terminal se maximiza/restaura */
 /* The content now scales with the parent terminal, so it doesn't need a separate animation.
 .terminal-maximized .terminal-content {
   animation: contentMaximize 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 } 
 */
+

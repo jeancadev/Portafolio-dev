@@ -57,9 +57,9 @@ export default {
 				dark: "#0F0F0F",
 				light: "#FFFFFF",
 				blue: {
-					DEFAULT: "#3B82F6",
-					light: "#60A5FA",
-					dark: "#2563EB"
+					DEFAULT: "#7C3AED",
+					light: "#A78BFA",
+					dark: "#6D28D9"
 				}
 			},
 			fontFamily: {

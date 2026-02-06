@@ -165,7 +165,7 @@ const AboutSection = () => {
             className="premium-card group relative overflow-hidden bg-card/50 border-0 backdrop-blur-sm transition-all duration-500 hover:shadow-[0_0_25px_rgba(56,189,248,0.15)] dark:hover:shadow-[0_0_25px_rgba(56,189,248,0.1)]">
             <CardContent className="flex flex-col items-center p-6 text-center z-10 relative transition-all duration-500 group-hover:translate-y-[-8px]">
               <div className="relative mb-4 rounded-full bg-blue/10 p-3 transition-all duration-500 group-hover:bg-blue/20 group-hover:scale-110 overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:opacity-0 before:translate-x-[-100%] group-hover:before:animate-shimmer">
-                <div className="absolute inset-0 bg-gradient-to-r from-sky-400/10 via-blue-500/10 to-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-full"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-400/10 via-blue/10 to-fuchsia-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-full"></div>
                 <Code className="h-6 w-6 text-blue" />
               </div>
               <h3 className="mb-2 font-bold text-foreground transition-all duration-500 group-hover:text-gradient-hover">{t('cardDevelopment')}</h3>
@@ -178,7 +178,7 @@ const AboutSection = () => {
             className="premium-card group relative overflow-hidden bg-card/50 border-0 backdrop-blur-sm transition-all duration-500 hover:shadow-[0_0_25px_rgba(56,189,248,0.15)] dark:hover:shadow-[0_0_25px_rgba(56,189,248,0.1)]">
             <CardContent className="flex flex-col items-center p-6 text-center z-10 relative transition-all duration-500 group-hover:translate-y-[-8px]">
               <div className="relative mb-4 rounded-full bg-blue/10 p-3 transition-all duration-500 group-hover:bg-blue/20 group-hover:scale-110 overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:opacity-0 before:translate-x-[-100%] group-hover:before:animate-shimmer">
-                <div className="absolute inset-0 bg-gradient-to-r from-sky-400/10 via-blue-500/10 to-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-full"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-400/10 via-blue/10 to-fuchsia-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-full"></div>
                 <Laptop className="h-6 w-6 text-blue" />
               </div>
               <h3 className="mb-2 font-bold text-foreground transition-all duration-500 group-hover:text-gradient-hover">{t('cardTech')}</h3>
@@ -191,7 +191,7 @@ const AboutSection = () => {
             className="premium-card group relative overflow-hidden bg-card/50 border-0 backdrop-blur-sm transition-all duration-500 hover:shadow-[0_0_25px_rgba(56,189,248,0.15)] dark:hover:shadow-[0_0_25px_rgba(56,189,248,0.1)]">
             <CardContent className="flex flex-col items-center p-6 text-center z-10 relative transition-all duration-500 group-hover:translate-y-[-8px]">
               <div className="relative mb-4 rounded-full bg-blue/10 p-3 transition-all duration-500 group-hover:bg-blue/20 group-hover:scale-110 overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:opacity-0 before:translate-x-[-100%] group-hover:before:animate-shimmer">
-                <div className="absolute inset-0 bg-gradient-to-r from-sky-400/10 via-blue-500/10 to-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-full"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-400/10 via-blue/10 to-fuchsia-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-full"></div>
                 <Users className="h-6 w-6 text-blue" />
               </div>
               <h3 className="mb-2 font-bold text-foreground transition-all duration-500 group-hover:text-gradient-hover">{t('cardCollab')}</h3>
@@ -204,7 +204,7 @@ const AboutSection = () => {
             className="premium-card group relative overflow-hidden bg-card/50 border-0 backdrop-blur-sm transition-all duration-500 hover:shadow-[0_0_25px_rgba(56,189,248,0.15)] dark:hover:shadow-[0_0_25px_rgba(56,189,248,0.1)]">
             <CardContent className="flex flex-col items-center p-6 text-center z-10 relative transition-all duration-500 group-hover:translate-y-[-8px]">
               <div className="relative mb-4 rounded-full bg-blue/10 p-3 transition-all duration-500 group-hover:bg-blue/20 group-hover:scale-110 overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:opacity-0 before:translate-x-[-100%] group-hover:before:animate-shimmer">
-                <div className="absolute inset-0 bg-gradient-to-r from-sky-400/10 via-blue-500/10 to-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-full"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-400/10 via-blue/10 to-fuchsia-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-full"></div>
                 <Book className="h-6 w-6 text-blue" />
               </div>
               <h3 className="mb-2 font-bold text-foreground transition-all duration-500 group-hover:text-gradient-hover">{t('cardLearning')}</h3>

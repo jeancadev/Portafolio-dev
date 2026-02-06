@@ -1,4 +1,4 @@
-/* Estilos para el dock de macOS */
+﻿/* Estilos para el dock de macOS */
 .mac-os-dock {
   position: fixed;
   bottom: 1rem;
@@ -63,7 +63,7 @@
   width: 3rem;
   height: 3rem;
   border-radius: 0.75rem;
-  background: linear-gradient(145deg, #3b82f6, #1e40af);
+  background: linear-gradient(145deg, #7c3aed, #1e40af);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -146,7 +146,7 @@
   z-index: 1;
 }
 
-/* Responsive para dispositivos móviles */
+/* Responsive para dispositivos mÃ³viles */
 @media (max-width: 640px) {
   .dock-item-icon {
     width: 2.5rem;
@@ -162,3 +162,4 @@
     transform: translateY(-5px) scale(1.1);
   }
 }
+

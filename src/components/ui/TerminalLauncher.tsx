@@ -45,9 +45,9 @@ const TerminalLauncher: React.FC<TerminalLauncherProps> = ({
       }}
     >
       <motion.button
-        className="terminal-launcher-btn bg-gradient-to-b from-blue-500 to-blue-600 
+        className="terminal-launcher-btn bg-gradient-to-b from-blue to-blue-dark 
                    p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300
-                   border border-blue-400 flex items-center justify-center"
+                   border border-blue/60 flex items-center justify-center"
         whileHover={{ 
           scale: 1.05,
           transition: { duration: 0.2 }

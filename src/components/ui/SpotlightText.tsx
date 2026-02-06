@@ -60,7 +60,7 @@ const SpotlightText = ({
           transition: 'opacity 300ms ease',
         }}
       >
-        <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-white to-blue-400">
+        <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-light via-white to-blue-light">
             {children}
         </span>
       </div>
