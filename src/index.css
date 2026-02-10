@@ -1883,3 +1883,58 @@ a,
     animation: profileHide 0.55s ease-out forwards;
   }
 }
+
+/* ===== 3D Depth Pass (soft neumorphism) ===== */
+:root {
+  --depth-raised-1: 0 22px 38px -28px rgba(15, 23, 42, 0.45);
+  --depth-raised-2: 0 10px 22px -16px rgba(15, 23, 42, 0.28);
+  --depth-border: 0 0 0 1px hsl(var(--border) / 0.65);
+  --depth-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  --depth-inset: inset 0 -8px 12px rgba(15, 23, 42, 0.08);
+  --depth-hover-1: 0 28px 46px -30px rgba(15, 23, 42, 0.55);
+  --depth-hover-2: 0 14px 26px -18px rgba(15, 23, 42, 0.35);
+}
+
+.dark {
+  --depth-raised-1: 0 24px 42px -26px rgba(0, 0, 0, 0.78);
+  --depth-raised-2: 0 12px 26px -16px rgba(0, 0, 0, 0.6);
+  --depth-border: 0 0 0 1px rgba(255, 255, 255, 0.06);
+  --depth-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --depth-inset: inset 0 -8px 12px rgba(0, 0, 0, 0.4);
+  --depth-hover-1: 0 30px 48px -28px rgba(0, 0, 0, 0.85);
+  --depth-hover-2: 0 16px 30px -18px rgba(0, 0, 0, 0.7);
+}
+
+.project-card,
+.depth-card,
+.glass-card,
+.glass-button,
+.macos-window,
+.macos-terminal,
+.hover-card-content,
+.btn-primary,
+.premium-card {
+  box-shadow:
+    var(--depth-raised-1),
+    var(--depth-raised-2),
+    var(--depth-border),
+    var(--depth-highlight),
+    var(--depth-inset);
+}
+
+.project-card:hover,
+.depth-card:hover,
+.glass-card:hover,
+.glass-button:hover,
+.macos-window:hover,
+.macos-terminal:hover,
+.hover-card-content:hover,
+.btn-primary:hover,
+.premium-card:hover {
+  box-shadow:
+    var(--depth-hover-1),
+    var(--depth-hover-2),
+    var(--depth-border),
+    var(--depth-highlight),
+    var(--depth-inset);
+}

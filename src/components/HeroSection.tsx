@@ -205,7 +205,7 @@ const HeroSection = () => {
               
               <div className={`hero-actions flex flex-col md:flex-row items-center gap-4 mt-8 gsap-item transition-opacity duration-500 ${isAnyTerminalMaximized ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
                 <div className="w-full md:w-auto">
-                  <div className="flex items-center justify-center md:justify-start gap-2 px-4 py-2 rounded-md bg-card/30 border border-muted/20">
+                  <div className="flex items-center justify-center md:justify-start gap-2 px-4 py-2 rounded-2xl bg-card/30 border border-muted/20">
                     <span className="text-sm md:text-base text-muted-foreground">
                       {email}
                     </span>

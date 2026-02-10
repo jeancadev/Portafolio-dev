@@ -22,10 +22,12 @@
   border: 1.5px solid var(--terminal-border);
   border-radius: 0.75rem;
   overflow: hidden;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2),
-  0 8px 18px -6px rgba(0, 0, 0, 0.2),
-  0 0 0 1px rgba(124, 58, 237, 0.12),
-  inset 0 1px 0 0 rgba(255, 255, 255, 0.04);
+  box-shadow:
+  var(--depth-raised-1),
+  var(--depth-raised-2),
+  var(--depth-border),
+  var(--depth-highlight),
+  var(--depth-inset);
   width: 100%;
   max-width: var(--terminal-max-width);
   margin: 0 auto;
@@ -505,19 +507,21 @@
 .light .terminal {
   --terminal-bg: color-mix(in srgb, var(--terminal-bg) 98%, white) !important;
   box-shadow:
-    0 18px 45px rgba(0, 0, 0, 0.18),
-    0 6px 16px rgba(0, 0, 0, 0.12),
-    0 0 0 1px rgba(124, 58, 237, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+    var(--depth-raised-1),
+    var(--depth-raised-2),
+    var(--depth-border),
+    var(--depth-highlight),
+    var(--depth-inset) !important;
 }
 
 .dark .terminal {
   --terminal-bg: color-mix(in srgb, var(--terminal-bg) 98%, black) !important;
   box-shadow:
-    0 24px 60px rgba(0, 0, 0, 0.55),
-    0 10px 24px rgba(0, 0, 0, 0.45),
-    0 0 0 1px rgba(124, 58, 237, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+    var(--depth-raised-1),
+    var(--depth-raised-2),
+    var(--depth-border),
+    var(--depth-highlight),
+    var(--depth-inset) !important;
 }
 
 .terminal-maximized .terminal-body {
