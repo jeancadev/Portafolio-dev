@@ -1,156 +1,207 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTheme } from 'next-themes';
-import { cn } from "@/lib/utils";
+import { useTranslation } from 'react-i18next';
+import { gsap } from 'gsap';
+import { ScrollSmoother } from 'gsap/ScrollSmoother';
+import { cn } from '@/lib/utils';
 import ThemeToggle from './ThemeToggle';
 import LanguageToggle from './LanguageToggle';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetClose } from '@/components/ui/sheet';
-import { useTranslation } from 'react-i18next';
-import { motion } from 'framer-motion';
 import { MenuContext } from '@/context/MenuContext';
+import '@/styles/bubble-menu-mobile.css';
 
-// Componente reutilizable para el icono del hamburguesa
-const HamburgerIcon = ({ isOpen }: { isOpen: boolean }) => {
+const BubbleMenuIcon = ({ isOpen }: { isOpen: boolean }) => {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const glowRef = useRef<HTMLSpanElement>(null);
+  const topLineRef = useRef<HTMLSpanElement>(null);
+  const bottomLineRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const root = rootRef.current;
+    const glow = glowRef.current;
+    const topLine = topLineRef.current;
+    const bottomLine = bottomLineRef.current;
+
+    if (!root || !glow || !topLine || !bottomLine) return;
+
+    const tl = gsap.timeline({
+      defaults: { duration: 0.32, ease: 'power3.out' }
+    });
+
+    if (isOpen) {
+      tl.to(root, { rotate: 180, scale: 1.08, ease: 'back.out(1.5)' }, 0)
+        .to(
+          glow,
+          {
+            scale: 1.08,
+            background:
+              'radial-gradient(circle, rgba(99,102,241,0.2) 0%, rgba(168,85,247,0.1) 70%, rgba(236,72,153,0.05) 100%)',
+            boxShadow: '0 0 12px rgba(99,102,241,0.3)'
+          },
+          0
+        )
+        .to(
+          topLine,
+          {
+            y: 0,
+            rotate: 45,
+            width: 22,
+            background: 'linear-gradient(90deg, #6366f1 0%, #a855f7 100%)',
+            boxShadow: '0 0 5px rgba(99,102,241,0.3)'
+          },
+          0
+        )
+        .to(
+          bottomLine,
+          {
+            y: 0,
+            rotate: -45,
+            width: 22,
+            background: 'linear-gradient(90deg, #ec4899 0%, #6366f1 100%)',
+            boxShadow: '0 0 5px rgba(236,72,153,0.3)'
+          },
+          0
+        );
+    } else {
+      tl.to(root, { rotate: 0, scale: 1 }, 0)
+        .to(
+          glow,
+          {
+            scale: 0.95,
+            background:
+              'radial-gradient(circle, rgba(99,102,241,0) 0%, rgba(168,85,247,0) 70%, rgba(236,72,153,0) 100%)',
+            boxShadow: '0 0 0 rgba(99,102,241,0)'
+          },
+          0
+        )
+        .to(
+          topLine,
+          {
+            y: -7,
+            rotate: 0,
+            width: 18,
+            background: 'linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%)',
+            boxShadow: '0 0 0 rgba(99,102,241,0)'
+          },
+          0
+        )
+        .to(
+          bottomLine,
+          {
+            y: 7,
+            rotate: 0,
+            width: 18,
+            background: 'linear-gradient(90deg, #ec4899 0%, #3b82f6 100%)',
+            boxShadow: '0 0 0 rgba(99,102,241,0)'
+          },
+          0
+        );
+    }
+
+    return () => tl.kill();
+  }, [isOpen]);
+
   return (
-    <motion.div 
-      className="w-8 h-8 flex flex-col justify-center items-center relative"
-      initial={false}
-      animate={isOpen ? "open" : "closed"}
-      whileTap={{ scale: 0.85 }}
-      variants={{
-        open: { rotate: 180, scale: 1.1 },
-        closed: { rotate: 0, scale: 1 }
-      }}
-      transition={{
-        type: "spring",
-        stiffness: 400,
-        damping: 30,
-        duration: 0.3
-      }}
-    >
-      {/* Fondo animado circular */}
-      <motion.div 
-        className="absolute inset-0 rounded-full"
-        variants={{
-          open: { 
-            background: "radial-gradient(circle, rgba(99,102,241,0.2) 0%, rgba(168,85,247,0.1) 70%, rgba(236,72,153,0.05) 100%)",
-            boxShadow: "0 0 12px rgba(99,102,241,0.3)",
-            scale: 1.1
-          },
-          closed: { 
-            background: "radial-gradient(circle, rgba(99,102,241,0) 0%, rgba(168,85,247,0) 70%, rgba(236,72,153,0) 100%)",
-            boxShadow: "0 0 0px rgba(99,102,241,0)",
-            scale: 0.95
-          }
-        }}
-        transition={{ duration: 0.3 }}
-      />
-      
-      {/* Líneas del menú hamburguesa con animación premium */}
-      <motion.span 
-        className="absolute w-6 h-0.5 rounded-full"
-        style={{ transformOrigin: "center" }}
-        variants={{
-          open: { 
-            rotate: 45, 
-            y: 0, 
-            width: '22px', 
-            background: "linear-gradient(90deg, #6366f1 0%, #a855f7 100%)",
-            boxShadow: "0 0 5px rgba(99,102,241,0.3)" 
-          },
-          closed: { 
-            rotate: 0, 
-            y: -7, 
-            width: '18px', 
-            background: "linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%)",
-            boxShadow: "0 0 0px rgba(99,102,241,0)" 
-          }
-        }}
-        transition={{ 
-          duration: 0.3, 
-          ease: [0.6, 0.05, -0.01, 0.9],
-          delay: isOpen ? 0 : 0.2
+    <div ref={rootRef} className="relative flex h-8 w-8 flex-col items-center justify-center">
+      <span ref={glowRef} className="absolute inset-0 rounded-full" />
+      <span
+        ref={topLineRef}
+        className="absolute h-0.5 rounded-full"
+        style={{
+          width: '18px',
+          transform: 'translateY(-7px)',
+          background: 'linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%)',
+          transformOrigin: 'center'
         }}
       />
-      <motion.span 
-        className="absolute w-6 h-0.5 rounded-full"
-        variants={{
-          open: { 
-            opacity: 0, 
-            x: 20, 
-            scale: 0, 
-            background: "linear-gradient(90deg, #a855f7 0%, #ec4899 100%)" 
-          },
-          closed: { 
-            opacity: 1, 
-            x: 0, 
-            scale: 1, 
-            width: '22px', 
-            background: "linear-gradient(90deg, #6366f1 0%, #ec4899 100%)" 
-          }
-        }}
-        transition={{ 
-          duration: 0.3, 
-          ease: [0.6, 0.05, -0.01, 0.9],
-          opacity: { duration: 0.1 }
+      <span
+        ref={bottomLineRef}
+        className="absolute h-0.5 rounded-full"
+        style={{
+          width: '18px',
+          transform: 'translateY(7px)',
+          background: 'linear-gradient(90deg, #ec4899 0%, #3b82f6 100%)',
+          transformOrigin: 'center'
         }}
       />
-      <motion.span 
-        className="absolute w-6 h-0.5 rounded-full"
-        style={{ transformOrigin: "center" }}
-        variants={{
-          open: { 
-            rotate: -45, 
-            y: 0, 
-            width: '22px', 
-            background: "linear-gradient(90deg, #ec4899 0%, #6366f1 100%)",
-            boxShadow: "0 0 5px rgba(236,72,153,0.3)"
-          },
-          closed: { 
-            rotate: 0, 
-            y: 7, 
-            width: '18px', 
-            background: "linear-gradient(90deg, #ec4899 0%, #3b82f6 100%)",
-            boxShadow: "0 0 0px rgba(99,102,241,0)" 
-          }
-        }}
-        transition={{ 
-          duration: 0.3, 
-          ease: [0.6, 0.05, -0.01, 0.9],
-          delay: isOpen ? 0 : 0.2
-        }}
-      />
-    </motion.div>
+    </div>
   );
 };
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { t } = useTranslation();
-  const { theme, setTheme } = useTheme();
+  const [showOverlay, setShowOverlay] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [scrollProgress, setScrollProgress] = useState(0);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+
   const headerRef = useRef<HTMLElement>(null);
   const isNavigatingRef = useRef(false);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const bubbleRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+  const labelRefs = useRef<(HTMLSpanElement | null)[]>([]);
+
+  const { t } = useTranslation();
+  const { theme, setTheme } = useTheme();
+
+  const menuItems = useMemo(
+    () => [
+      {
+        href: '#home',
+        label: t('nav.home'),
+        ariaLabel: t('nav.home'),
+        rotation: -8,
+        hoverStyles: { bgColor: '#3b82f6', textColor: '#ffffff' }
+      },
+      {
+        href: '#about',
+        label: t('nav.about'),
+        ariaLabel: t('nav.about'),
+        rotation: 8,
+        hoverStyles: { bgColor: '#10b981', textColor: '#ffffff' }
+      },
+      {
+        href: '#projects',
+        label: t('nav.projects'),
+        ariaLabel: t('nav.projects'),
+        rotation: 8,
+        hoverStyles: { bgColor: '#f59e0b', textColor: '#ffffff' }
+      },
+      {
+        href: '#skills',
+        label: t('nav.skills'),
+        ariaLabel: t('nav.skills'),
+        rotation: 8,
+        hoverStyles: { bgColor: '#8b5cf6', textColor: '#ffffff' }
+      },
+      {
+        href: '#contact',
+        label: t('nav.contact'),
+        ariaLabel: t('nav.contact'),
+        rotation: -8,
+        hoverStyles: { bgColor: '#ef4444', textColor: '#ffffff' }
+      }
+    ],
+    [t]
+  );
+
+  const animationEase = 'back.out(1.5)';
+  const animationDuration = 0.5;
+  const staggerDelay = 0.12;
 
   useEffect(() => {
     if (!headerRef.current) return;
 
     const updateDimensions = () => {
-      if (headerRef.current) {
-        const { offsetWidth, offsetHeight } = headerRef.current;
-        setDimensions({ width: offsetWidth, height: offsetHeight });
-      }
+      if (!headerRef.current) return;
+      const { offsetWidth, offsetHeight } = headerRef.current;
+      setDimensions({ width: offsetWidth, height: offsetHeight });
     };
 
     updateDimensions();
 
-    const resizeObserver = new ResizeObserver(() => {
-      updateDimensions();
-    });
-
+    const resizeObserver = new ResizeObserver(updateDimensions);
     resizeObserver.observe(headerRef.current);
 
     return () => resizeObserver.disconnect();
@@ -162,10 +213,20 @@ const Navbar = () => {
     } else {
       document.body.classList.remove('menu-open');
     }
-    
-    return () => {
-      document.body.classList.remove('menu-open');
+
+    return () => document.body.classList.remove('menu-open');
+  }, [isOpen]);
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsOpen(false);
     };
+
+    if (isOpen) {
+      window.addEventListener('keydown', onKeyDown);
+    }
+
+    return () => window.removeEventListener('keydown', onKeyDown);
   }, [isOpen]);
 
   useEffect(() => {
@@ -173,52 +234,45 @@ const Navbar = () => {
       const scrollPosition = window.scrollY;
       setIsScrolled(scrollPosition > 0);
 
-      // Calcular progreso de scroll
       const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
       const progress = totalHeight > 0 ? (scrollPosition / totalHeight) * 100 : 0;
       setScrollProgress(progress);
-      
-      // Si el usuario está navegando por clic, no actualizamos la sección activa
+
       if (isNavigatingRef.current) return;
-      
+
       const sections = ['home', 'about', 'projects', 'skills', 'contact'];
       const viewportHeight = window.innerHeight;
       const viewportMiddle = viewportHeight / 2;
-      
-      // Si estamos cerca de la parte superior, establecer como 'home'
+
       if (scrollPosition < 100) {
         setActiveSection('home');
         return;
       }
-      
-      // Si estamos cerca de la parte inferior, establecer como 'contact'
+
       if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
         setActiveSection('contact');
         return;
       }
-      
-      // Buscar la sección más cercana al centro de la ventana
+
       let closestSection = activeSection;
       let minDistance = Infinity;
-      
+
       sections.forEach(section => {
         const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          const elementMiddle = rect.top + (rect.height / 2);
-          const distance = Math.abs(viewportMiddle - elementMiddle);
-          
-          // Si el elemento está visible en la ventana
-          if (rect.top <= viewportHeight * 0.7 && rect.bottom >= viewportHeight * 0.3) {
-            if (distance < minDistance) {
-              minDistance = distance;
-              closestSection = section;
-            }
+        if (!element) return;
+
+        const rect = element.getBoundingClientRect();
+        const elementMiddle = rect.top + rect.height / 2;
+        const distance = Math.abs(viewportMiddle - elementMiddle);
+
+        if (rect.top <= viewportHeight * 0.7 && rect.bottom >= viewportHeight * 0.3) {
+          if (distance < minDistance) {
+            minDistance = distance;
+            closestSection = section;
           }
         }
       });
-      
-      // Actualizar solo si la sección cambió
+
       if (closestSection !== activeSection) {
         setActiveSection(closestSection);
       }
@@ -226,52 +280,128 @@ const Navbar = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [activeSection]);
+
+  useEffect(() => {
+    const overlay = overlayRef.current;
+    const bubbles = bubbleRefs.current.filter(Boolean) as HTMLAnchorElement[];
+    const labels = labelRefs.current.filter(Boolean) as HTMLSpanElement[];
+
+    if (!overlay || !bubbles.length) return;
+
+    if (isOpen) {
+      gsap.set(overlay, { display: 'flex', pointerEvents: 'auto' });
+      gsap.killTweensOf([...bubbles, ...labels]);
+      gsap.set(bubbles, { scale: 0, transformOrigin: '50% 50%' });
+      gsap.set(labels, { y: 24, autoAlpha: 0 });
+
+      bubbles.forEach((bubble, i) => {
+        const item = menuItems[i];
+        const isDesktop = window.innerWidth >= 900;
+        gsap.set(bubble, { rotation: isDesktop ? (item?.rotation ?? 0) : 0 });
+
+        const delay = i * staggerDelay + gsap.utils.random(-0.05, 0.05);
+        const tl = gsap.timeline({ delay });
+
+        tl.to(bubble, {
+          scale: 1,
+          duration: animationDuration,
+          ease: animationEase
+        });
+
+        if (labels[i]) {
+          tl.to(
+            labels[i],
+            {
+              y: 0,
+              autoAlpha: 1,
+              duration: animationDuration,
+              ease: 'power3.out'
+            },
+            `-=${animationDuration * 0.9}`
+          );
+        }
+      });
+    } else if (showOverlay) {
+      gsap.killTweensOf([...bubbles, ...labels]);
+      gsap.to(labels, {
+        y: 24,
+        autoAlpha: 0,
+        duration: 0.2,
+        ease: 'power3.in'
+      });
+      gsap.to(bubbles, {
+        scale: 0,
+        duration: 0.2,
+        ease: 'power3.in',
+        onComplete: () => {
+          gsap.set(overlay, { display: 'none', pointerEvents: 'none' });
+          setShowOverlay(false);
+        }
+      });
+    }
+  }, [isOpen, showOverlay, menuItems, animationEase, animationDuration, staggerDelay]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (!isOpen) return;
+      const bubbles = bubbleRefs.current.filter(Boolean) as HTMLAnchorElement[];
+      const isDesktop = window.innerWidth >= 900;
+
+      bubbles.forEach((bubble, i) => {
+        const item = menuItems[i];
+        if (!bubble || !item) return;
+        const rotation = isDesktop ? (item.rotation ?? 0) : 0;
+        gsap.set(bubble, { rotation });
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [isOpen, menuItems]);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     const href = e.currentTarget.getAttribute('href');
-    
-    if (href) {
-      const section = href.replace('#', '');
-      
-      // 1. Marcar que estamos navegando por clic
-      isNavigatingRef.current = true;
-      
-      // 2. Cerrar el menú móvil si está abierto
-      setIsOpen(false);
-      
-      // 3. Actualizar la sección activa inmediatamente
-      setActiveSection(section);
-      
-      // 4. Desplazamiento suave a la sección
-      const element = document.getElementById(section);
-      if (element) {
-        const offset = 80;
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - offset;
+    if (!href) return;
 
-        // 5. Realizar el scroll suave
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
-        
-        // 6. Restablecer la bandera después de un tiempo
-        setTimeout(() => {
-          isNavigatingRef.current = false;
-        }, 1000);
-      }
+    const section = href.replace('#', '');
+
+    isNavigatingRef.current = true;
+    setIsOpen(false);
+    setActiveSection(section);
+
+    const element = document.getElementById(section);
+    if (!element) {
+      isNavigatingRef.current = false;
+      return;
     }
+
+    const navOffset = 88;
+    const smoother = ScrollSmoother.get();
+    if (smoother) {
+      const targetY = Math.max(0, smoother.offset(element, 'top top') - navOffset);
+      smoother.scrollTo(targetY, true);
+    } else {
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - navOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+
+    setTimeout(() => {
+      isNavigatingRef.current = false;
+    }, 900);
   };
 
-  const menuItems = [
-    { href: "#home", label: t('nav.home') },
-    { href: "#about", label: t('nav.about') },
-    { href: "#projects", label: t('nav.projects') },
-    { href: "#skills", label: t('nav.skills') },
-    { href: "#contact", label: t('nav.contact') }
-  ];
+  const handleMenuToggle = () => {
+    const nextState = !isOpen;
+    if (nextState) setShowOverlay(true);
+    setIsOpen(nextState);
+  };
 
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark');
@@ -279,30 +409,23 @@ const Navbar = () => {
 
   return (
     <MenuContext.Provider value={{ isMenuOpen: isOpen }}>
-      <header 
+      <header
         ref={headerRef}
+        style={{ zIndex: 3000, pointerEvents: 'auto' }}
         className={cn(
-          "fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-in-out",
-          "rounded-full max-w-fit",
-          // Borde base visible para definir la forma de la píldora
-          "border border-neutral-400/25 dark:border-neutral-300/20",
-          // Sombra adaptativa
-          "shadow-lg shadow-black/5 dark:shadow-black/20",
-          isScrolled 
-            ? 'bg-background/80 dark:bg-background/70 backdrop-blur-lg py-2 px-6 lg:px-8' 
+          'fixed top-4 left-1/2 -translate-x-1/2 transition-all duration-500 ease-in-out',
+          'rounded-full max-w-fit',
+          'border border-neutral-400/25 dark:border-neutral-300/20',
+          'shadow-lg shadow-black/5 dark:shadow-black/20',
+          isScrolled
+            ? 'bg-background/80 dark:bg-background/70 backdrop-blur-lg py-2 px-6 lg:px-8'
             : 'bg-background/70 dark:bg-background/60 backdrop-blur-md py-3 px-8 lg:px-10'
         )}
       >
-        {/* Anillo de progreso SVG - Perfectamente alineado con la píldora */}
         {dimensions.width > 0 && (
-          <svg 
+          <svg
             className="absolute pointer-events-none overflow-visible"
-            style={{ 
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%'
-            }}
+            style={{ top: 0, left: 0, width: '100%', height: '100%' }}
             viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
             preserveAspectRatio="none"
           >
@@ -313,16 +436,16 @@ const Navbar = () => {
                 <stop offset="100%" stopColor="#ec4899" />
               </linearGradient>
             </defs>
-            <rect 
-              x="1.5" 
-              y="1.5" 
-              width={dimensions.width - 3} 
-              height={dimensions.height - 3} 
+            <rect
+              x="1.5"
+              y="1.5"
+              width={dimensions.width - 3}
+              height={dimensions.height - 3}
               rx={Math.min((dimensions.height - 3) / 2, (dimensions.width - 3) / 2)}
               ry={Math.min((dimensions.height - 3) / 2, (dimensions.width - 3) / 2)}
-              fill="none" 
-              stroke="url(#nav-progress-gradient)" 
-              strokeWidth="3" 
+              fill="none"
+              stroke="url(#nav-progress-gradient)"
+              strokeWidth="3"
               pathLength="100"
               strokeDasharray="100"
               strokeDashoffset={100 - scrollProgress}
@@ -333,18 +456,17 @@ const Navbar = () => {
           </svg>
         )}
 
-        <nav className="flex items-center justify-between gap-4 lg:gap-8 relative z-10">
-          <a 
-            href="#home" 
+        <nav className="relative z-10 flex items-center justify-between gap-4 lg:gap-8">
+          <a
+            href="#home"
             onClick={handleNavClick}
             className="font-bold text-xl text-foreground/90 hover:text-foreground transition-colors"
           >
             jeanca<span className="text-blue">Dev</span>
           </a>
 
-          {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-6">
-            {menuItems.map((item) => {
+            {menuItems.map(item => {
               const isActive = activeSection === item.href.replace('#', '');
               return (
                 <a
@@ -352,12 +474,12 @@ const Navbar = () => {
                   href={item.href}
                   onClick={handleNavClick}
                   className={cn(
-                    "relative text-sm font-medium transition-all duration-500 ease-out px-3 py-2 rounded-md whitespace-nowrap",
-                    isActive 
-                      ? "text-foreground after:w-full" 
-                      : "text-foreground/75 hover:text-foreground after:w-0 hover:after:w-full",
-                    "after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-blue",
-                    "after:transition-all after:duration-500 after:ease-out"
+                    'relative text-sm font-medium transition-all duration-500 ease-out px-3 py-2 rounded-md whitespace-nowrap',
+                    isActive
+                      ? 'text-foreground after:w-full'
+                      : 'text-foreground/75 hover:text-foreground after:w-0 hover:after:w-full',
+                    'after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-blue',
+                    'after:transition-all after:duration-500 after:ease-out'
                   )}
                 >
                   {item.label}
@@ -369,154 +491,80 @@ const Navbar = () => {
           <div className="flex items-center gap-2">
             <ThemeToggle theme={theme as 'dark' | 'light'} toggleTheme={toggleTheme} />
             <LanguageToggle />
-            
-            <Sheet open={isOpen} onOpenChange={setIsOpen}>
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                onClick={() => setIsOpen(!isOpen)}
-                className={cn(
-                  "relative lg:hidden group overflow-hidden hover:bg-foreground/5 transition-all duration-500",
-                  "before:absolute before:inset-0 before:rounded-full before:border before:border-foreground/20",
-                  "before:scale-75 before:opacity-0 hover:before:scale-100 hover:before:opacity-100",
-                  "before:transition-all before:duration-500",
-                  "after:absolute after:inset-0 after:rounded-full after:border-2 after:border-blue/20",
-                  "after:scale-90 after:opacity-0 hover:after:scale-110 hover:after:opacity-100",
-                  "after:transition-all after:duration-700 after:ease-in-out",
-                  isOpen && "bg-foreground/5"
-                )}
-              >
-                <HamburgerIcon isOpen={isOpen} />
-                <span className="sr-only">{isOpen ? 'Cerrar menú' : 'Abrir menú'}</span>
-              </Button>
-              <SheetContent 
-                side="right"
-                hideCloseButton={true}
-                className={cn(
-                  "w-[320px] bg-background/90 backdrop-blur-xl border-neutral-200/10",
-                  "data-[state=open]:animate-in data-[state=closed]:animate-out",
-                  "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
-                  "data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right",
-                  "transition-all duration-300 ease-out"
-                )}
-              >
-                {/* Botón de cierre con el icono hamburguesa animado */}
-                <SheetClose asChild>
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    className={cn(
-                      "absolute right-4 top-4 z-50 group overflow-hidden hover:bg-foreground/5 transition-all duration-500",
-                      "before:absolute before:inset-0 before:rounded-full before:border before:border-foreground/20",
-                      "before:scale-75 before:opacity-0 hover:before:scale-100 hover:before:opacity-100",
-                      "before:transition-all before:duration-500",
-                      "after:absolute after:inset-0 after:rounded-full after:border-2 after:border-blue/20",
-                      "after:scale-90 after:opacity-0 hover:after:scale-110 hover:after:opacity-100",
-                      "after:transition-all after:duration-700 after:ease-in-out",
-                      "bg-foreground/5"
-                    )}
-                  >
-                    <HamburgerIcon isOpen={true} />
-                    <span className="sr-only">Cerrar menú</span>
-                  </Button>
-                </SheetClose>
-                
-                {/* Ornamento de diseño - gradientes premium */}
-                <div className="absolute top-0 right-0 w-40 h-40 rounded-full bg-gradient-to-b from-blue/10 to-purple-500/5 blur-3xl opacity-50"></div>
-                <div className="absolute bottom-0 left-0 w-40 h-40 rounded-full bg-gradient-to-t from-pink-500/10 to-blue/5 blur-3xl opacity-50"></div>
-                
-                <div className="flex flex-col gap-2 mt-8 relative">
-                  {/* Barra de progreso vertical */}
-                  <div className="absolute left-6 top-2 bottom-2 w-0.5 bg-foreground/10 rounded-full"></div>
-                  <motion.div 
-                    className="absolute left-6 top-2 w-0.5 bg-gradient-to-b from-blue via-purple-500 to-pink-500 rounded-full z-10"
-                    style={{ 
-                      height: `${(menuItems.findIndex(item => item.href.replace('#', '') === activeSection) + 1) * 100 / menuItems.length}%` 
-                    }}
-                    initial={{ scaleY: 0 }}
-                    animate={{ scaleY: 1 }}
-                    transition={{ duration: 0.5, ease: "easeOut" }}
-                  ></motion.div>
 
-                  {/* Elementos del menú */}
-                  {menuItems.map((item, index) => {
-                    const isActive = activeSection === item.href.replace('#', '');
-                    return (
-                      <motion.div 
-                        key={item.href}
-                        className="relative"
-                        initial={{ x: 50, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        transition={{ duration: 0.3, delay: index * 0.1 }}
-                      >
-                        <a
-                          href={item.href}
-                          onClick={handleNavClick}
-                          className={cn(
-                            "relative flex items-center group px-8 py-4 rounded-lg transition-all duration-300",
-                            isActive 
-                              ? "bg-gradient-to-r from-foreground/5 to-foreground/10 text-foreground" 
-                              : "text-foreground/80 hover:text-foreground hover:bg-foreground/5"
-                          )}
-                        >
-                          {/* Indicador numerado con círculo premium */}
-                          <div className="relative mr-5">
-                            <motion.div 
-                              className={cn(
-                                "absolute -left-6 w-3 h-3 rounded-full transition-all duration-300",
-                                isActive 
-                                  ? "bg-blue scale-100" 
-                                  : "bg-foreground/20 scale-75 group-hover:scale-100 group-hover:bg-foreground/40"
-                              )}
-                              whileHover={{ scale: 1.2 }}
-                              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                            ></motion.div>
-                            <div className={cn(
-                              "flex items-center justify-center w-7 h-7 rounded-full border transition-all duration-300",
-                              isActive 
-                                ? "border-blue/60 text-blue bg-blue/5" 
-                                : "border-foreground/20 text-foreground/40 group-hover:border-foreground/40 group-hover:text-foreground/60"
-                            )}>
-                              <span className="text-xs font-medium">{index + 1}</span>
-                            </div>
-                          </div>
-
-                          {/* Texto del elemento con efecto de subrayado animado */}
-                          <div className="relative overflow-hidden">
-                            <span className="text-base font-medium">{item.label}</span>
-                            <motion.div 
-                              className={cn(
-                                "absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-blue via-purple-500 to-pink-500",
-                                isActive ? "opacity-100" : "opacity-0"
-                              )}
-                              initial={false}
-                              animate={{ 
-                                scaleX: isActive ? 1 : 0,
-                                opacity: isActive ? 1 : 0
-                              }}
-                              transition={{ duration: 0.3 }}
-                            ></motion.div>
-                          </div>
-                          
-                          {/* Indicador de progreso horizontal */}
-                          {isActive && (
-                            <motion.div 
-                              className="absolute bottom-2 left-8 right-8 h-0.5 bg-gradient-to-r from-blue/40 to-transparent"
-                              initial={{ scaleX: 0, opacity: 0 }}
-                              animate={{ scaleX: 1, opacity: 1 }}
-                              transition={{ duration: 0.5, delay: 0.2 }}
-                            ></motion.div>
-                          )}
-                        </a>
-                      </motion.div>
-                    );
-                  })}
-                </div>
-              </SheetContent>
-            </Sheet>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleMenuToggle}
+              className={cn(
+                'relative lg:hidden group overflow-hidden hover:bg-foreground/5 transition-all duration-500',
+                'before:absolute before:inset-0 before:rounded-full before:border before:border-foreground/20',
+                'before:scale-75 before:opacity-0 hover:before:scale-100 hover:before:opacity-100',
+                'before:transition-all before:duration-500',
+                'after:absolute after:inset-0 after:rounded-full after:border-2 after:border-blue/20',
+                'after:scale-90 after:opacity-0 hover:after:scale-110 hover:after:opacity-100',
+                'after:transition-all after:duration-700 after:ease-in-out',
+                isOpen && 'bg-foreground/5'
+              )}
+              aria-expanded={isOpen}
+              aria-controls="mobile-bubble-menu"
+            >
+              <BubbleMenuIcon isOpen={isOpen} />
+              <span className="sr-only">{isOpen ? 'Cerrar menu' : 'Abrir menu'}</span>
+            </Button>
           </div>
         </nav>
       </header>
+
+      {showOverlay && (
+        <div
+          id="mobile-bubble-menu"
+          ref={overlayRef}
+          className="rb-bubble-menu-items fixed lg:hidden"
+          style={{ zIndex: 2900 }}
+          aria-hidden={!isOpen}
+        >
+          <div className="rb-bubble-backdrop" onClick={() => setIsOpen(false)} />
+          <ul className="rb-pill-list" role="menu" aria-label="Mobile menu">
+            {menuItems.map((item, index) => {
+              const sectionId = item.href.replace('#', '');
+              const isActive = activeSection === sectionId;
+              const linkStyle = {
+                '--item-rot': `${item.rotation ?? 0}deg`,
+                '--pill-bg': isActive ? item.hoverStyles.bgColor : '#ffffff',
+                '--pill-color': isActive ? item.hoverStyles.textColor : '#111111',
+                '--hover-bg': item.hoverStyles.bgColor,
+                '--hover-color': item.hoverStyles.textColor
+              } as React.CSSProperties;
+
+              return (
+                <li key={item.href} role="none" className="rb-pill-col">
+                  <a
+                    ref={el => {
+                      bubbleRefs.current[index] = el;
+                    }}
+                    href={item.href}
+                    aria-label={item.ariaLabel || item.label}
+                    role="menuitem"
+                    onClick={handleNavClick}
+                    className={cn('rb-pill-link', isActive && 'is-active')}
+                    style={linkStyle}
+                  >
+                    <span
+                      ref={el => {
+                        labelRefs.current[index] = el;
+                      }}
+                      className="rb-pill-label"
+                    >
+                      {item.label}
+                    </span>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
     </MenuContext.Provider>
   );
 };

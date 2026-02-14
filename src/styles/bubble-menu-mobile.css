@@ -1,0 +1,119 @@
+.rb-bubble-menu-items {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 120px;
+  pointer-events: none;
+}
+
+.rb-bubble-backdrop {
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  pointer-events: auto;
+}
+
+.rb-pill-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  row-gap: 12px;
+  width: 100%;
+  max-width: 224px;
+  pointer-events: auto;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.rb-pill-col {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex: 0 0 100%;
+  box-sizing: border-box;
+}
+
+.rb-pill-link {
+  --pill-bg: #ffffff;
+  --pill-color: #111111;
+  --item-rot: 0deg;
+  --hover-bg: #f3f4f6;
+  --hover-color: #111111;
+  width: 100%;
+  min-height: 50px;
+  padding: 0 20px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: var(--pill-bg);
+  color: var(--pill-color);
+  text-decoration: none;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+  will-change: transform;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.rb-pill-link.is-active {
+  background: var(--hover-bg);
+  color: var(--hover-color);
+  border-color: transparent;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.24);
+}
+
+.rb-pill-link .rb-pill-label {
+  display: inline-block;
+  will-change: transform, opacity;
+  height: 1.2em;
+  line-height: 1.2;
+}
+
+@media (min-width: 900px) {
+  .rb-pill-link {
+    transform: rotate(var(--item-rot));
+  }
+
+  .rb-pill-link:hover {
+    transform: rotate(var(--item-rot)) scale(1.04);
+    background: var(--hover-bg);
+    color: var(--hover-color);
+  }
+
+  .rb-pill-link:active {
+    transform: rotate(var(--item-rot)) scale(0.96);
+  }
+}
+
+@media (max-width: 899px) {
+  .rb-pill-list {
+    row-gap: 14px;
+  }
+
+  .rb-pill-link:hover {
+    transform: scale(1.02);
+    background: var(--hover-bg);
+    color: var(--hover-color);
+  }
+
+  .rb-pill-link:active {
+    transform: scale(0.98);
+  }
+}
