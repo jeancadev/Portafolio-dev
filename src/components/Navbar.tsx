@@ -208,13 +208,38 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen || showOverlay) {
       document.body.classList.add('menu-open');
     } else {
       document.body.classList.remove('menu-open');
     }
 
     return () => document.body.classList.remove('menu-open');
+  }, [isOpen, showOverlay]);
+
+  useEffect(() => {
+    const smoother = ScrollSmoother.get();
+    const shouldLockScroll = isOpen;
+    const hasSmoother = Boolean(smoother);
+
+    if (shouldLockScroll) {
+      if (!hasSmoother) document.body.style.overflow = 'hidden';
+      document.body.style.touchAction = 'none';
+      document.documentElement.style.overscrollBehavior = 'none';
+      smoother?.paused(true);
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+      document.documentElement.style.overscrollBehavior = '';
+      smoother?.paused(false);
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+      document.documentElement.style.overscrollBehavior = '';
+      smoother?.paused(false);
+    };
   }, [isOpen]);
 
   useEffect(() => {
@@ -289,56 +314,86 @@ const Navbar = () => {
 
     if (!overlay || !bubbles.length) return;
 
+    gsap.killTweensOf([overlay, ...bubbles, ...labels]);
+
     if (isOpen) {
-      gsap.set(overlay, { display: 'flex', pointerEvents: 'auto' });
-      gsap.killTweensOf([...bubbles, ...labels]);
-      gsap.set(bubbles, { scale: 0, transformOrigin: '50% 50%' });
-      gsap.set(labels, { y: 24, autoAlpha: 0 });
+      gsap.set(overlay, { display: 'flex', pointerEvents: 'auto', autoAlpha: 0 });
+      gsap.set(bubbles, {
+        scale: 0.9,
+        y: 14,
+        autoAlpha: 0,
+        transformOrigin: '50% 50%',
+        force3D: true
+      });
+      gsap.set(labels, { y: 10, autoAlpha: 0, force3D: true });
 
       bubbles.forEach((bubble, i) => {
         const item = menuItems[i];
         const isDesktop = window.innerWidth >= 900;
         gsap.set(bubble, { rotation: isDesktop ? (item?.rotation ?? 0) : 0 });
-
-        const delay = i * staggerDelay + gsap.utils.random(-0.05, 0.05);
-        const tl = gsap.timeline({ delay });
-
-        tl.to(bubble, {
-          scale: 1,
-          duration: animationDuration,
-          ease: animationEase
-        });
-
-        if (labels[i]) {
-          tl.to(
-            labels[i],
-            {
-              y: 0,
-              autoAlpha: 1,
-              duration: animationDuration,
-              ease: 'power3.out'
-            },
-            `-=${animationDuration * 0.9}`
-          );
-        }
       });
+
+      const openTl = gsap.timeline({ defaults: { overwrite: 'auto' } });
+      openTl
+        .to(overlay, { autoAlpha: 1, duration: 0.22, ease: 'power2.out' }, 0)
+        .to(
+          bubbles,
+          {
+            scale: 1,
+            y: 0,
+            autoAlpha: 1,
+            duration: animationDuration,
+            ease: animationEase,
+            stagger: staggerDelay
+          },
+          0.02
+        )
+        .to(
+          labels,
+          {
+            y: 0,
+            autoAlpha: 1,
+            duration: Math.max(0.28, animationDuration * 0.7),
+            ease: 'power2.out',
+            stagger: staggerDelay
+          },
+          0.1
+        );
     } else if (showOverlay) {
-      gsap.killTweensOf([...bubbles, ...labels]);
-      gsap.to(labels, {
-        y: 24,
-        autoAlpha: 0,
-        duration: 0.2,
-        ease: 'power3.in'
-      });
-      gsap.to(bubbles, {
-        scale: 0,
-        duration: 0.2,
-        ease: 'power3.in',
+      gsap.set(overlay, { pointerEvents: 'none' });
+      const closeTl = gsap.timeline({
+        defaults: { overwrite: 'auto' },
         onComplete: () => {
           gsap.set(overlay, { display: 'none', pointerEvents: 'none' });
           setShowOverlay(false);
         }
       });
+
+      closeTl
+        .to(
+          labels,
+          {
+            y: 10,
+            autoAlpha: 0,
+            duration: 0.16,
+            ease: 'power2.in',
+            stagger: { each: 0.035, from: 'end' }
+          },
+          0
+        )
+        .to(
+          bubbles,
+          {
+            scale: 0.92,
+            y: 10,
+            autoAlpha: 0,
+            duration: 0.24,
+            ease: 'power2.in',
+            stagger: { each: 0.04, from: 'end' }
+          },
+          0
+        )
+        .to(overlay, { autoAlpha: 0, duration: 0.2, ease: 'power2.inOut' }, 0.04);
     }
   }, [isOpen, showOverlay, menuItems, animationEase, animationDuration, staggerDelay]);
 
