@@ -36,7 +36,6 @@ const ContactSection = () => {
     
     // Animación para las tarjetas optimizada para dispositivos móviles
     const cards = [formCardRef.current, infoCardRef.current];
-    const isMobile = window.innerWidth < 768;
     
     // Animación con blur-in effect para todas las pantallas
     gsap.fromTo(cards,
@@ -149,7 +148,7 @@ const ContactSection = () => {
       id="contact" 
       ref={sectionRef}
       className="section-padding">
-      <div className="container mx-auto">
+      <div className="container mx-auto px-[clamp(0.75rem,3.5vw,1.25rem)] sm:px-5 md:px-0">
         <div className="mb-12 text-center">
           <h2 className="text-3xl md:text-4xl font-bold heading-accent pb-2 mb-4">{t('contact')}</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -157,10 +156,10 @@ const ContactSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 md:gap-8 max-w-4xl mx-auto w-full">
           <Card 
             ref={formCardRef}
-            className="gsap-hidden p-6 border border-muted/15 bg-card/25 rounded-xl transition-all duration-300 shadow-[0_14px_30px_rgba(0,0,0,0.2)] dark:shadow-[0_16px_36px_rgba(0,0,0,0.5)] hover:shadow-xl hover:shadow-blue/10 hover:bg-card/35">
+            className="gsap-hidden w-full min-w-0 p-4 sm:p-5 md:p-6 border border-muted/15 bg-card/25 rounded-xl transition-all duration-300 shadow-[0_14px_30px_rgba(0,0,0,0.2)] dark:shadow-[0_16px_36px_rgba(0,0,0,0.5)] hover:shadow-xl hover:shadow-blue/10 hover:bg-card/35">
             <form ref={formElementsRef} onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <Input 
@@ -198,19 +197,19 @@ const ContactSection = () => {
 
           <Card 
             ref={infoCardRef}
-            className="gsap-hidden p-6 border border-muted/15 bg-card/25 rounded-xl transition-all duration-300 shadow-[0_14px_30px_rgba(0,0,0,0.2)] dark:shadow-[0_16px_36px_rgba(0,0,0,0.5)] hover:shadow-xl hover:shadow-blue/10 hover:bg-card/35">
-            <div className="space-y-4">
-              <h3 className="text-xl font-semibold mb-4">{t('contactInfo')}</h3>
-              <div className="space-y-6">
+            className="gsap-hidden w-full min-w-0 p-4 sm:p-5 md:p-6 border border-muted/15 bg-card/25 rounded-xl transition-all duration-300 shadow-[0_14px_30px_rgba(0,0,0,0.2)] dark:shadow-[0_16px_36px_rgba(0,0,0,0.5)] hover:shadow-xl hover:shadow-blue/10 hover:bg-card/35">
+            <div className="space-y-4 min-w-0">
+              <h3 className="text-lg sm:text-xl font-semibold mb-4">{t('contactInfo')}</h3>
+              <div className="space-y-5 sm:space-y-6 min-w-0">
                 <a 
                   href="mailto:jean.obandocortes@gmail.com" 
-                  className="contact-link flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-300 hover:translate-x-1"
+                  className="contact-link flex min-w-0 items-start sm:items-center gap-2 text-sm sm:text-base text-muted-foreground hover:text-foreground transition-colors duration-300 hover:translate-x-1"
                 >
-                  <Mail size={20} className="text-blue" />
-                  jean.obandocortes@gmail.com
+                  <Mail size={20} className="text-blue shrink-0 mt-0.5 sm:mt-0" />
+                  <span className="min-w-0 break-all leading-relaxed">jean.obandocortes@gmail.com</span>
                 </a>
                 
-                <div className="flex gap-6">
+                <div className="flex items-center gap-5 sm:gap-6 justify-center sm:justify-start">
                   <a 
                     href="https://github.com/jeancadev" 
                     target="_blank" 

@@ -131,7 +131,14 @@ const Terminal = ({
     isAnimating.current = true;
     
     const terminal = terminalRef.current;
-    if (!terminal) return;
+    if (!terminal) {
+      isAnimating.current = false;
+      return;
+    }
+    
+    // Evitar clicks repetidos y conflictos de transform mientras se anima
+    terminal.style.pointerEvents = 'none';
+    gsap.killTweensOf(terminal);
     
     // Detectar si es móvil para usar animaciones más suaves
     const isMobile = window.innerWidth <= 768;
@@ -151,7 +158,6 @@ const Terminal = ({
       
       // Animación fluida de restauración con GSAP
       gsap.to(terminal, {
-        scale: 0.95,
         opacity: 0,
         duration: restoreDuration,
         ease: 'power2.inOut',
@@ -182,8 +188,8 @@ const Terminal = ({
               terminal.classList.remove('no-transition');
               // Smooth fade in to new position
               gsap.fromTo(terminal, 
-                { opacity: 0, scale: 0.98 }, 
-                { opacity: 1, scale: 1, duration: 0.4, ease: 'power2.out', clearProps: 'all' }
+                { opacity: 0 }, 
+                { opacity: 1, duration: 0.4, ease: 'power2.out', clearProps: 'all' }
               );
             }
           }, 50);
@@ -193,30 +199,25 @@ const Terminal = ({
       // Maximizar con animación suave
       wasMaximized.current = true;
       
-      setMaximizedTerminals([...maximizedTerminals, id]);
+      setMaximizedTerminals(prev => prev.includes(id) ? prev : [...prev, id]);
       
       if (isMinimized) {
-        setMinimizedTerminals(minimizedTerminals.filter(termId => termId !== id));
+        setMinimizedTerminals(prev => prev.filter(termId => termId !== id));
       }
-      
-      // Animación de expansión
-      terminal.classList.add('terminal-expanding');
       
       const expandDuration = isMobile ? 0.5 : isTablet ? 0.55 : 0.5;
       
       gsap.fromTo(terminal,
         { 
-          scale: 0.9,
           opacity: 0.8
         },
         { 
-          scale: 1, 
           opacity: 1,
           duration: expandDuration,
           ease: 'power1.out',
           onComplete: () => {
-            gsap.set(terminal, { clearProps: 'all' });
-            terminal.classList.remove('terminal-expanding');
+            gsap.set(terminal, { clearProps: 'opacity' });
+            terminal.style.pointerEvents = '';
             isAnimating.current = false;
           }
         }
@@ -232,7 +233,6 @@ const Terminal = ({
     if (!terminal) return;
     
     if (isMaximized) {
-      document.body.style.overflow = 'hidden';
       document.body.style.overflow = 'hidden';
       // Fix: Limit width on large screens and tablets to avoid deformation
       let maxWidth = '95%';
