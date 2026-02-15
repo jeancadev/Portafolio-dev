@@ -186,7 +186,6 @@ const Navbar = () => {
     [t]
   );
 
-  const animationEase = 'back.out(1.5)';
   const animationDuration = 0.5;
   const staggerDelay = 0.12;
 
@@ -311,21 +310,35 @@ const Navbar = () => {
     const overlay = overlayRef.current;
     const bubbles = bubbleRefs.current.filter(Boolean) as HTMLAnchorElement[];
     const labels = labelRefs.current.filter(Boolean) as HTMLSpanElement[];
+    const backdrop = overlay?.querySelector('.rb-bubble-backdrop') as HTMLDivElement | null;
+    const list = overlay?.querySelector('.rb-pill-list') as HTMLUListElement | null;
 
     if (!overlay || !bubbles.length) return;
 
-    gsap.killTweensOf([overlay, ...bubbles, ...labels]);
+    gsap.killTweensOf([overlay, backdrop, list, ...bubbles, ...labels].filter(Boolean));
 
     if (isOpen) {
-      gsap.set(overlay, { display: 'flex', pointerEvents: 'auto', autoAlpha: 0 });
+      gsap.set(overlay, { display: 'flex', pointerEvents: 'auto' });
+      if (backdrop) gsap.set(backdrop, { autoAlpha: 0 });
+      if (list) {
+        gsap.set(list, {
+          scale: 0.95,
+          y: 22,
+          autoAlpha: 0,
+          filter: 'blur(8px)',
+          transformOrigin: '50% 0%'
+        });
+      }
       gsap.set(bubbles, {
-        scale: 0.9,
-        y: 14,
+        scale: 0.72,
+        y: 32,
+        x: (i: number) => (i % 2 === 0 ? -14 : 14),
+        filter: 'blur(6px)',
         autoAlpha: 0,
         transformOrigin: '50% 50%',
         force3D: true
       });
-      gsap.set(labels, { y: 10, autoAlpha: 0, force3D: true });
+      gsap.set(labels, { y: 16, scale: 0.96, autoAlpha: 0, force3D: true });
 
       bubbles.forEach((bubble, i) => {
         const item = menuItems[i];
@@ -335,16 +348,40 @@ const Navbar = () => {
 
       const openTl = gsap.timeline({ defaults: { overwrite: 'auto' } });
       openTl
-        .to(overlay, { autoAlpha: 1, duration: 0.3, ease: 'power4.out' }, 0)
+        .to(backdrop, { autoAlpha: 1, duration: 0.24, ease: 'power2.out' }, 0)
         .to(
-          bubbles,
+          list,
           {
             scale: 1,
             y: 0,
             autoAlpha: 1,
-            duration: animationDuration,
-            ease: animationEase,
-            stagger: staggerDelay
+            filter: 'blur(0px)',
+            duration: 0.34,
+            ease: 'power3.out'
+          },
+          0.02
+        )
+        .to(
+          bubbles,
+          {
+            keyframes: [
+              {
+                scale: 1.08,
+                y: -5,
+                x: 0,
+                filter: 'blur(0px)',
+                autoAlpha: 1,
+                duration: Math.max(0.2, animationDuration * 0.58),
+                ease: 'power3.out'
+              },
+              {
+                scale: 1,
+                y: 0,
+                duration: Math.max(0.16, animationDuration * 0.42),
+                ease: 'back.out(2.2)'
+              }
+            ],
+            stagger: { each: staggerDelay }
           },
           0.02
         )
@@ -352,12 +389,13 @@ const Navbar = () => {
           labels,
           {
             y: 0,
+            scale: 1,
             autoAlpha: 1,
-            duration: Math.max(0.28, animationDuration * 0.7),
+            duration: Math.max(0.26, animationDuration * 0.64),
             ease: 'power2.out',
             stagger: staggerDelay
           },
-          0.1
+          0.12
         );
     } else if (showOverlay) {
       gsap.set(overlay, { pointerEvents: 'none' });
@@ -373,9 +411,10 @@ const Navbar = () => {
         .to(
           labels,
           {
-            y: 10,
+            y: 14,
+            scale: 0.95,
             autoAlpha: 0,
-            duration: 0.16,
+            duration: 0.18,
             ease: 'power2.in',
             stagger: { each: 0.035, from: 'end' }
           },
@@ -384,18 +423,42 @@ const Navbar = () => {
         .to(
           bubbles,
           {
-            scale: 0.92,
-            y: 10,
-            autoAlpha: 0,
-            duration: 0.24,
-            ease: 'power2.in',
-            stagger: { each: 0.04, from: 'end' }
+            keyframes: [
+              {
+                scale: 1.04,
+                y: -4,
+                duration: 0.1,
+                ease: 'power1.out'
+              },
+              {
+                scale: 0.7,
+                y: 30,
+                x: (i: number) => (i % 2 === 0 ? -14 : 14),
+                filter: 'blur(6px)',
+                autoAlpha: 0,
+                duration: 0.24,
+                ease: 'back.in(1.3)'
+              }
+            ],
+            stagger: { each: 0.05, from: 'end' }
           },
           0
         )
-        .to(overlay, { autoAlpha: 0, duration: 0.2, ease: 'power2.inOut' }, 0.04);
+        .to(
+          list,
+          {
+            scale: 0.94,
+            y: 16,
+            autoAlpha: 0,
+            filter: 'blur(8px)',
+            duration: 0.2,
+            ease: 'power2.in'
+          },
+          0.02
+        )
+        .to(backdrop, { autoAlpha: 0, duration: 0.2, ease: 'power2.inOut' }, 0.06);
     }
-  }, [isOpen, showOverlay, menuItems, animationEase, animationDuration, staggerDelay]);
+  }, [isOpen, showOverlay, menuItems, animationDuration, staggerDelay]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -553,12 +616,6 @@ const Navbar = () => {
               onClick={handleMenuToggle}
               className={cn(
                 'relative lg:hidden group overflow-hidden hover:bg-foreground/5 transition-all duration-500',
-                'before:absolute before:inset-0 before:rounded-full before:border before:border-foreground/20',
-                'before:scale-75 before:opacity-0 hover:before:scale-100 hover:before:opacity-100',
-                'before:transition-all before:duration-500',
-                'after:absolute after:inset-0 after:rounded-full after:border-2 after:border-blue/20',
-                'after:scale-90 after:opacity-0 hover:after:scale-110 hover:after:opacity-100',
-                'after:transition-all after:duration-700 after:ease-in-out',
                 isOpen && 'bg-foreground/5'
               )}
               aria-expanded={isOpen}
