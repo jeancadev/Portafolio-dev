@@ -335,7 +335,7 @@ const Navbar = () => {
 
       const openTl = gsap.timeline({ defaults: { overwrite: 'auto' } });
       openTl
-        .to(overlay, { autoAlpha: 1, duration: 0.22, ease: 'power2.out' }, 0)
+        .to(overlay, { autoAlpha: 1, duration: 0.3, ease: 'power4.out' }, 0)
         .to(
           bubbles,
           {

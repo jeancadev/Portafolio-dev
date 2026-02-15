@@ -160,6 +160,9 @@ const Terminal = ({
           // Disable transitions to prevent layout jump
           terminal.classList.add('no-transition');
           
+          // Make invisible to hide layout shift
+          terminal.style.opacity = '0';
+          
           terminal.classList.remove('terminal-maximized', 'terminal-restoring', 'active');
           setMaximizedTerminals(prev => prev.filter(termId => termId !== id));
           
@@ -173,9 +176,16 @@ const Terminal = ({
           terminal.style.pointerEvents = '';
           isAnimating.current = false;
           
-          // Remove no-transition after a short delay to allow DOM to settle
+          // Remove no-transition after a short delay and fade in
           setTimeout(() => {
-            if (terminal) terminal.classList.remove('no-transition');
+            if (terminal) {
+              terminal.classList.remove('no-transition');
+              // Smooth fade in to new position
+              gsap.fromTo(terminal, 
+                { opacity: 0, scale: 0.98 }, 
+                { opacity: 1, scale: 1, duration: 0.4, ease: 'power2.out', clearProps: 'all' }
+              );
+            }
           }, 50);
         }
       });
@@ -223,8 +233,15 @@ const Terminal = ({
     
     if (isMaximized) {
       document.body.style.overflow = 'hidden';
-      // Fix: Limit width on large screens to avoid deformation
-      const maxWidth = window.innerWidth >= 1200 ? '1100px' : '95%';
+      document.body.style.overflow = 'hidden';
+      // Fix: Limit width on large screens and tablets to avoid deformation
+      let maxWidth = '95%';
+      if (window.innerWidth >= 1200) {
+        maxWidth = '1100px';
+      } else if (window.innerWidth >= 768) {
+        maxWidth = '850px';
+      }
+      
       document.documentElement.style.setProperty('--terminal-max-width', maxWidth);
       document.body.classList.add('terminal-maximized-active');
       
@@ -248,6 +265,8 @@ const Terminal = ({
         document.documentElement.style.setProperty('--terminal-max-width', '95%');
       } else if (window.innerWidth >= 1200) {
         document.documentElement.style.setProperty('--terminal-max-width', '1100px');
+      } else if (window.innerWidth >= 768) {
+        document.documentElement.style.setProperty('--terminal-max-width', '850px');
       }
     };
     
