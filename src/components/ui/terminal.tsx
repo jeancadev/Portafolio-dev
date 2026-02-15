@@ -157,6 +157,9 @@ const Terminal = ({
         ease: 'power2.inOut',
         onComplete: () => {
           // Limpiar clases y estados
+          // Disable transitions to prevent layout jump
+          terminal.classList.add('no-transition');
+          
           terminal.classList.remove('terminal-maximized', 'terminal-restoring', 'active');
           setMaximizedTerminals(prev => prev.filter(termId => termId !== id));
           
@@ -169,6 +172,11 @@ const Terminal = ({
           gsap.set(terminal, { clearProps: 'all' });
           terminal.style.pointerEvents = '';
           isAnimating.current = false;
+          
+          // Remove no-transition after a short delay to allow DOM to settle
+          setTimeout(() => {
+            if (terminal) terminal.classList.remove('no-transition');
+          }, 50);
         }
       });
     } else {
@@ -215,7 +223,9 @@ const Terminal = ({
     
     if (isMaximized) {
       document.body.style.overflow = 'hidden';
-      document.documentElement.style.setProperty('--terminal-max-width', '95%');
+      // Fix: Limit width on large screens to avoid deformation
+      const maxWidth = window.innerWidth >= 1200 ? '1100px' : '95%';
+      document.documentElement.style.setProperty('--terminal-max-width', maxWidth);
       document.body.classList.add('terminal-maximized-active');
       
       requestAnimationFrame(() => {
@@ -234,8 +244,10 @@ const Terminal = ({
     
     const handleResize = () => {
       const currentIsMobile = window.innerWidth < 768;
-      if (isMaximized && currentIsMobile) {
+      if (currentIsMobile) {
         document.documentElement.style.setProperty('--terminal-max-width', '95%');
+      } else if (window.innerWidth >= 1200) {
+        document.documentElement.style.setProperty('--terminal-max-width', '1100px');
       }
     };
     

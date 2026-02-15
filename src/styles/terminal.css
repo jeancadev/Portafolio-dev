@@ -22,8 +22,7 @@
   border: 1.5px solid var(--terminal-border);
   border-radius: 0.75rem;
   overflow: hidden;
-  box-shadow:
-  var(--depth-raised-1),
+  box-shadow: var(--depth-raised-1),
   var(--depth-raised-2),
   var(--depth-border),
   var(--depth-highlight),
@@ -596,16 +595,16 @@
 @media (min-width: 1280px) {
   .terminal-maximized {
     left: 50% !important;
-    max-width: 1400px !important;
-    width: 90% !important;
+    max-width: 1100px !important;
+    width: 100% !important;
   }
 }
 
 /* Ajuste para pantallas muy grandes */
 @media (min-width: 1536px) {
   .terminal-maximized {
-    max-width: 1600px !important;
-    width: 92% !important;
+    max-width: 1100px !important;
+    width: 100% !important;
   }
 }
 
@@ -708,3 +707,8 @@
 } 
 */
 
+/* Utility class to disable transitions during state changes */
+.no-transition {
+  transition: none !important;
+  animation: none !important;
+}
