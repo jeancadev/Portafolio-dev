@@ -155,6 +155,7 @@ const Terminal = ({
       
       // Animar el overlay (::before) primero desvaneciendo
       terminal.classList.add('terminal-restoring');
+      terminal.classList.add('terminal-restoring-layout');
       
       // Animación fluida de restauración con GSAP
       gsap.to(terminal, {
@@ -163,10 +164,6 @@ const Terminal = ({
         ease: 'power2.inOut',
         onComplete: () => {
           // Limpiar clases y estados
-          // Disable transitions to prevent layout jump
-          terminal.classList.add('no-transition');
-          
-          // Make invisible to hide layout shift
           terminal.style.opacity = '0';
           
           terminal.classList.remove('terminal-maximized', 'terminal-restoring', 'active');
@@ -177,22 +174,26 @@ const Terminal = ({
             wasMaximized.current = false;
           }
           
-          // Resetear estilos y estado de animación
-          gsap.set(terminal, { clearProps: 'all' });
-          terminal.style.pointerEvents = '';
-          isAnimating.current = false;
-          
-          // Remove no-transition after a short delay and fade in
-          setTimeout(() => {
-            if (terminal) {
-              terminal.classList.remove('no-transition');
-              // Smooth fade in to new position
-              gsap.fromTo(terminal, 
-                { opacity: 0 }, 
-                { opacity: 1, duration: 0.4, ease: 'power2.out', clearProps: 'all' }
-              );
-            }
-          }, 50);
+          // Sin setTimeout/no-transition para evitar micro-saltos en restore
+          requestAnimationFrame(() => {
+            gsap.fromTo(
+              terminal,
+              { opacity: 0, scale: 0.92, y: 18 },
+              {
+                opacity: 1,
+                duration: 0.56,
+                scale: 1,
+                y: 0,
+                ease: 'power3.out',
+                clearProps: 'opacity,transform,willChange,transformOrigin',
+                onComplete: () => {
+                  terminal.classList.remove('terminal-restoring-layout');
+                  terminal.style.pointerEvents = '';
+                  isAnimating.current = false;
+                }
+              }
+            );
+          });
         }
       });
     } else {
@@ -255,7 +256,7 @@ const Terminal = ({
       wasMaximized.current = false;
       
       if (terminal) {
-        gsap.set(terminal, { clearProps: 'all' });
+        gsap.set(terminal, { clearProps: 'opacity,willChange,transformOrigin' });
       }
     }
     

@@ -740,3 +740,14 @@
   transition: none !important;
   animation: none !important;
 }
+
+/* Evita el "estiramiento" vertical cuando se restaura desde maximizado */
+.terminal.terminal-restoring-layout {
+  transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+
+.terminal.terminal-restoring-layout .terminal-body {
+  transition: none !important;
+}
