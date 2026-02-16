@@ -1,8 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { useTranslation } from 'react-i18next';
-import { gsap } from 'gsap';
-import useTooltipAnimation from '@/hooks/use-tooltip-animation';
 
 interface ToolHoverCardProps {
   tool: string;
@@ -196,9 +194,6 @@ export function ToolHoverCard({ tool, children }: ToolHoverCardProps) {
   const [touchStartTime, setTouchStartTime] = React.useState(0);
   const [touchStartPos, setTouchStartPos] = React.useState({ x: 0, y: 0 });
   const triggerRef = React.useRef<HTMLDivElement>(null);
-  
-  // Activar las animaciones GSAP para tooltips
-  useTooltipAnimation();
 
   React.useEffect(() => {
     const checkMobile = () => {

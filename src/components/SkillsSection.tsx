@@ -4,10 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { ToolHoverCard } from './ui/tool-hover-card';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useGsapAnimation } from '@/hooks/use-gsap-animation';
+import useTooltipAnimation from '@/hooks/use-tooltip-animation';
 
 const SkillsSection = () => {
   const { t } = useTranslation();
+  useTooltipAnimation();
   
   // Referencias para animaciones GSAP - definimos la sección como visible por defecto
   const sectionRef = useRef<HTMLElement>(null);
@@ -30,22 +31,24 @@ const SkillsSection = () => {
     if (skillCardsRef.current) {
       const skillCards = skillCardsRef.current.querySelectorAll('.skill-card');
       
-      // Animación con blur-in para todas las pantallas
+      // Animación optimizada para todas las pantallas (sin blur)
       gsap.fromTo(skillCards,
         { 
           y: 60, 
           opacity: 0, 
-          scale: 0.9, 
-          filter: 'blur(10px)' 
+          scale: 0.92,
+          force3D: true,
+          willChange: 'transform, opacity'
         },
         { 
           y: 0, 
           opacity: 1,
           scale: 1,
-          filter: 'blur(0px)',
           stagger: 0.15,
           duration: 0.9,
           ease: 'power3.out',
+          force3D: true,
+          onComplete: () => gsap.set(skillCards, { clearProps: 'willChange' }),
           scrollTrigger: {
             trigger: skillCardsRef.current,
             start: 'top 85%',
@@ -80,23 +83,25 @@ const SkillsSection = () => {
     if (toolsContainerRef.current) {
       const toolItems = toolsContainerRef.current.querySelectorAll('.tool-item');
       
-      // Establecer estado inicial con blur
+      // Estado inicial liviano: sin filtros para no penalizar el scroll
       gsap.set(toolItems, { 
         opacity: 0, 
         y: 20,
-        scale: 0.85,
-        filter: 'blur(6px)'
+        scale: 0.92,
+        force3D: true,
+        willChange: 'transform, opacity'
       });
       
-      // Animar hacia el estado final con blur-in
+      // Entrada suave sin blur para evitar jank en renderizado
       gsap.to(toolItems, { 
         opacity: 1, 
         y: 0,
         scale: 1,
-        filter: 'blur(0px)',
         stagger: 0.04,
-        duration: 0.5,
+        duration: 0.45,
         ease: 'power2.out',
+        force3D: true,
+        onComplete: () => gsap.set(toolItems, { clearProps: 'willChange' }),
         scrollTrigger: {
           trigger: toolsContainerRef.current,
           start: 'top 80%',

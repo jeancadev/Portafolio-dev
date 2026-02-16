@@ -36,32 +36,32 @@ const AboutSection = () => {
   const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(false);
   
-  // GSAP animation for the about section with blur-in effect
+  // GSAP animation for the about section (sin blur para mejor fluidez)
   const aboutSectionRef = useGsapAnimation<HTMLElement>({
     trigger: true,
     start: 'top 80%',
     duration: 1,
-    from: { opacity: 0, y: 50, filter: 'blur(10px)' },
-    to: { opacity: 1, y: 0, filter: 'blur(0px)' }
+    from: { opacity: 0, y: 50, scale: 0.98 },
+    to: { opacity: 1, y: 0, scale: 1 }
   });
   
-  // Separate animation for cards with staggered entrance and blur
+  // Separate animation for cards with staggered entrance
   const cardsContainerRef = useGsapAnimation<HTMLDivElement>({
     trigger: true,
     start: 'top 75%',
     delay: 0.2,
-    from: { opacity: 0, y: 40, filter: 'blur(8px)' },
-    to: { opacity: 1, y: 0, filter: 'blur(0px)' },
+    from: { opacity: 0, y: 40, scale: 0.96 },
+    to: { opacity: 1, y: 0, scale: 1 },
     stagger: 0.12
   });
   
-  // Animation for professional focus and specialization areas with blur
+  // Animation for professional focus and specialization areas
   const infoSectionRef = useGsapAnimation<HTMLDivElement>({
     trigger: true,
     start: 'top 70%',
     duration: 0.9,
-    from: { opacity: 0, y: 40, filter: 'blur(8px)' },
-    to: { opacity: 1, y: 0, filter: 'blur(0px)' }
+    from: { opacity: 0, y: 40, scale: 0.98 },
+    to: { opacity: 1, y: 0, scale: 1 }
   });
 
   // Special animation for list items with emoji

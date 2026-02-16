@@ -16,13 +16,13 @@ const ContactSection = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
   
-  // Referencias para animaciones GSAP con blur-in effect
+  // Referencias para animaciones GSAP optimizadas (sin blur)
   const sectionRef = useGsapAnimation<HTMLElement>({
     trigger: true,
     start: 'top 75%',
     duration: 1,
-    from: { opacity: 0, y: 50, filter: 'blur(10px)' },
-    to: { opacity: 1, y: 0, filter: 'blur(0px)' }
+    from: { opacity: 0, y: 50, scale: 0.98 },
+    to: { opacity: 1, y: 0, scale: 1 }
   });
   
   const formCardRef = useRef<HTMLDivElement>(null);
@@ -37,22 +37,24 @@ const ContactSection = () => {
     // Animación para las tarjetas optimizada para dispositivos móviles
     const cards = [formCardRef.current, infoCardRef.current];
     
-    // Animación con blur-in effect para todas las pantallas
+    // Animación optimizada para todas las pantallas (sin blur)
     gsap.fromTo(cards,
       { 
         y: 60, 
         opacity: 0,
         scale: 0.92,
-        filter: 'blur(10px)'
+        force3D: true,
+        willChange: 'transform, opacity'
       },
       { 
         y: 0, 
         opacity: 1,
         scale: 1,
-        filter: 'blur(0px)',
         stagger: 0.2,
         duration: 0.9,
         ease: 'power3.out',
+        force3D: true,
+        onComplete: () => gsap.set(cards, { clearProps: 'willChange' }),
         scrollTrigger: {
           trigger: cards[0],
           start: 'top 85%',
@@ -65,15 +67,17 @@ const ContactSection = () => {
       const inputs = formElementsRef.current.querySelectorAll('input, textarea, button');
       
       gsap.fromTo(inputs,
-        { y: 20, opacity: 0, filter: 'blur(5px)' },
+        { y: 20, opacity: 0, scale: 0.98, force3D: true, willChange: 'transform, opacity' },
         { 
           y: 0, 
           opacity: 1,
-          filter: 'blur(0px)',
+          scale: 1,
           stagger: 0.1,
           duration: 0.5,
           ease: 'power2.out',
-          delay: 0.4
+          delay: 0.4,
+          force3D: true,
+          onComplete: () => gsap.set(inputs, { clearProps: 'willChange' })
         }
       );
     }
@@ -92,25 +96,9 @@ const ContactSection = () => {
       }
     );
     
-    // Pequeña animación de escala al hacer hover en los botones de redes sociales
-    const socialLinks = document.querySelectorAll('.social-link');
-    socialLinks.forEach(link => {
-      link.addEventListener('mouseenter', () => {
-        gsap.to(link, { scale: 1.2, duration: 0.3, ease: 'back.out(1.5)' });
-      });
-      
-      link.addEventListener('mouseleave', () => {
-        gsap.to(link, { scale: 1, duration: 0.2, ease: 'power1.out' });
-      });
-    });
-    
     return () => {
-      // Limpiar animaciones y eventos
+      // Limpiar animaciones
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-      socialLinks.forEach(link => {
-        link.removeEventListener('mouseenter', () => {});
-        link.removeEventListener('mouseleave', () => {});
-      });
     };
   }, []);
 

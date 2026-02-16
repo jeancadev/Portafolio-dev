@@ -13,7 +13,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 const Index = () => {
   const [mounted, setMounted] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   const { ref: aboutRef, inView: aboutInView } = useInView({
     threshold: 0.1, // Reducido para mejorar la detección en móviles
@@ -103,12 +102,17 @@ const Index = () => {
     document.title = 'Jean Carlos | Desarrollador de Software';
     
     window.scrollTo(0, 0);
+    let mouseRaf: number | null = null;
+    let latestMouse = { x: 0, y: 0 };
 
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-      
-      document.body.style.setProperty('--x', `${e.clientX}px`);
-      document.body.style.setProperty('--y', `${e.clientY}px`);
+      latestMouse = { x: e.clientX, y: e.clientY };
+      if (mouseRaf !== null) return;
+      mouseRaf = window.requestAnimationFrame(() => {
+        mouseRaf = null;
+        document.body.style.setProperty('--x', `${latestMouse.x}px`);
+        document.body.style.setProperty('--y', `${latestMouse.y}px`);
+      });
     };
 
     const handleClick = (e: MouseEvent) => {
@@ -162,9 +166,12 @@ const Index = () => {
       }
     };
     
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     
     return () => {
+      if (mouseRaf !== null) {
+        window.cancelAnimationFrame(mouseRaf);
+      }
       mediaQuery.removeEventListener('change', handleThemeChange);
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('click', handleClick);

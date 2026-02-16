@@ -26,22 +26,24 @@ const ProjectsSection = () => {
     gsap.registerPlugin(ScrollTrigger);
     
     const windowCards = projectsContainerRef.current.querySelectorAll('.project-window-card');
-    // Animación con blur-in effect para todas las pantallas
+    // Animación optimizada para todas las pantallas (sin blur)
     gsap.fromTo(windowCards,
       { 
         y: 60, 
         opacity: 0,
         scale: 0.92,
-        filter: 'blur(10px)'
+        force3D: true,
+        willChange: 'transform, opacity'
       },
       { 
         y: 0, 
         opacity: 1,
         scale: 1,
-        filter: 'blur(0px)',
         stagger: 0.15,
         duration: 0.9,
         ease: 'power3.out',
+        force3D: true,
+        onComplete: () => gsap.set(windowCards, { clearProps: 'willChange' }),
         scrollTrigger: {
           trigger: projectsContainerRef.current,
           start: 'top 85%',
@@ -53,15 +55,16 @@ const ProjectsSection = () => {
     // Animación para el botón CTA
     if (ctaButtonRef.current) {
       gsap.fromTo(ctaButtonRef.current,
-        { y: 30, opacity: 0, scale: 0.9, filter: 'blur(8px)' },
+        { y: 30, opacity: 0, scale: 0.94, force3D: true, willChange: 'transform, opacity' },
         { 
           y: 0, 
           opacity: 1, 
           scale: 1,
-          filter: 'blur(0px)',
           duration: 0.7,
           ease: 'power3.out',
           delay: 0.3,
+          force3D: true,
+          onComplete: () => gsap.set(ctaButtonRef.current, { clearProps: 'willChange' }),
           scrollTrigger: {
             trigger: ctaButtonRef.current,
             start: 'top 90%',

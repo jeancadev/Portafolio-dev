@@ -21,14 +21,14 @@ const HeroSection = () => {
   const { maximizedTerminals } = React.useContext(TerminalStateContext);
   const isAnyTerminalMaximized = maximizedTerminals.length > 0;
   
-  // Use GSAP animation hook for the hero section with blur-in effect
+  // Use GSAP animation hook for the hero section (sin blur para mejorar rendimiento)
   const heroRef = useGsapAnimation<HTMLElement>({
     trigger: true,
     start: 'top 80%',
     end: 'bottom 20%',
     duration: 1,
-    from: { opacity: 0, y: 40, filter: 'blur(10px)' },
-    to: { opacity: 1, y: 0, filter: 'blur(0px)' },
+    from: { opacity: 0, y: 40, scale: 0.98 },
+    to: { opacity: 1, y: 0, scale: 1 },
     ease: 'power3.out'
   });
   
