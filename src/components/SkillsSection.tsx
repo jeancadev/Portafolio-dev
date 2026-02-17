@@ -1,37 +1,71 @@
-import React, { useEffect, useRef } from 'react';
-import { Code, Database, Globe, Server } from 'lucide-react';
+import { useEffect, useRef } from 'react';
+import { Code, Globe, Server } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { ToolHoverCard } from './ui/tool-hover-card';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import useTooltipAnimation from '@/hooks/use-tooltip-animation';
+import LogoLoop from './ui/LogoLoop';
+import type { LogoItem } from './ui/LogoLoop';
+
+// react-icons
+import {
+  SiGit,
+  SiGithub,
+  SiGithubcopilot,
+  SiOpenai,
+  SiDocker,
+  SiAmazonwebservices,
+  SiJest,
+  SiCypress,
+  SiFigma,
+  SiGitlab,
+  SiClaude,
+  SiGooglegemini,
+} from 'react-icons/si';
+import { VscVscode } from 'react-icons/vsc';
+import { DiVisualstudio } from 'react-icons/di';
+import { TbBrandAzure, TbCursorText } from 'react-icons/tb';
+
+// Logos de herramientas para el LogoLoop (con colores de marca y enlaces)
+const toolLogos: LogoItem[] = [
+  { node: <VscVscode />, title: "VS Code", brandColor: "#007ACC", href: "https://code.visualstudio.com/" },
+  { node: <DiVisualstudio />, title: "Visual Studio", brandColor: "#5C2D91", href: "https://visualstudio.microsoft.com/" },
+  { node: <TbCursorText />, title: "Cursor", brandColor: "#00D1B2", href: "https://cursor.sh/" },
+  { node: <SiGit />, title: "Git", brandColor: "#F05032", href: "https://git-scm.com/" },
+  { node: <SiGithub />, title: "GitHub", brandColor: "#181717", href: "https://github.com/" },
+  { node: <SiGithubcopilot />, title: "GitHub Copilot", brandColor: "#8957E5", href: "https://github.com/features/copilot" },
+  { node: <SiOpenai />, title: "ChatGPT", brandColor: "#412991", href: "https://openai.com/chatgpt" },
+  { node: <SiDocker />, title: "Docker", brandColor: "#2496ED", href: "https://www.docker.com/" },
+  { node: <SiAmazonwebservices />, title: "AWS", brandColor: "#FF9900", href: "https://aws.amazon.com/" },
+  { node: <SiJest />, title: "Jest", brandColor: "#C21325", href: "https://jestjs.io/" },
+  { node: <SiCypress />, title: "Cypress", brandColor: "#69D3A7", href: "https://www.cypress.io/" },
+  { node: <SiFigma />, title: "Figma", brandColor: "#F24E1E", href: "https://www.figma.com/" },
+  { node: <SiGitlab />, title: "GitLab CI", brandColor: "#FC6D26", href: "https://about.gitlab.com/" },
+  { node: <TbBrandAzure />, title: "Azure", brandColor: "#0078D4", href: "https://azure.microsoft.com/" },
+  { node: <SiClaude />, title: "Claude", brandColor: "#D97757", href: "https://claude.ai/" },
+  { node: <SiGooglegemini />, title: "Gemini", brandColor: "#8E75B2", href: "https://deepmind.google/technologies/gemini/" },
+];
 
 const SkillsSection = () => {
   const { t } = useTranslation();
-  useTooltipAnimation();
   
-  // Referencias para animaciones GSAP - definimos la sección como visible por defecto
+  // Referencias para animaciones GSAP
   const sectionRef = useRef<HTMLElement>(null);
-  
   const skillCardsRef = useRef<HTMLDivElement>(null);
-  const toolsContainerRef = useRef<HTMLDivElement>(null);
   const toolsTitleRef = useRef<HTMLHeadingElement>(null);
+  const toolsLoopRef = useRef<HTMLDivElement>(null);
   
   // Configurar animaciones avanzadas con GSAP
   useEffect(() => {
-    // Al cargar, asegurarse de que la sección sea visible primero
     if (sectionRef.current) {
       gsap.set(sectionRef.current, { opacity: 1, y: 0 });
     }
     
-    // Registrar ScrollTrigger
     gsap.registerPlugin(ScrollTrigger);
     
     // Animaciones para las tarjetas de habilidades
     if (skillCardsRef.current) {
       const skillCards = skillCardsRef.current.querySelectorAll('.skill-card');
       
-      // Animación optimizada para todas las pantallas (sin blur)
       gsap.fromTo(skillCards,
         { 
           y: 60, 
@@ -60,10 +94,8 @@ const SkillsSection = () => {
     
     // Animación para el título de herramientas
     if (toolsTitleRef.current) {
-      // Establecer estado inicial
       gsap.set(toolsTitleRef.current, { opacity: 0, y: 20 });
       
-      // Animar hacia el estado final
       gsap.to(toolsTitleRef.current, {
         opacity: 1, 
         y: 0,
@@ -71,47 +103,29 @@ const SkillsSection = () => {
         scrollTrigger: {
           trigger: toolsTitleRef.current,
           start: 'top 80%',
-          // toggleActions: play(onEnter) none(onLeave) none(onEnterBack) reverse(onLeaveBack)
-          // Esto hace que la animación se reproduzca cada vez que el elemento entra en la vista
-          // y se revierta cuando sale de la vista hacia arriba
           toggleActions: 'play none none reverse'
         }
       });
     }
-    
-    // Animación para las etiquetas de herramientas
-    if (toolsContainerRef.current) {
-      const toolItems = toolsContainerRef.current.querySelectorAll('.tool-item');
+
+    // Animación para el contenedor del LogoLoop
+    if (toolsLoopRef.current) {
+      gsap.set(toolsLoopRef.current, { opacity: 0, y: 20 });
       
-      // Estado inicial liviano: sin filtros para no penalizar el scroll
-      gsap.set(toolItems, { 
-        opacity: 0, 
-        y: 20,
-        scale: 0.92,
-        force3D: true,
-        willChange: 'transform, opacity'
-      });
-      
-      // Entrada suave sin blur para evitar jank en renderizado
-      gsap.to(toolItems, { 
-        opacity: 1, 
+      gsap.to(toolsLoopRef.current, {
+        opacity: 1,
         y: 0,
-        scale: 1,
-        stagger: 0.04,
-        duration: 0.45,
+        duration: 0.6,
         ease: 'power2.out',
-        force3D: true,
-        onComplete: () => gsap.set(toolItems, { clearProps: 'willChange' }),
         scrollTrigger: {
-          trigger: toolsContainerRef.current,
-          start: 'top 80%',
+          trigger: toolsLoopRef.current,
+          start: 'top 85%',
           toggleActions: 'play none none reverse'
         }
       });
     }
     
     return () => {
-      // Limpiar las animaciones al desmontar
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
   }, []);
@@ -197,16 +211,16 @@ const SkillsSection = () => {
 
         <div className="mt-12 md:mt-16">
           <h3 ref={toolsTitleRef} className="text-xl md:text-2xl font-bold mb-5 md:mb-6 text-center text-foreground">{t('tools')}</h3>
-          <div ref={toolsContainerRef} className="flex flex-wrap justify-center gap-3 md:gap-4">            {["VS Code", "Visual Studio", "Cursor", "Git", "GitHub", "GitHub Copilot", "ChatGPT", "Docker", "AWS", "Jest", "Cypress", "Figma", "Gitlab CI", "Azure", "Claude", "Gemini"].map(tech => (
-              <ToolHoverCard key={tech} tool={tech}>
-                <div className="tool-item px-3 py-1.5 sm:px-4 sm:py-2 bg-card/25 border border-muted/15 rounded-full text-xs sm:text-sm 
-                            transition-all duration-300 shadow-[0_6px_16px_rgba(0,0,0,0.18)] dark:shadow-[0_8px_20px_rgba(0,0,0,0.45)] hover:scale-110 active:scale-95 hover:bg-blue/15 
-                            hover:border-blue/30 hover:text-blue hover:shadow-lg touch-manipulation"
-                >
-                  {tech}
-                </div>
-              </ToolHoverCard>
-            ))}
+          <div ref={toolsLoopRef} className="relative py-4 md:py-6">
+            <LogoLoop
+              logos={toolLogos}
+              speed={80}
+              direction="left"
+              logoHeight={36}
+              gap={48}
+              scaleOnHover
+              ariaLabel="Herramientas y entornos de desarrollo"
+            />
           </div>
         </div>
       </div>

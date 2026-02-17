@@ -1,0 +1,141 @@
+.logoloop {
+    position: relative;
+    overflow: hidden;
+    max-width: 100%;
+
+    --logoloop-gap: 32px;
+    --logoloop-logoHeight: 28px;
+    --logoloop-duration: 40s;
+    --logoloop-direction: normal;
+    --logoloop-scroll-distance: -100%;
+
+    /* Mask for fade effect on edges */
+    mask-image: linear-gradient(to right,
+            transparent 0%,
+            black 10%,
+            black 90%,
+            transparent 100%);
+    -webkit-mask-image: linear-gradient(to right,
+            transparent 0%,
+            black 10%,
+            black 90%,
+            transparent 100%);
+}
+
+.logoloop__track {
+    display: flex;
+    width: max-content;
+    align-items: center;
+    /* Hardware acceleration */
+    transform: translate3d(0, 0, 0);
+}
+
+.logoloop__list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    animation: logoloop-scroll var(--logoloop-duration) linear infinite;
+    animation-delay: 0s;
+    animation-direction: var(--logoloop-direction);
+}
+
+.logoloop__track {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+}
+
+/* Pause on hover/focus/active */
+.logoloop--pause-hover:hover .logoloop__list,
+.logoloop--pause-hover:focus-within .logoloop__list,
+.logoloop--pause-hover:active .logoloop__list {
+    animation-play-state: paused;
+}
+
+@keyframes logoloop-scroll {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+
+    100% {
+        transform: translate3d(var(--logoloop-scroll-distance), 0, 0);
+    }
+}
+
+.logoloop__item {
+    flex: 0 0 auto;
+    margin-right: var(--logoloop-gap);
+    font-size: var(--logoloop-logoHeight);
+    line-height: 1;
+    position: relative;
+}
+
+.logoloop__item:last-child {
+    /* Ensure the gap exists even after the last item of a list, so it merges with the next list */
+    margin-right: var(--logoloop-gap);
+}
+
+/* Icon node styles */
+.logoloop__node {
+    display: inline-flex;
+    align-items: center;
+    color: hsl(var(--muted-foreground));
+    transition: color 0.35s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        filter 0.35s ease;
+}
+
+.logoloop__item:hover .logoloop__node {
+    color: var(--brand-color, hsl(var(--foreground)));
+    /* filter: drop-shadow(0 0 6px var(--brand-color)); Removed as per user request */
+}
+
+.logoloop__item img {
+    height: var(--logoloop-logoHeight);
+    width: auto;
+    display: block;
+    object-fit: contain;
+    image-rendering: -webkit-optimize-contrast;
+    -webkit-user-drag: none;
+    pointer-events: none;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Scale on hover */
+.logoloop--scale-hover .logoloop__item {
+    overflow: visible;
+    /* padding to avoid clipping when scaling */
+    padding-top: calc(var(--logoloop-logoHeight) * 0.2);
+    padding-bottom: calc(var(--logoloop-logoHeight) * 0.2);
+}
+
+.logoloop--scale-hover .logoloop__item:hover img,
+.logoloop--scale-hover .logoloop__item:hover .logoloop__node {
+    transform: scale(1.3);
+    transform-origin: center center;
+    z-index: 10;
+    position: relative;
+}
+
+/* Links */
+.logoloop__link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: opacity 0.2s ease;
+}
+
+.logoloop__link:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .logoloop__track {
+        animation-play-state: paused !important;
+    }
+}
+
+/* Tooltip removed as per user request */
