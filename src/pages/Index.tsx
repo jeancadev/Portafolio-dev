@@ -27,15 +27,15 @@ const Index = () => {
   });
 
   const { ref: skillsRef, inView: skillsInView } = useInView({
-    threshold: 0.1,
+    threshold: 0.25,
     triggerOnce: true,
-    rootMargin: '-10px'
+    rootMargin: '-50px'
   });
 
   const { ref: contactRef, inView: contactInView } = useInView({
-    threshold: 0.1,
+    threshold: 0.25,
     triggerOnce: true,
-    rootMargin: '-10px'
+    rootMargin: '-50px'
   });
 
   // Refresh robusto de ScrollTrigger después del montaje de todos los componentes
